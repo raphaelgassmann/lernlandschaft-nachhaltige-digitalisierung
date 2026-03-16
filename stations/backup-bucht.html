@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Die Backup-Bucht – Daten-Ozean</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/station.css">
+</head>
+<body class="page-station">
+
+  <header class="station-header station-header--ocean">
+    <nav class="station-header__nav">
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </nav>
+
+    <img class="station-header__image" src="../assets/station-backup-bucht.png" alt="Eine ruhige Bucht voller versunkener Datenkisten und Schatztruhen" loading="lazy" />
+
+    <h1 class="station-header__title">Die Backup-Bucht</h1>
+    <p class="station-header__meta">Säule: Daten &amp; Infrastruktur &middot; ~6 Min.</p>
+    <p class="station-header__intro">
+      Du erreichst eine stille Bucht. Am Meeresgrund liegen Tausende versunkener Kisten –
+      Daten, die niemand mehr braucht, aber die trotzdem Platz und Energie verbrauchen.
+      Wie viel digitalen Ballast schleppst du mit dir?
+    </p>
+  </header>
+
+  <main class="station-content">
+
+    <!-- Microlearning -->
+    <section class="station-section section-microlearning">
+      <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
+
+      <p>Speicherplatz ist billig geworden – und genau das ist das Problem. Wir horten Daten,
+      weil es keinen Grund gibt, sie zu löschen. Aber «gratis» heisst nicht «kostenlos für die Umwelt».</p>
+
+      <div class="key-fact">
+        Weltweit wurden im Jahr 2020 ca. <strong>64 Zettabyte</strong> an Daten erzeugt.
+        Über <strong>90% dieser Daten werden nie wieder gelesen</strong>. Sie liegen einfach da –
+        auf Servern, die rund um die Uhr Strom verbrauchen.
+      </div>
+
+      <p>Dieses Phänomen hat einen Namen: <strong>Dark Data</strong>. Das sind Daten, die
+      gesammelt, gespeichert und vergessen werden – ohne jemals analysiert oder genutzt zu werden.
+      Laut Gartner machen sie <strong>über 50% der gespeicherten Unternehmensdaten</strong> aus.</p>
+
+      <ul>
+        <li>Jedes gespeicherte GB braucht Strom – ob auf deiner lokalen SSD oder in der Cloud</li>
+        <li>Cloud-Speicher wird dreifach repliziert (für Ausfallsicherheit) – 1 GB in der Cloud = ca. 3 GB auf Servern</li>
+        <li>Alte Backups, vergessene Repos, ungenutzte Container-Images: alles digitaler Ballast</li>
+        <li>E-Mail-Anhänge, die du nie öffnest, werden jahrelang auf Mail-Servern gespeichert</li>
+      </ul>
+
+      <div class="key-fact">
+        Die <strong>3-2-1 Backup-Regel</strong> hilft, smart statt masslos zu sichern:
+        <strong>3</strong> Kopien deiner Daten, auf <strong>2</strong> verschiedenen Medientypen,
+        davon <strong>1</strong> an einem externen Ort. Mehr braucht es in den meisten Fällen nicht.
+      </div>
+
+      <p>Nachhaltiges Datenmanagement bedeutet nicht «nie etwas speichern», sondern
+      <strong>bewusst entscheiden, was aufbewahrt wird</strong> – und den Rest konsequent löschen.</p>
+    </section>
+
+    <!-- Tat / Einstellung -->
+    <section class="station-section section-action">
+      <h2><img class="section-icon" src="../assets/icons/icon-action.png" alt="" aria-hidden="true" /> Tat / Einstellung</h2>
+
+      <p><strong>Lösche jetzt 1 GB unnötige Daten</strong> – das klingt nach wenig,
+      aber der Effekt multipliziert sich über Cloud-Replikation und Backup-Zyklen.</p>
+
+      <div class="instructions">
+        <p class="instructions__title">Anleitung</p>
+        <ul>
+          <li><strong>Downloads-Ordner:</strong> Öffne deinen Downloads-Ordner und sortiere nach Datum – alles älter als 3 Monate wahrscheinlich unnötig</li>
+          <li><strong>Cloud-Speicher:</strong> Google Drive / OneDrive / iCloud &rarr; sortiere nach Grösse und prüfe die grössten Dateien</li>
+          <li><strong>E-Mail:</strong> Suche nach Mails mit grossen Anhängen (&gt; 5 MB) – oft alte Präsentationen oder ZIP-Dateien</li>
+          <li><strong>Fotos:</strong> Doppelte Bilder, Screenshots und misslungene Aufnahmen aussortieren</li>
+          <li><strong>Git/Dev:</strong> Alte <code>node_modules</code>, unbenutzte Docker-Images (<code>docker image prune</code>), verwaiste Branches</li>
+        </ul>
+      </div>
+
+      <p>Notiere dir:</p>
+      <ul>
+        <li>Wie viel Speicher hast du freigeräumt?</li>
+        <li>Was hat dich am meisten überrascht?</li>
+        <li>Wie alt waren die ältesten Dateien, die du gefunden hast?</li>
+      </ul>
+    </section>
+
+    <!-- Reflexion -->
+    <section class="station-section section-reflection">
+      <h2><img class="section-icon" src="../assets/icons/icon-reflection.png" alt="" aria-hidden="true" /> Reflexion</h2>
+
+      <p class="reflection-question">
+        Was wäre, wenn Speicherplatz teurer wäre – würdest du anders mit Daten umgehen?
+      </p>
+
+      <button class="reveal-btn" data-target="reflection-hint-backup-bucht">
+        Denkanstoss anzeigen
+      </button>
+      <div class="reveal-content" id="reflection-hint-backup-bucht" hidden>
+        <p>Früher war Speicher knapp und teuer – man überlegte sich genau, was man speichert.
+        Heute ist Speicher so billig, dass wir alles behalten «für den Fall, dass».
+        Aber billig für uns heisst nicht billig für die Umwelt. Stell dir vor,
+        jedes GB würde dich 1 CHF pro Monat kosten: Wie schnell würdest du anfangen,
+        aufzuräumen? Vielleicht braucht es keinen höheren Preis – sondern einfach
+        die gleiche Sorgfalt, die wir bei physischen Dingen ganz natürlich aufbringen.</p>
+      </div>
+    </section>
+
+    <!-- Challenge -->
+    <section class="station-section section-challenge">
+      <h2><img class="section-icon" src="../assets/icons/icon-challenge.png" alt="" aria-hidden="true" /> Challenge</h2>
+
+      <p><strong>Erstelle einen persönlichen «Daten-Aufräum-Plan» für die nächsten 30 Tage.</strong></p>
+      <p>Plane für jede Woche einen konkreten Bereich:</p>
+      <ul>
+        <li><strong>Woche 1:</strong> Downloads-Ordner und Desktop aufräumen</li>
+        <li><strong>Woche 2:</strong> Cloud-Speicher durchgehen (Drive, OneDrive, iCloud)</li>
+        <li><strong>Woche 3:</strong> E-Mail-Postfach ausmisten (alte Newsletter abbestellen, grosse Anhänge löschen)</li>
+        <li><strong>Woche 4:</strong> Dev-Umgebung bereinigen (alte Projekte, Container, Packages)</li>
+      </ul>
+      <p>Setze dir ein <strong>konkretes Ziel</strong> (z.B. 5 GB in 30 Tagen) und tracke deinen Fortschritt.</p>
+
+      <button class="challenge-btn" data-station="backup-bucht">
+        Challenge annehmen (+5 Punkte)
+      </button>
+    </section>
+
+    <!-- Abschluss -->
+    <div class="station-complete">
+      <button class="complete-btn" id="complete-btn" data-station="backup-bucht">
+        Station abschliessen &#x2714;
+      </button>
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </div>
+
+  </main>
+
+  <script src="../js/progress.js"></script>
+  <script src="../js/station.js"></script>
+</body>
+</html>

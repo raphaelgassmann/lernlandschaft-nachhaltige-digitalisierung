@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Der Deploy-Stern – Code-Kosmos</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/station.css">
+</head>
+<body class="page-station">
+
+  <header class="station-header station-header--cosmos">
+    <nav class="station-header__nav">
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </nav>
+    <img class="station-header__image" src="../assets/station-deploy-stern.png" alt="Ein leuchtender Stern mit Pipelines und Zahnrädern, symbolisch für CI/CD" loading="lazy" />
+    <h1 class="station-header__title">Der Deploy-Stern</h1>
+    <p class="station-header__meta">Säule: Nutzungsverhalten &amp; Software &middot; ~8 Min.</p>
+    <p class="station-header__intro">
+      Der Deploy-Stern strahlt bei jedem Build heller – aber jeder CI/CD-Run kostet Energie.
+      Wie kannst du deine Pipelines effizienter gestalten?
+    </p>
+  </header>
+
+  <main class="station-content">
+
+    <!-- Microlearning -->
+    <section class="station-section section-microlearning">
+      <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
+
+      <p>Jedes Mal, wenn du pushst und eine <strong>CI/CD-Pipeline</strong> loslegt, startet irgendwo ein
+      Server, installiert Dependencies, baut dein Projekt und führt Tests aus. Das braucht echte
+      <strong>Rechenzeit auf echten Servern</strong> – und damit Strom.</p>
+
+      <div class="key-fact key-fact--orange">
+        Ein durchschnittlicher <strong>GitHub Actions Run</strong> (Build + Test) dauert 2–10 Minuten.
+        Bei 20 Pushes pro Tag in einem Team sind das schnell <strong>200 Minuten Serverzeit pro Tag</strong> –
+        nur für ein einziges Projekt.
+      </div>
+
+      <p><strong>Typische Energiefresser in Pipelines:</strong></p>
+      <ul>
+        <li><strong>Unnecessary Rebuilds</strong> – jeder Push triggert einen vollständigen Build, auch wenn sich nur eine README geändert hat</li>
+        <li><strong>npm install</strong> bei jedem Run – Tausende Pakete werden jedes Mal neu heruntergeladen statt gecacht</li>
+        <li><strong>Docker Images</strong> ohne Layer Caching – jedes Layer wird jedes Mal neu gebaut</li>
+        <li><strong>Doppelte Pipelines</strong> – Build läuft auf Push UND auf Pull Request, also zweimal</li>
+      </ul>
+
+      <div class="key-fact key-fact--orange">
+        <strong>Docker Layer Caching</strong> kann Build-Zeiten um <strong>50–80%</strong> reduzieren.
+        Und <strong>pnpm</strong> statt npm spart bis zu <strong>60% Speicherplatz</strong> und ist
+        oft 2–3x schneller beim Installieren.
+      </div>
+
+      <p><strong>Green CI Practices:</strong></p>
+      <ul>
+        <li><strong>Caching</strong> nutzen – Dependencies, Docker Layers, Build-Artefakte</li>
+        <li><strong>Conditional Builds</strong> – nur bauen, wenn relevante Dateien geändert wurden (<code>paths</code>-Filter in GitHub Actions)</li>
+        <li><strong>Monorepo-Tools</strong> wie Nx oder Turborepo bauen nur, was sich geändert hat</li>
+        <li><strong>Concurrency</strong> abbrechen – wenn ein neuer Push kommt, alte Runs stoppen</li>
+        <li><strong>Lightweight Runner</strong> wählen – nicht jeder Job braucht eine fette VM</li>
+      </ul>
+
+      <div class="key-fact key-fact--orange">
+        GitHub bietet jedem Free-Konto <strong>2000 Actions-Minuten/Monat</strong>. Wenn du die
+        erreichst, ist das ein Zeichen, dass deine Pipelines zu verschwenderisch laufen.
+      </div>
+    </section>
+
+    <!-- Tat / Einstellung -->
+    <section class="station-section section-action">
+      <h2><img class="section-icon" src="../assets/icons/icon-action.png" alt="" aria-hidden="true" /> Tat / Einstellung</h2>
+
+      <p><strong>Analysiere deine eigene Pipeline</strong> – wie effizient ist dein Build-Prozess wirklich?</p>
+
+      <div class="instructions">
+        <p class="instructions__title">Aufgabe 1: GitHub Actions prüfen</p>
+        <ul>
+          <li>Öffne ein Projekt auf GitHub und gehe zu <strong>Actions</strong></li>
+          <li>Zähle: Wie viele Runs liefen in der <strong>letzten Woche</strong>?</li>
+          <li>Wie lange dauert ein durchschnittlicher Run?</li>
+          <li>Gibt es Runs, die <strong>unnötig</strong> waren (z.&nbsp;B. nur Doku-Änderungen)?</li>
+        </ul>
+      </div>
+
+      <div class="instructions">
+        <p class="instructions__title">Aufgabe 2: Caching prüfen</p>
+        <ul>
+          <li>Öffne deine <code>.github/workflows/*.yml</code> Datei</li>
+          <li>Suchst du nach <code>actions/cache</code>? Falls nicht, füge es hinzu:</li>
+          <li><code>uses: actions/cache@v4</code> mit <code>path: node_modules</code> und <code>key: $&#123;&#123; runner.os &#125;&#125;-node-$&#123;&#123; hashFiles('package-lock.json') &#125;&#125;</code></li>
+          <li>Alternativ: Nutze <code>actions/setup-node@v4</code> mit <code>cache: 'npm'</code></li>
+        </ul>
+      </div>
+
+      <div class="instructions">
+        <p class="instructions__title">Aufgabe 3: Concurrency einrichten</p>
+        <ul>
+          <li>Füge in deinem Workflow hinzu:<br>
+          <code>concurrency:</code><br>
+          <code>&nbsp;&nbsp;group: $&#123;&#123; github.ref &#125;&#125;</code><br>
+          <code>&nbsp;&nbsp;cancel-in-progress: true</code></li>
+          <li>So werden alte Runs abgebrochen, wenn ein neuer Push kommt</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Reflexion -->
+    <section class="station-section section-reflection">
+      <h2><img class="section-icon" src="../assets/icons/icon-reflection.png" alt="" aria-hidden="true" /> Reflexion</h2>
+
+      <p class="reflection-question">
+        Ist es besser, schnell und oft zu deployen – oder seltener und bewusster?
+      </p>
+
+      <button class="reveal-btn" data-target="reflection-hint-deploy-stern">
+        Denkanstoss anzeigen
+      </button>
+      <div class="reveal-content" id="reflection-hint-deploy-stern" hidden>
+        <p>Die DevOps-Kultur sagt: <strong>«Ship early, ship often.»</strong> Aber das heisst nicht,
+        dass jeder Commit sofort in die Pipeline muss. <strong>Batching</strong> von Änderungen,
+        bewusste Push-Zeitpunkte und gute Branch-Strategien können die Anzahl der Runs
+        drastisch senken – ohne dass die Qualität leidet. Es geht um den <strong>Sweet Spot</strong>
+        zwischen Agilität und Ressourcenbewusstsein.</p>
+      </div>
+    </section>
+
+    <!-- Challenge -->
+    <section class="station-section section-challenge">
+      <h2><img class="section-icon" src="../assets/icons/icon-challenge.png" alt="" aria-hidden="true" /> Challenge</h2>
+
+      <p><strong>Optimiere eine CI/CD Pipeline</strong></p>
+      <ul>
+        <li>Wähle ein Projekt mit einer bestehenden GitHub Actions Pipeline</li>
+        <li>Implementiere mindestens <strong>2 der folgenden Optimierungen</strong>:</li>
+      </ul>
+      <ol>
+        <li><strong>Dependency Caching</strong> hinzufügen</li>
+        <li><strong>Conditional Builds</strong> mit <code>paths</code>-Filter einrichten</li>
+        <li><strong>Concurrency</strong> mit <code>cancel-in-progress</code> aktivieren</li>
+        <li>Von <strong>npm</strong> auf <strong>pnpm</strong> wechseln</li>
+      </ol>
+      <p>Dokumentiere die <strong>Build-Zeit vorher vs. nachher</strong>.</p>
+
+      <button class="challenge-btn" data-station="deploy-stern">
+        Challenge annehmen (+5 Punkte)
+      </button>
+    </section>
+
+    <!-- Abschluss -->
+    <div class="station-complete">
+      <button class="complete-btn" id="complete-btn" data-station="deploy-stern">
+        Station abschliessen &#x2714;
+      </button>
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </div>
+
+  </main>
+
+  <script src="../js/progress.js"></script>
+  <script src="../js/station.js"></script>
+</body>
+</html>

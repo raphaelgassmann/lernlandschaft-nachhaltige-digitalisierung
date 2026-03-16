@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lernlandschaft – Nachhaltige Digitalisierung</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/landscape.css">
+</head>
+<body class="page-landscape">
+
+  <header class="site-header">
+    <h1 class="site-title">Lernlandschaft Nachhaltige Digitalisierung</h1>
+    <p class="site-subtitle">Vier Welten, zwölf Stationen – deine Expedition durch die digitale Nachhaltigkeit</p>
+  </header>
+
+  <!-- Sticky Overall Progress -->
+  <section class="expedition-log" aria-label="Expeditions-Fortschritt">
+    <p class="expedition-log__title">Expedition</p>
+    <div class="progress-bar">
+      <div class="progress-bar__fill" id="progress-fill"></div>
+    </div>
+    <p class="progress-text" id="progress-text">0 / 12 Stationen entdeckt</p>
+    <p class="progress-points" id="progress-points">0 Punkte</p>
+  </section>
+
+  <main>
+
+    <!-- ==========================================
+         WELT 1: DATEN-DSCHUNGEL
+         ========================================== -->
+    <section class="world world--jungle" data-world="jungle" aria-label="Welt: Daten-Dschungel">
+      <div class="world-header">
+        <h2 class="world-header__title">Daten-Dschungel</h2>
+        <p class="world-header__subtitle">Geräte &amp; Lebenszyklus – Wie lange lebt deine Hardware?</p>
+        <div class="world-progress">
+          <div class="world-progress__bar"><div class="world-progress__fill"></div></div>
+          <span class="world-progress__text">0 / 3</span>
+        </div>
+      </div>
+
+      <!-- Desktop SVG Map -->
+      <div class="world-map">
+        <svg class="world-map__svg" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Karte des Daten-Dschungels">
+          <defs>
+            <clipPath id="jungle-clip-1"><circle cx="450" cy="170" r="65"/></clipPath>
+            <clipPath id="jungle-clip-2"><circle cx="380" cy="420" r="65"/></clipPath>
+            <clipPath id="jungle-clip-3"><circle cx="520" cy="580" r="65"/></clipPath>
+            <radialGradient id="glow-jungle">
+              <stop offset="0%" stop-color="#c8a84e" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#c8a84e" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="900" height="700" fill="none" rx="12"/>
+
+          <path class="world-path" data-from="geraete-lichtung"
+                d="M 450,210 C 420,280 350,320 380,400" stroke-linecap="round"/>
+          <path class="world-path" data-from="cloud-quelle"
+                d="M 420,440 C 440,490 480,520 500,570" stroke-linecap="round"/>
+
+          <!-- Station 1: Geräte-Lichtung -->
+          <a href="stations/geraete-lichtung.html" class="station-marker" data-station="geraete-lichtung">
+            <circle class="station-marker__glow" cx="450" cy="170" r="90" fill="url(#glow-jungle)" opacity="0"/>
+            <circle cx="450" cy="170" r="70" fill="#2a4a2a" stroke="#5bba7a" stroke-width="3"/>
+            <image href="assets/station-geraete-lichtung.png" x="380" y="100" width="140" height="140"
+                   clip-path="url(#jungle-clip-1)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="450" cy="170" r="65" fill="none" stroke="#5bba7a" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="450" y="247" dy="0.3em">Die Geräte-Lichtung</text>
+            <text class="station-marker__sublabel" x="450" y="265" dy="0.3em">~8 Min.</text>
+            <text class="station-marker__check" x="500" y="115" font-size="22" fill="#c8a84e" style="display:none">&#x2714;</text>
+          </a>
+
+          <!-- Station 2: Cloud-Quelle -->
+          <a href="stations/cloud-quelle.html" class="station-marker" data-station="cloud-quelle">
+            <circle class="station-marker__glow" cx="380" cy="420" r="90" fill="url(#glow-jungle)" opacity="0"/>
+            <circle cx="380" cy="420" r="70" fill="#1a2a3a" stroke="#4a9ec2" stroke-width="3"/>
+            <image href="assets/station-cloud-quelle.png" x="310" y="350" width="140" height="140"
+                   clip-path="url(#jungle-clip-2)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="380" cy="420" r="65" fill="none" stroke="#4a9ec2" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="380" y="497" dy="0.3em">Die Cloud-Quelle</text>
+            <text class="station-marker__sublabel" x="380" y="515" dy="0.3em">~7 Min.</text>
+            <text class="station-marker__check" x="430" y="365" font-size="22" fill="#c8a84e" style="display:none">&#x2714;</text>
+          </a>
+
+          <!-- Station 3: Code-Camp -->
+          <a href="stations/code-camp.html" class="station-marker" data-station="code-camp">
+            <circle class="station-marker__glow" cx="520" cy="580" r="90" fill="url(#glow-jungle)" opacity="0"/>
+            <circle cx="520" cy="580" r="70" fill="#3a2a1a" stroke="#c27a3a" stroke-width="3"/>
+            <image href="assets/station-code-camp.png" x="450" y="510" width="140" height="140"
+                   clip-path="url(#jungle-clip-3)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="520" cy="580" r="65" fill="none" stroke="#c27a3a" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="520" y="657" dy="0.3em">Das Code-Camp</text>
+            <text class="station-marker__sublabel" x="520" y="675" dy="0.3em">~6 Min.</text>
+            <text class="station-marker__check" x="570" y="525" font-size="22" fill="#c8a84e" style="display:none">&#x2714;</text>
+          </a>
+        </svg>
+      </div>
+
+      <!-- Mobile Cards -->
+      <nav class="mobile-stations" aria-label="Dschungel-Stationen">
+        <a href="stations/geraete-lichtung.html" class="mobile-station-card" data-station="geraete-lichtung">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F4BB;</span>
+          <div class="mobile-station-card__content">
+            <h3>Die Geräte-Lichtung</h3>
+            <p>Wie lange lebt dein Laptop – und warum ist das wichtig?</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+        <a href="stations/cloud-quelle.html" class="mobile-station-card" data-station="cloud-quelle">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x2601;</span>
+          <div class="mobile-station-card__content">
+            <h3>Die Cloud-Quelle</h3>
+            <p>Was passiert wirklich, wenn du Daten in die Cloud lädst?</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+        <a href="stations/code-camp.html" class="mobile-station-card" data-station="code-camp">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F525;</span>
+          <div class="mobile-station-card__content">
+            <h3>Das Code-Camp</h3>
+            <p>Kleine Einstellungen, grosse Wirkung – Strom sparen beim Coden.</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+      </nav>
+    </section>
+
+    <!-- Transition: Dschungel → Ozean -->
+    <div class="world-transition world-transition--jungle-ocean" aria-hidden="true">
+      <svg class="world-transition__path" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="grad-jungle-ocean" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#5bba7a"/>
+            <stop offset="100%" stop-color="#00b4d8"/>
+          </linearGradient>
+        </defs>
+        <path d="M 100,0 C 80,50 120,100 100,150" stroke="url(#grad-jungle-ocean)"
+              stroke-width="2" stroke-dasharray="8 6" fill="none" opacity="0.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ==========================================
+         WELT 2: DATEN-OZEAN
+         ========================================== -->
+    <section class="world world--ocean" data-world="ocean" aria-label="Welt: Daten-Ozean">
+      <div class="world-header">
+        <h2 class="world-header__title">Daten-Ozean</h2>
+        <p class="world-header__subtitle">Daten &amp; Infrastruktur – Was fliesst hinter den Kulissen?</p>
+        <div class="world-progress">
+          <div class="world-progress__bar"><div class="world-progress__fill"></div></div>
+          <span class="world-progress__text">0 / 3</span>
+        </div>
+      </div>
+
+      <!-- Desktop SVG Map -->
+      <div class="world-map">
+        <svg class="world-map__svg" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Karte des Daten-Ozeans">
+          <defs>
+            <clipPath id="ocean-clip-1"><circle cx="250" cy="200" r="65"/></clipPath>
+            <clipPath id="ocean-clip-2"><circle cx="550" cy="380" r="65"/></clipPath>
+            <clipPath id="ocean-clip-3"><circle cx="350" cy="560" r="65"/></clipPath>
+            <radialGradient id="glow-ocean">
+              <stop offset="0%" stop-color="#00b4d8" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#00b4d8" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="900" height="700" fill="none" rx="12"/>
+
+          <path class="world-path" data-from="server-riff"
+                d="M 290,230 C 380,280 480,310 530,360" stroke-linecap="round"/>
+          <path class="world-path" data-from="streaming-strom"
+                d="M 520,420 C 460,470 400,510 370,545" stroke-linecap="round"/>
+
+          <!-- Station: Server-Riff -->
+          <a href="stations/server-riff.html" class="station-marker" data-station="server-riff">
+            <circle class="station-marker__glow" cx="250" cy="200" r="90" fill="url(#glow-ocean)" opacity="0"/>
+            <circle cx="250" cy="200" r="70" fill="#0d2840" stroke="#00b4d8" stroke-width="3"/>
+            <image href="assets/station-server-riff.png" x="180" y="130" width="140" height="140"
+                   clip-path="url(#ocean-clip-1)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="250" cy="200" r="65" fill="none" stroke="#00b4d8" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="250" y="277" dy="0.3em">Das Server-Riff</text>
+            <text class="station-marker__sublabel" x="250" y="295" dy="0.3em">~7 Min.</text>
+            <text class="station-marker__check" x="300" y="145" font-size="22" fill="#48cae4" style="display:none">&#x2714;</text>
+          </a>
+
+          <!-- Station: Streaming-Strom -->
+          <a href="stations/streaming-strom.html" class="station-marker" data-station="streaming-strom">
+            <circle class="station-marker__glow" cx="550" cy="380" r="90" fill="url(#glow-ocean)" opacity="0"/>
+            <circle cx="550" cy="380" r="70" fill="#0d2840" stroke="#48cae4" stroke-width="3"/>
+            <image href="assets/station-streaming-strom.png" x="480" y="310" width="140" height="140"
+                   clip-path="url(#ocean-clip-2)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="550" cy="380" r="65" fill="none" stroke="#48cae4" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="550" y="457" dy="0.3em">Der Streaming-Strom</text>
+            <text class="station-marker__sublabel" x="550" y="475" dy="0.3em">~8 Min.</text>
+            <text class="station-marker__check" x="600" y="325" font-size="22" fill="#48cae4" style="display:none">&#x2714;</text>
+          </a>
+
+          <!-- Station: Backup-Bucht -->
+          <a href="stations/backup-bucht.html" class="station-marker" data-station="backup-bucht">
+            <circle class="station-marker__glow" cx="350" cy="560" r="90" fill="url(#glow-ocean)" opacity="0"/>
+            <circle cx="350" cy="560" r="70" fill="#0d2840" stroke="#0096c7" stroke-width="3"/>
+            <image href="assets/station-backup-bucht.png" x="280" y="490" width="140" height="140"
+                   clip-path="url(#ocean-clip-3)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="350" cy="560" r="65" fill="none" stroke="#0096c7" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="350" y="637" dy="0.3em">Die Backup-Bucht</text>
+            <text class="station-marker__sublabel" x="350" y="655" dy="0.3em">~6 Min.</text>
+            <text class="station-marker__check" x="400" y="505" font-size="22" fill="#48cae4" style="display:none">&#x2714;</text>
+          </a>
+        </svg>
+      </div>
+
+      <!-- Mobile Cards -->
+      <nav class="mobile-stations" aria-label="Ozean-Stationen">
+        <a href="stations/server-riff.html" class="mobile-station-card" data-station="server-riff">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F3DB;</span>
+          <div class="mobile-station-card__content">
+            <h3>Das Server-Riff</h3>
+            <p>Rechenzentren verbrauchen mehr Strom als manche Länder.</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+        <a href="stations/streaming-strom.html" class="mobile-station-card" data-station="streaming-strom">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F3AC;</span>
+          <div class="mobile-station-card__content">
+            <h3>Der Streaming-Strom</h3>
+            <p>Was kostet ein Video wirklich – in Energie, nicht in Franken?</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+        <a href="stations/backup-bucht.html" class="mobile-station-card" data-station="backup-bucht">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F4BE;</span>
+          <div class="mobile-station-card__content">
+            <h3>Die Backup-Bucht</h3>
+            <p>Speicherst du klug – oder einfach alles?</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+      </nav>
+    </section>
+
+    <!-- Transition: Ozean → Kosmos -->
+    <div class="world-transition world-transition--ocean-cosmos" aria-hidden="true">
+      <svg class="world-transition__path" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="grad-ocean-cosmos" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#00b4d8"/>
+            <stop offset="100%" stop-color="#c77dff"/>
+          </linearGradient>
+        </defs>
+        <path d="M 100,0 C 120,50 80,100 100,150" stroke="url(#grad-ocean-cosmos)"
+              stroke-width="2" stroke-dasharray="8 6" fill="none" opacity="0.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ==========================================
+         WELT 3: CODE-KOSMOS
+         ========================================== -->
+    <section class="world world--cosmos" data-world="cosmos" aria-label="Welt: Code-Kosmos">
+      <div class="world-header">
+        <h2 class="world-header__title">Code-Kosmos</h2>
+        <p class="world-header__subtitle">Nutzungsverhalten &amp; Software – Wie arbeitest du wirklich?</p>
+        <div class="world-progress">
+          <div class="world-progress__bar"><div class="world-progress__fill"></div></div>
+          <span class="world-progress__text">0 / 3</span>
+        </div>
+      </div>
+
+      <!-- Desktop SVG Map -->
+      <div class="world-map">
+        <svg class="world-map__svg" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Karte des Code-Kosmos">
+          <defs>
+            <clipPath id="cosmos-clip-1"><circle cx="600" cy="180" r="65"/></clipPath>
+            <clipPath id="cosmos-clip-2"><circle cx="300" cy="400" r="65"/></clipPath>
+            <clipPath id="cosmos-clip-3"><circle cx="580" cy="570" r="65"/></clipPath>
+            <radialGradient id="glow-cosmos">
+              <stop offset="0%" stop-color="#c77dff" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#c77dff" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="900" height="700" fill="none" rx="12"/>
+
+          <path class="world-path" data-from="ide-asteroid"
+                d="M 570,220 C 480,280 350,330 320,380" stroke-linecap="round"/>
+          <path class="world-path" data-from="deploy-stern"
+                d="M 340,430 C 400,480 500,520 560,555" stroke-linecap="round"/>
+
+          <!-- Station: IDE-Asteroid -->
+          <a href="stations/ide-asteroid.html" class="station-marker" data-station="ide-asteroid">
+            <circle class="station-marker__glow" cx="600" cy="180" r="90" fill="url(#glow-cosmos)" opacity="0"/>
+            <circle cx="600" cy="180" r="70" fill="#1e0e38" stroke="#c77dff" stroke-width="3"/>
+            <image href="assets/station-ide-asteroid.png" x="530" y="110" width="140" height="140"
+                   clip-path="url(#cosmos-clip-1)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="600" cy="180" r="65" fill="none" stroke="#c77dff" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="600" y="257" dy="0.3em">Der IDE-Asteroid</text>
+            <text class="station-marker__sublabel" x="600" y="275" dy="0.3em">~7 Min.</text>
+            <text class="station-marker__check" x="650" y="125" font-size="22" fill="#e0aaff" style="display:none">&#x2714;</text>
+          </a>
+
+          <!-- Station: Deploy-Stern -->
+          <a href="stations/deploy-stern.html" class="station-marker" data-station="deploy-stern">
+            <circle class="station-marker__glow" cx="300" cy="400" r="90" fill="url(#glow-cosmos)" opacity="0"/>
+            <circle cx="300" cy="400" r="70" fill="#1e0e38" stroke="#e0aaff" stroke-width="3"/>
+            <image href="assets/station-deploy-stern.png" x="230" y="330" width="140" height="140"
+                   clip-path="url(#cosmos-clip-2)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="300" cy="400" r="65" fill="none" stroke="#e0aaff" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="300" y="477" dy="0.3em">Der Deploy-Stern</text>
+            <text class="station-marker__sublabel" x="300" y="495" dy="0.3em">~8 Min.</text>
+            <text class="station-marker__check" x="350" y="345" font-size="22" fill="#e0aaff" style="display:none">&#x2714;</text>
+          </a>
+
+          <!-- Station: Workflow-Nebel -->
+          <a href="stations/workflow-nebel.html" class="station-marker" data-station="workflow-nebel">
+            <circle class="station-marker__glow" cx="580" cy="570" r="90" fill="url(#glow-cosmos)" opacity="0"/>
+            <circle cx="580" cy="570" r="70" fill="#1e0e38" stroke="#ff6b9d" stroke-width="3"/>
+            <image href="assets/station-workflow-nebel.png" x="510" y="500" width="140" height="140"
+                   clip-path="url(#cosmos-clip-3)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="580" cy="570" r="65" fill="none" stroke="#ff6b9d" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="580" y="647" dy="0.3em">Der Workflow-Nebel</text>
+            <text class="station-marker__sublabel" x="580" y="665" dy="0.3em">~7 Min.</text>
+            <text class="station-marker__check" x="630" y="515" font-size="22" fill="#e0aaff" style="display:none">&#x2714;</text>
+          </a>
+        </svg>
+      </div>
+
+      <!-- Mobile Cards -->
+      <nav class="mobile-stations" aria-label="Kosmos-Stationen">
+        <a href="stations/ide-asteroid.html" class="mobile-station-card" data-station="ide-asteroid">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F4BB;</span>
+          <div class="mobile-station-card__content">
+            <h3>Der IDE-Asteroid</h3>
+            <p>Deine IDE frisst mehr Strom als du denkst – optimiere sie!</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+        <a href="stations/deploy-stern.html" class="mobile-station-card" data-station="deploy-stern">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F680;</span>
+          <div class="mobile-station-card__content">
+            <h3>Der Deploy-Stern</h3>
+            <p>Jeder Build braucht Energie – wie deployest du effizient?</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+        <a href="stations/workflow-nebel.html" class="mobile-station-card" data-station="workflow-nebel">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F300;</span>
+          <div class="mobile-station-card__content">
+            <h3>Der Workflow-Nebel</h3>
+            <p>Automatisierungen können sparen – oder verschwenden.</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+      </nav>
+    </section>
+
+    <!-- Transition: Kosmos → Metropole -->
+    <div class="world-transition world-transition--cosmos-metro" aria-hidden="true">
+      <svg class="world-transition__path" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="grad-cosmos-metro" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c77dff"/>
+            <stop offset="100%" stop-color="#39ff14"/>
+          </linearGradient>
+        </defs>
+        <path d="M 100,0 C 80,50 120,100 100,150" stroke="url(#grad-cosmos-metro)"
+              stroke-width="2" stroke-dasharray="8 6" fill="none" opacity="0.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ==========================================
+         WELT 4: ZUKUNFTS-METROPOLE
+         ========================================== -->
+    <section class="world world--metro" data-world="metro" aria-label="Welt: Zukunfts-Metropole">
+      <div class="world-header">
+        <h2 class="world-header__title">Zukunfts-Metropole</h2>
+        <p class="world-header__subtitle">Synthese &amp; Zukunft – Wie gestalten wir die digitale Welt?</p>
+        <div class="world-progress">
+          <div class="world-progress__bar"><div class="world-progress__fill"></div></div>
+          <span class="world-progress__text">0 / 3</span>
+        </div>
+      </div>
+
+      <!-- Desktop SVG Map -->
+      <div class="world-map">
+        <svg class="world-map__svg" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Karte der Zukunfts-Metropole">
+          <defs>
+            <clipPath id="metro-clip-1"><circle cx="450" cy="160" r="65"/></clipPath>
+            <clipPath id="metro-clip-2"><circle cx="250" cy="420" r="65"/></clipPath>
+            <clipPath id="metro-clip-3"><circle cx="650" cy="540" r="65"/></clipPath>
+            <radialGradient id="glow-metro">
+              <stop offset="0%" stop-color="#39ff14" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#39ff14" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="900" height="700" fill="none" rx="12"/>
+
+          <path class="world-path" data-from="ki-kraftwerk"
+                d="M 420,200 C 360,280 290,350 270,400" stroke-linecap="round"/>
+          <path class="world-path" data-from="open-source-platz"
+                d="M 290,450 C 380,480 520,500 620,525" stroke-linecap="round"/>
+
+          <!-- Station: KI-Kraftwerk -->
+          <a href="stations/ki-kraftwerk.html" class="station-marker" data-station="ki-kraftwerk">
+            <circle class="station-marker__glow" cx="450" cy="160" r="90" fill="url(#glow-metro)" opacity="0"/>
+            <circle cx="450" cy="160" r="70" fill="#0d1a0d" stroke="#39ff14" stroke-width="3"/>
+            <image href="assets/station-ki-kraftwerk.png" x="380" y="90" width="140" height="140"
+                   clip-path="url(#metro-clip-1)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="450" cy="160" r="65" fill="none" stroke="#39ff14" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="450" y="237" dy="0.3em">Das KI-Kraftwerk</text>
+            <text class="station-marker__sublabel" x="450" y="255" dy="0.3em">~8 Min.</text>
+            <text class="station-marker__check" x="500" y="105" font-size="22" fill="#39ff14" style="display:none">&#x2714;</text>
+          </a>
+
+          <!-- Station: Open-Source-Platz -->
+          <a href="stations/open-source-platz.html" class="station-marker" data-station="open-source-platz">
+            <circle class="station-marker__glow" cx="250" cy="420" r="90" fill="url(#glow-metro)" opacity="0"/>
+            <circle cx="250" cy="420" r="70" fill="#0d1a0d" stroke="#00e5ff" stroke-width="3"/>
+            <image href="assets/station-open-source-platz.png" x="180" y="350" width="140" height="140"
+                   clip-path="url(#metro-clip-2)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="250" cy="420" r="65" fill="none" stroke="#00e5ff" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="250" y="497" dy="0.3em">Der Open-Source-Platz</text>
+            <text class="station-marker__sublabel" x="250" y="515" dy="0.3em">~7 Min.</text>
+            <text class="station-marker__check" x="300" y="365" font-size="22" fill="#00e5ff" style="display:none">&#x2714;</text>
+          </a>
+
+          <!-- Station: Digital-Ethics-Turm -->
+          <a href="stations/digital-ethics-turm.html" class="station-marker" data-station="digital-ethics-turm">
+            <circle class="station-marker__glow" cx="650" cy="540" r="90" fill="url(#glow-metro)" opacity="0"/>
+            <circle cx="650" cy="540" r="70" fill="#0d1a0d" stroke="#7c4dff" stroke-width="3"/>
+            <image href="assets/station-digital-ethics-turm.png" x="580" y="470" width="140" height="140"
+                   clip-path="url(#metro-clip-3)" preserveAspectRatio="xMidYMid slice"/>
+            <circle cx="650" cy="540" r="65" fill="none" stroke="#7c4dff" stroke-width="2" opacity="0.6"/>
+            <text class="station-marker__label" x="650" y="617" dy="0.3em">Der Digital-Ethics-Turm</text>
+            <text class="station-marker__sublabel" x="650" y="635" dy="0.3em">~8 Min.</text>
+            <text class="station-marker__check" x="700" y="485" font-size="22" fill="#7c4dff" style="display:none">&#x2714;</text>
+          </a>
+        </svg>
+      </div>
+
+      <!-- Mobile Cards -->
+      <nav class="mobile-stations" aria-label="Metropole-Stationen">
+        <a href="stations/ki-kraftwerk.html" class="mobile-station-card" data-station="ki-kraftwerk">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F916;</span>
+          <div class="mobile-station-card__content">
+            <h3>Das KI-Kraftwerk</h3>
+            <p>Künstliche Intelligenz braucht enorm viel Energie – wie gehst du damit um?</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+        <a href="stations/open-source-platz.html" class="mobile-station-card" data-station="open-source-platz">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x1F310;</span>
+          <div class="mobile-station-card__content">
+            <h3>Der Open-Source-Platz</h3>
+            <p>Open Source als nachhaltige Alternative – teilen statt doppelt entwickeln.</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+        <a href="stations/digital-ethics-turm.html" class="mobile-station-card" data-station="digital-ethics-turm">
+          <span class="mobile-station-card__icon" aria-hidden="true">&#x2696;</span>
+          <div class="mobile-station-card__content">
+            <h3>Der Digital-Ethics-Turm</h3>
+            <p>Verantwortung in der digitalen Welt – wer entscheidet, was nachhaltig ist?</p>
+          </div>
+          <span class="mobile-station-card__status" aria-label="Status"></span>
+        </a>
+      </nav>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Lernlandschaft Nachhaltige Digitalisierung – TBZ Zürich</p>
+  </footer>
+
+  <script src="js/progress.js"></script>
+  <script src="js/landscape.js"></script>
+</body>
+</html>

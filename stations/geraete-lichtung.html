@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Die Geräte-Lichtung – Daten-Dschungel</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/station.css">
+</head>
+<body class="page-station">
+
+  <header class="station-header station-header--1">
+    <nav class="station-header__nav">
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </nav>
+
+    <img class="station-header__image" src="../assets/station-geraete-lichtung.png" alt="Eine sonnige Lichtung im Dschungel mit einem moosbedeckten Laptop" />
+
+    <h1 class="station-header__title">Die Geräte-Lichtung</h1>
+    <p class="station-header__meta">Säule: Geräte &amp; Lebenszyklus &middot; ~8 Min.</p>
+    <p class="station-header__intro">
+      Du betrittst eine sonnige Lichtung. Vor dir liegt ein alter Laptop, halb von Moos überwachsen.
+      Er funktioniert noch – aber wie lange noch? Und was steckt wirklich in ihm?
+    </p>
+  </header>
+
+  <main class="station-content">
+
+    <!-- Microlearning -->
+    <section class="station-section section-microlearning">
+      <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
+
+      <p>Hast du dich schon mal gefragt, was in deinem Laptop steckt? Ein einzelnes Smartphone enthält
+      über <strong>60 verschiedene chemische Elemente</strong> – viele davon sind seltene Erden, die unter
+      problematischen Bedingungen abgebaut werden.</p>
+
+      <div class="key-fact">
+        Die Herstellung eines einzigen Laptops verursacht ca. <strong>300–400 kg CO₂</strong>.
+        Das ist mehr als der gesamte Stromverbrauch des Geräts während seiner Nutzungsdauer.
+      </div>
+
+      <p>Das bedeutet: <strong>Der grösste ökologische Hebel liegt nicht im Stromsparen beim Nutzen,
+      sondern in der Verlängerung der Lebensdauer.</strong></p>
+
+      <ul>
+        <li>Lebensdauer von 3 auf 5 Jahre verlängern = ca. <strong>30% weniger ökologischer Fussabdruck</strong></li>
+        <li>Akku tauschen oder RAM aufrüsten statt neues Gerät kaufen</li>
+        <li>SSD-Upgrade bei älteren Geräten bringt oft einen deutlichen Leistungsschub</li>
+        <li>Lüfter reinigen und Wärmeleitpaste erneuern hält Geräte kühl und lebendig</li>
+      </ul>
+
+      <div class="key-fact">
+        Die Schweiz produziert ca. <strong>23 kg E-Waste pro Kopf und Jahr</strong> –
+        eine der höchsten Raten weltweit.
+      </div>
+    </section>
+
+    <!-- Tat / Einstellung -->
+    <section class="station-section section-action">
+      <h2><img class="section-icon" src="../assets/icons/icon-action.png" alt="" aria-hidden="true" /> Tat / Einstellung</h2>
+
+      <p><strong>Finde heraus, wie alt dein Gerät ist</strong> – und überlege dir eine konkrete Massnahme,
+      um seine Lebensdauer zu verlängern.</p>
+
+      <div class="instructions">
+        <p class="instructions__title">Anleitung</p>
+        <ul>
+          <li><strong>macOS:</strong> Apple-Menü &rarr; <code>Über diesen Mac</code> &rarr; Übersicht</li>
+          <li><strong>Windows:</strong> <code>Win + R</code> &rarr; <code>msinfo32</code> eingeben &rarr; Systemübersicht</li>
+          <li><strong>Linux:</strong> Terminal &rarr; <code>sudo dmidecode -t system</code></li>
+        </ul>
+      </div>
+
+      <p>Notiere dir:</p>
+      <ul>
+        <li>Wie alt ist dein Gerät?</li>
+        <li>Welche konkrete Massnahme könnte die Lebensdauer verlängern?</li>
+      </ul>
+    </section>
+
+    <!-- Reflexion -->
+    <section class="station-section section-reflection">
+      <h2><img class="section-icon" src="../assets/icons/icon-reflection.png" alt="" aria-hidden="true" /> Reflexion</h2>
+
+      <p class="reflection-question">
+        Welche Faktoren beeinflussen deine Entscheidung, ein neues Gerät zu kaufen –
+        und wie viele davon sind wirklich technisch notwendig?
+      </p>
+
+      <button class="reveal-btn" data-target="reflection-hint-1">
+        Denkanstoss anzeigen
+      </button>
+      <div class="reveal-content" id="reflection-hint-1" hidden>
+        <p>Oft sind es Software-Updates, Trends oder der Wunsch nach neuen Features –
+        nicht die Hardware selbst –, die ein Gerät «alt» erscheinen lassen.
+        Ein Gerät, das noch funktioniert, ist kein altes Gerät.</p>
+      </div>
+    </section>
+
+    <!-- Challenge -->
+    <section class="station-section section-challenge">
+      <h2><img class="section-icon" src="../assets/icons/icon-challenge.png" alt="" aria-hidden="true" /> Challenge</h2>
+
+      <p>Recherchiere: Gibt es für dein <strong>ältestes Gerät zuhause</strong> eine Möglichkeit,
+      es aufzurüsten oder einem neuen Zweck zuzuführen?</p>
+      <p>Ideen: Home-Server, Media-Center, Lern-PC für jüngere Geschwister,
+      Linux-Installation für neues Leben.</p>
+      <p>Dokumentiere deine Idee in <strong>2–3 Sätzen</strong>.</p>
+
+      <button class="challenge-btn" data-station="geraete-lichtung">
+        Challenge annehmen (+5 Punkte)
+      </button>
+    </section>
+
+    <!-- Abschluss -->
+    <div class="station-complete">
+      <button class="complete-btn" id="complete-btn" data-station="geraete-lichtung">
+        Station abschliessen &#x2714;
+      </button>
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </div>
+
+  </main>
+
+  <script src="../js/progress.js"></script>
+  <script src="../js/station.js"></script>
+</body>
+</html>

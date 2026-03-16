@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Der IDE-Asteroid – Code-Kosmos</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/station.css">
+</head>
+<body class="page-station">
+
+  <header class="station-header station-header--cosmos">
+    <nav class="station-header__nav">
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </nav>
+    <img class="station-header__image" src="../assets/station-ide-asteroid.png" alt="Ein schwebender Asteroid mit IDE-Fenstern und leuchtenden Code-Fragmenten" loading="lazy" />
+    <h1 class="station-header__title">Der IDE-Asteroid</h1>
+    <p class="station-header__meta">Säule: Nutzungsverhalten &amp; Software &middot; ~7 Min.</p>
+    <p class="station-header__intro">
+      Auf diesem Asteroiden dreht sich alles um deine Entwicklungsumgebung.
+      Wie viel Energie frisst dein IDE-Setup wirklich – und was kannst du dagegen tun?
+    </p>
+  </header>
+
+  <main class="station-content">
+
+    <!-- Microlearning -->
+    <section class="station-section section-microlearning">
+      <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
+
+      <p>VS Code, IntelliJ, WebStorm – moderne IDEs sind mächtige Werkzeuge. Aber sie laufen auf
+      <strong>Electron</strong> (VS Code) oder der <strong>JVM</strong> (JetBrains) und verbrauchen dabei
+      ordentlich Ressourcen.</p>
+
+      <div class="key-fact key-fact--orange">
+        VS Code mit <strong>30+ Extensions</strong> belegt locker <strong>1–2 GB RAM</strong> und beschäftigt
+        deine CPU mit Dutzenden Hintergrundprozessen – Linter, Language Server, AI Copilots, Formatter.
+      </div>
+
+      <p>Jede Extension läuft als eigener Prozess. Das heisst:</p>
+      <ul>
+        <li>Mehr Extensions = mehr <strong>RAM</strong> und <strong>CPU-Last</strong></li>
+        <li><strong>Idle-Prozesse</strong> laufen weiter, auch wenn du sie gerade nicht brauchst</li>
+        <li>Electron-basierte Apps (VS Code, Slack, Discord) sind im Grunde <strong>vollständige Browser</strong> – jede davon braucht eigene Ressourcen</li>
+      </ul>
+
+      <div class="key-fact key-fact--orange">
+        <strong>Dark Mode</strong> auf OLED-Displays spart bis zu <strong>60% Bildschirm-Energie</strong>,
+        weil schwarze Pixel komplett ausgeschaltet sind. Auf LCD-Displays ist der Effekt geringer, aber
+        deine Augen danken es dir trotzdem.
+      </div>
+
+      <p>Weitere Energiefresser in deiner IDE:</p>
+      <ul>
+        <li><strong>Auto-Save</strong> mit Sofort-Intervall löst bei jedem Tastendruck Disk-Writes und Extension-Neuauswertungen aus – 1000ms Delay reicht</li>
+        <li><strong>Telemetrie &amp; Crash-Reporting</strong> sendet im Hintergrund Daten – das braucht Netzwerk und CPU</li>
+        <li><strong>Real-Time Type Checking</strong> und <strong>AI Autocomplete</strong> sind CPU-intensiv und nicht immer nötig</li>
+        <li>Nicht geschlossene IDE-Fenster bleiben im <strong>Task Manager</strong> als Zombie-Prozesse hängen</li>
+      </ul>
+
+      <div class="key-fact key-fact--orange">
+        Tipp: Öffne den <strong>Task Manager</strong> (Windows: <code>Ctrl+Shift+Esc</code>, macOS: Aktivitätsanzeige)
+        und staune, wie viele Prozesse deine IDE startet.
+      </div>
+    </section>
+
+    <!-- Tat / Einstellung -->
+    <section class="station-section section-action">
+      <h2><img class="section-icon" src="../assets/icons/icon-action.png" alt="" aria-hidden="true" /> Tat / Einstellung</h2>
+
+      <p><strong>Mach dein IDE-Setup schlanker</strong> – weniger Ressourcen, gleiche Produktivität.</p>
+
+      <div class="instructions">
+        <p class="instructions__title">Aufgabe 1: Extensions aufräumen</p>
+        <ul>
+          <li>Öffne VS Code und gehe zu Extensions: <code>Ctrl+Shift+X</code> (oder <code>Cmd+Shift+X</code>)</li>
+          <li>Filtere nach «Installed» und scrolle durch die Liste</li>
+          <li><strong>Deaktiviere mindestens 3 Extensions</strong>, die du nicht regelmässig brauchst</li>
+          <li>Rechtsklick &rarr; «Disable» (nicht löschen – du kannst sie jederzeit wieder aktivieren)</li>
+        </ul>
+      </div>
+
+      <div class="instructions">
+        <p class="instructions__title">Aufgabe 2: Dark Mode &amp; Telemetrie</p>
+        <ul>
+          <li>Aktiviere ein <strong>dunkles Theme</strong>: <code>Ctrl+Shift+P</code> &rarr; <code>Color Theme</code> &rarr; wähle ein Dark Theme</li>
+          <li>Deaktiviere Telemetrie: <code>Settings</code> &rarr; suche <code>telemetry.telemetryLevel</code> &rarr; setze auf <code>off</code></li>
+        </ul>
+      </div>
+
+      <div class="instructions">
+        <p class="instructions__title">Aufgabe 3: Task Manager prüfen</p>
+        <ul>
+          <li>Öffne den Task Manager / Aktivitätsanzeige</li>
+          <li>Sortiere nach <strong>Arbeitsspeicher</strong></li>
+          <li>Notiere dir, wie viel RAM deine IDE aktuell verbraucht</li>
+          <li>Schliesse Zombie-Prozesse von nicht mehr offenen Projekten</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Reflexion -->
+    <section class="station-section section-reflection">
+      <h2><img class="section-icon" src="../assets/icons/icon-reflection.png" alt="" aria-hidden="true" /> Reflexion</h2>
+
+      <p class="reflection-question">
+        Brauchen wir wirklich eine IDE, die wie ein Browser läuft – oder ginge es auch leichter?
+      </p>
+
+      <button class="reveal-btn" data-target="reflection-hint-ide-asteroid">
+        Denkanstoss anzeigen
+      </button>
+      <div class="reveal-content" id="reflection-hint-ide-asteroid" hidden>
+        <p>Electron-Apps wie VS Code sind praktisch, weil sie plattformübergreifend funktionieren.
+        Aber für einfache Aufgaben reicht manchmal ein <strong>leichter Editor</strong> wie Sublime Text,
+        Vim oder sogar Notepad++. Die Frage ist nicht «ganz oder gar nicht», sondern:
+        <strong>Passt das Tool zur Aufgabe?</strong> Für ein kurzes Config-File brauchst du keinen
+        Full-Stack-IDE-Koloss.</p>
+      </div>
+    </section>
+
+    <!-- Challenge -->
+    <section class="station-section section-challenge">
+      <h2><img class="section-icon" src="../assets/icons/icon-challenge.png" alt="" aria-hidden="true" /> Challenge</h2>
+
+      <p><strong>RAM-Vergleich: Vorher vs. Nachher</strong></p>
+      <ul>
+        <li>Öffne den Task Manager und mache einen <strong>Screenshot</strong> vom RAM-Verbrauch deiner IDE mit allen Extensions</li>
+        <li>Deaktiviere dann alle nicht-essentiellen Extensions und starte die IDE neu</li>
+        <li>Mache einen <strong>zweiten Screenshot</strong> und vergleiche</li>
+        <li>Teile deinen Vergleich mit deiner Klasse oder deinem Berufsbildner</li>
+      </ul>
+
+      <button class="challenge-btn" data-station="ide-asteroid">
+        Challenge annehmen (+5 Punkte)
+      </button>
+    </section>
+
+    <!-- Abschluss -->
+    <div class="station-complete">
+      <button class="complete-btn" id="complete-btn" data-station="ide-asteroid">
+        Station abschliessen &#x2714;
+      </button>
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </div>
+
+  </main>
+
+  <script src="../js/progress.js"></script>
+  <script src="../js/station.js"></script>
+</body>
+</html>

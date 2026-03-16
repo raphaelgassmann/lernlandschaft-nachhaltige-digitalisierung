@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Die Cloud-Quelle – Daten-Dschungel</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/station.css">
+</head>
+<body class="page-station">
+
+  <header class="station-header station-header--2">
+    <nav class="station-header__nav">
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </nav>
+
+    <img class="station-header__image" src="../assets/station-cloud-quelle.png" alt="Eine mystische leuchtende Quelle im Dschungel mit Datenströmen" />
+
+    <h1 class="station-header__title">Die Cloud-Quelle</h1>
+    <p class="station-header__meta">Säule: Daten &amp; Infrastruktur &middot; ~7 Min.</p>
+    <p class="station-header__intro">
+      Tief im Dschungel findest du eine schimmernde Quelle. Daten fliessen wie Wasser –
+      unsichtbar, aber nicht ohne Spuren.
+    </p>
+  </header>
+
+  <main class="station-content">
+
+    <!-- Microlearning -->
+    <section class="station-section section-microlearning">
+      <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
+
+      <p>«Die Cloud» klingt leicht und unsichtbar. In Wirklichkeit besteht sie aus
+      <strong>riesigen Rechenzentren</strong>, die enorme Mengen an Strom und Wasser (zur Kühlung) verbrauchen.</p>
+
+      <div class="key-fact key-fact--blue">
+        Weltweit verbrauchen Rechenzentren ca. <strong>1–1.5% des globalen Stroms</strong> –
+        Tendenz stark steigend.
+      </div>
+
+      <p>Jede Datei, die du speicherst, jedes Video, das du streamst, jedes Backup, das synchronisiert wird,
+      hat einen <strong>Energiepreis</strong>:</p>
+
+      <ul>
+        <li><strong>1 Stunde HD-Streaming</strong> verbraucht ca. 1.5–3 kWh Infrastruktur-Energie</li>
+        <li>Eine <strong>E-Mail mit 5 MB Anhang</strong> verursacht rund 50g CO₂ (inkl. Server-Speicherung und Redundanz)</li>
+        <li>Cloud-Anbieter speichern deine Daten typischerweise <strong>3-fach redundant</strong> an verschiedenen Standorten</li>
+      </ul>
+
+      <div class="key-fact key-fact--blue">
+        Deine 10 GB in der Cloud sind in Wirklichkeit <strong>30 GB auf Servern</strong>.
+      </div>
+
+      <p>In der Schweiz nutzen viele Unternehmen Hyperscaler wie AWS, Azure oder GCP.
+      Einige dieser Anbieter betreiben Rechenzentren in Zürich und Umgebung.</p>
+    </section>
+
+    <!-- Tat / Einstellung -->
+    <section class="station-section section-action">
+      <h2><img class="section-icon" src="../assets/icons/icon-action.png" alt="" aria-hidden="true" /> Tat / Einstellung</h2>
+
+      <p><strong>Räume deinen Cloud-Speicher auf</strong> und überprüfe deine Synchronisierungen.</p>
+
+      <div class="instructions">
+        <p class="instructions__title">Aufgabe 1: Aufräumen</p>
+        <ul>
+          <li>Öffne deinen Cloud-Speicher (OneDrive, Google Drive, iCloud oder Dropbox)</li>
+          <li>Sortiere nach <strong>Dateigrösse</strong></li>
+          <li>Lösche oder archiviere <strong>mindestens 3 Dateien</strong>, die du nicht mehr brauchst</li>
+        </ul>
+      </div>
+
+      <div class="instructions">
+        <p class="instructions__title">Aufgabe 2: Sync prüfen</p>
+        <ul>
+          <li>Überprüfe deine automatischen Backups und Synchronisierungen</li>
+          <li>Welche Ordner werden synchronisiert?</li>
+          <li>Brauchst du wirklich <strong>alles</strong> in der Cloud?</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Reflexion -->
+    <section class="station-section section-reflection">
+      <h2><img class="section-icon" src="../assets/icons/icon-reflection.png" alt="" aria-hidden="true" /> Reflexion</h2>
+
+      <p class="reflection-question">
+        Wenn Cloud-Speicher kostenlos und unbegrenzt wäre –
+        würdest du dein Verhalten ändern? Was sagt das über die Verbindung zwischen Kosten und Nachhaltigkeit?
+      </p>
+
+      <button class="reveal-btn" data-target="reflection-hint-2">
+        Denkanstoss anzeigen
+      </button>
+      <div class="reveal-content" id="reflection-hint-2" hidden>
+        <p>Kostenlos heisst nicht ressourcenfrei. Die Kosten werden nur woanders bezahlt –
+        durch Energie, Rohstoffe und CO₂. Wenn etwas «gratis» ist, fehlt oft das Signal,
+        das uns zum bewussten Umgang motiviert.</p>
+      </div>
+    </section>
+
+    <!-- Challenge -->
+    <section class="station-section section-challenge">
+      <h2><img class="section-icon" src="../assets/icons/icon-challenge.png" alt="" aria-hidden="true" /> Challenge</h2>
+
+      <p>Finde heraus, <strong>in welcher Region</strong> dein Cloud-Anbieter deine Daten speichert.
+      Nutzt dieses Rechenzentrum erneuerbare Energie?</p>
+      <p>Tipp: Suche nach dem <strong>«Sustainability Report»</strong> deines Anbieters
+      (z.B. «Microsoft sustainability report» oder «Google environmental report»).</p>
+
+      <button class="challenge-btn" data-station="cloud-quelle">
+        Challenge annehmen (+5 Punkte)
+      </button>
+    </section>
+
+    <!-- Abschluss -->
+    <div class="station-complete">
+      <button class="complete-btn" id="complete-btn" data-station="cloud-quelle">
+        Station abschliessen &#x2714;
+      </button>
+      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    </div>
+
+  </main>
+
+  <script src="../js/progress.js"></script>
+  <script src="../js/station.js"></script>
+</body>
+</html>

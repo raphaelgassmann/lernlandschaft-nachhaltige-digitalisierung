@@ -1,0 +1,152 @@
+/* ========================================
+   MAIN.CSS – Design System Daten-Dschungel
+   ======================================== */
+
+/* Custom Properties */
+:root {
+  /* Dschungel-Palette */
+  --color-bg: #1a2e1a;
+  --color-bg-light: #f4f1e8;
+  --color-text: #e8e4d8;
+  --color-text-dark: #2d2a26;
+  --color-text-muted: #a09880;
+
+  /* Akzentfarben */
+  --color-primary: #4a9e6e;
+  --color-primary-light: #6bbd8a;
+  --color-secondary: #c8a84e;
+  --color-accent: #e07b4c;
+
+  /* Säulen-Farben */
+  --color-pillar-1: #5bba7a;
+  --color-pillar-2: #4a9ec2;
+  --color-pillar-3: #c27a3a;
+  --color-pillar-1-light: #e8f5ec;
+  --color-pillar-2-light: #e6f0fa;
+  --color-pillar-3-light: #faf0e6;
+
+  /* Welt: Dschungel */
+  --world-jungle-bg: #1a2e1a;
+  --world-jungle-primary: #5bba7a;
+  --world-jungle-secondary: #c8a84e;
+  --world-jungle-accent: #e07b4c;
+  --world-jungle-overlay: rgba(26, 46, 26, 0.7);
+
+  /* Welt: Ozean */
+  --world-ocean-bg: #0a1e2e;
+  --world-ocean-primary: #00b4d8;
+  --world-ocean-secondary: #48cae4;
+  --world-ocean-accent: #0096c7;
+  --world-ocean-overlay: rgba(10, 30, 46, 0.7);
+
+  /* Welt: Kosmos */
+  --world-cosmos-bg: #1a0a2e;
+  --world-cosmos-primary: #c77dff;
+  --world-cosmos-secondary: #e0aaff;
+  --world-cosmos-accent: #ff6b9d;
+  --world-cosmos-overlay: rgba(26, 10, 46, 0.7);
+
+  /* Welt: Metropole */
+  --world-metro-bg: #0a1a0a;
+  --world-metro-primary: #39ff14;
+  --world-metro-secondary: #00e5ff;
+  --world-metro-accent: #7c4dff;
+  --world-metro-overlay: rgba(10, 26, 10, 0.7);
+
+  /* Effekte */
+  --color-glow: rgba(200, 168, 78, 0.2);
+  --color-glow-strong: rgba(200, 168, 78, 0.5);
+  --color-path: #6bbd8a;
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  /* Typografie */
+  --font-body: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-heading: Georgia, 'Times New Roman', serif;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  /* Layout */
+  --max-width: 72rem;
+  --border-radius: 0.75rem;
+  --border-radius-sm: 0.4rem;
+  --transition: 0.3s ease;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base */
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  line-height: 1.3;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul, ol {
+  list-style-position: inside;
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
