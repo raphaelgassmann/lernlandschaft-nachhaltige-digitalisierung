@@ -10,15 +10,16 @@
 <body class="page-station">
 
   <header class="station-header station-header--metro">
-    <nav class="station-header__nav">
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    <nav class="station-header__nav" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
+      <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
     <img class="station-header__image" src="../assets/station-digital-ethics-turm.png" alt="Ein hoher gläserner Turm in der Metropole, der für digitale Ethik und Verantwortung steht" loading="lazy" />
 
-    <h1 class="station-header__title">Der Digital-Ethics-Turm</h1>
-    <p class="station-header__meta">~8 Min.</p>
-    <p class="station-header__intro">
+    <h1 class="station-header__title" data-i18n="station.digital-ethics-turm.title">Der Digital-Ethics-Turm</h1>
+    <p class="station-header__meta" data-i18n="station.digital-ethics-turm.duration">~8 Min.</p>
+    <p class="station-header__intro" data-i18n="station.digital-ethics-turm.intro">
       Du blickst hinauf zum höchsten Gebäude der Metropole – dem Turm der digitalen Ethik.
       Von hier oben siehst du das grosse Ganze: Wer trägt die Verantwortung für eine
       nachhaltige digitale Welt? Und was kannst du als Informatiker:in bewirken?
@@ -158,20 +159,22 @@
     <!-- Abschluss -->
         <!-- Kontrollfrage -->
     <div class="station-quiz" id="station-quiz" data-station="digital-ethics-turm">
-      <h3>Kontrollfrage</h3>
+      <h3 data-i18n="ui.quiz_title">Kontrollfrage</h3>
     </div>
     <div class="station-complete">
 
     
-      <button class="complete-btn" id="complete-btn" data-station="digital-ethics-turm">
+      <button class="complete-btn" id="complete-btn" data-i18n="ui.complete_station" data-station="digital-ethics-turm">
         Station abschliessen &#x2714;
       </button>
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
     </div>
 
   </main>
 
+  <script src="../js/i18n.js"></script>
   <script src="../js/progress.js"></script>
   <script src="../js/station.js"></script>
+  <script>I18N.init();</script>
 </body>
 </html>

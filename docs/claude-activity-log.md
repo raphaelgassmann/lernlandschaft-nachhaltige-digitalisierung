@@ -513,3 +513,101 @@ stations/*.html (12x)                 – .micro-intro Wrapper um ersten Microle
 js/station.js      – quizState-Objekt, showPenaltyTimer(), Bonusfrage-Logik, sessionStorage-Persistenz
 css/station.css    – .quiz-timer, .quiz-timer__circle, .quiz-timer__progress, .quiz-bonus-label, responsive
 ```
+
+---
+
+## Session 5 – 2026-03-19
+
+### Prompts & Aktionen
+
+1. **Game-Like Walking Avatar mit Sprite Sheets implementieren**
+   - Statisches rundes Avatar-Bild auf der Map durch animierte RPG-Sprites ersetzt
+   - 3 Sprite Sheets generiert (Explorer, Scientist, Hacker) via gpt-image-1
+   - CSS `steps(4)` Animation für 4-Frame Walk-Cycle
+   - Richtungserkennung (face-left Klasse für horizontales Spiegeln)
+   - Idle-Animation (sanfter Bob) und Walking-Animation (Sprite-Cycle)
+   - Bodenschatten via `::after` Pseudo-Element
+   - `prefers-reduced-motion` Support
+
+### Entscheidungen
+
+- Sprite-Grösse 64x64px (4 Frames = 256x64 background-size) statt ursprünglichem 52x52 rundem Bild
+- Header-Avatar behält weiterhin das runde Bild – nur Map-Avatar wird zum Sprite
+- `image-rendering: pixelated` für scharfe Sprite-Darstellung
+- Walk-Animation 0.5s mit `steps(4)` für flüssigen aber game-typischen Look
+
+### Erstellte/Geänderte Dateien
+
+```
+assets/sprites/sprite-explorer.png   – Sprite Sheet Explorer (4 Frames)
+assets/sprites/sprite-scientist.png  – Sprite Sheet Scientist (4 Frames)
+assets/sprites/sprite-hacker.png     – Sprite Sheet Hacker (4 Frames)
+index.html                           – Map-Avatar: <img> → <div class="map-avatar__sprite">
+css/landscape.css                    – Neue Sprite-CSS-Styles, Walk/Idle-Animationen, reduced-motion
+js/progress.js                       – sprite-Pfade in AVATAR_CHOICES, getAvatarSprite()
+js/landscape.js                      – positionMapAvatar() Sprite-Hintergrund, animateAvatarTo() Richtungserkennung
+```
+
+---
+
+## Session 17 – 2026-03-19
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 34 | `init` | Session gestartet, Aktivitätsprotokoll aktualisiert | – |
+| 35 | Highscore Board + Profanity Filter implementieren | Firebase-Leaderboard, Profanity-Filter (DE+EN), Highscore-Modal, Ranking auf Abschluss-Seite | 3 neue JS-Dateien, 5 bestehende Dateien geändert |
+
+### Entscheidungen
+
+- **Firebase Compat SDK:** CDN-Einbindung (v9.23.0 compat), kein Build-Tool nötig
+- **Profanity-Filter:** ~100 Begriffe (DE+EN), Leetspeak-Normalisierung, Client-side
+- **Highscore-Submit:** Nur bei `isFinaleUnlocked()` + einmaliges localStorage-Flag
+- **Modal:** Dynamisch per JS erstellt, Backdrop-Klick schliesst
+
+### Erstellte/Geänderte Dateien
+
+```
+js/firebase-config.js       – NEU: Firebase App + DB Initialisierung (Platzhalter-Config)
+js/profanity-filter.js      – NEU: Wortliste + containsProfanity() mit Leetspeak-Erkennung
+js/highscore.js             – NEU: loadHighscores, submitHighscore, renderHighscoreModal, renderRankingInline
+js/progress.js              – resetProgress() löscht nun auch 'highscore-submitted'
+js/landscape.js             – Profanity-Check bei Avatar-Bestätigung, Highscore-Button Handler
+index.html                  – Firebase CDN Scripts, profanity-filter.js, highscore.js, Trophy-Button im Header
+stations/abschluss-feier.html – Firebase Scripts, Ranking-Section, Auto-Submit bei Finale
+css/landscape.css           – Highscore-Button, Modal, Liste, Row-Styles
+css/station.css             – Inline-Ranking Styles für Abschluss-Seite
+```
+
+---
+
+## Session 4 – 2026-03-19
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 1 | i18n Plan implementieren (DE/EN) | `js/i18n.js` Modul erstellt, `i18n/en.json` mit 633 Keys, alle 14 HTML-Dateien + 3 JS-Dateien aktualisiert | Vollständige Sprachumschaltung DE/EN |
+
+### Entscheidungen
+
+- **Architektur:** `data-i18n`-Attribute + JSON-Übersetzungsdateien, Deutsch hardcoded (progressive enhancement)
+- **Sync-XHR:** Synchrones Laden der JSON-Datei für Einfachheit (kein Flash of Untranslated Content)
+- **Sprach-Persistenz:** `localStorage` mit Key `ll-lang`, Reload bei Sprachwechsel
+- **Fallback:** Wenn ein Key fehlt, wird der deutsche Text im HTML angezeigt
+- **Quiz-Übersetzung:** Dynamische Keys `quiz.{station}.{idx}.q/o{n}` mit Fallback auf QUIZ_DATA
+
+### Geänderte / Erstellte Dateien
+
+```
+js/i18n.js                  – NEU: i18n-Modul (Sprache laden, DOM übersetzen, t() Funktion, Switcher)
+i18n/en.json                – NEU: 633 englische Übersetzungs-Keys
+index.html                  – data-i18n Attribute (81x), Language Switcher, i18n.js Script
+stations/*.html (13×)       – data-i18n Attribute, Language Switcher, i18n.js Script, I18N.init()
+js/progress.js              – i18n Helper-Funktionen (getWorldName, getLevelName, getBadgeName etc.)
+js/landscape.js             – Toast/Dialog-Texte über I18N.t(), getLevelName/getBadgeName Nutzung
+js/station.js               – Quiz/Button/Feedback-Texte über I18N.t(), dynamische Quiz-Keys
+css/landscape.css           – .lang-switcher Styles
+css/station.css             – .lang-switcher Styles
+```

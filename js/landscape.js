@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   updateGameHeader();
   renderBadgeBar();
   initResetButton();
+  initHighscoreButton();
 });
 
 /* ========================================
@@ -81,6 +82,12 @@ function initAvatarSelect() {
     confirmBtn.addEventListener('click', function () {
       var name = nameInput ? nameInput.value.trim() : '';
       if (!name || !getAvatarChoice()) return;
+
+      // Profanity check
+      if (typeof containsProfanity === 'function' && containsProfanity(name)) {
+        showToast('Bitte wähle einen anderen Namen.', 'success');
+        return;
+      }
 
       setPlayerName(name);
       document.getElementById('avatar-select').classList.add('is-hidden');
@@ -161,7 +168,7 @@ function initStartZone() {
         mapContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
-      showToast('Expedition gestartet! Wähle deine erste Station.', 'achievement');
+      showToast(I18N.t('toast.expedition_started', 'Expedition gestartet! Wähle deine erste Station.'), 'achievement');
     }, 800);
   });
 }
@@ -350,11 +357,11 @@ function positionWorldLabels() {
 
 function positionMapAvatar() {
   var avatar = document.getElementById('map-avatar');
-  var avatarImg = document.getElementById('map-avatar-img');
+  var avatarSprite = document.getElementById('map-avatar-sprite');
   var avatarName = document.getElementById('map-avatar-name');
   if (!avatar) return;
 
-  if (avatarImg) avatarImg.src = getAvatarImage();
+  if (avatarSprite) avatarSprite.style.backgroundImage = 'url(' + getAvatarSprite() + ')';
   if (avatarName) avatarName.textContent = getPlayerName();
 
   // Position at last known location (no animation)
@@ -381,6 +388,14 @@ function animateAvatarTo(posId, callback) {
 
   var pos = getPositionFor(posId);
   if (!pos) return;
+
+  // Determine direction for sprite flipping
+  var currentLeft = parseFloat(avatar.style.left) || 0;
+  if (pos.left < currentLeft) {
+    avatar.classList.add('face-left');
+  } else {
+    avatar.classList.remove('face-left');
+  }
 
   avatar.style.transition = 'top 1.2s ease-in-out, left 1.2s ease-in-out';
   avatar.classList.add('is-walking');
@@ -425,7 +440,7 @@ function initStationClicks() {
 
       if (el.classList.contains('is-locked') || el.classList.contains('is-fork-locked')) {
         e.preventDefault();
-        showToast('Diese Station ist noch gesperrt.', 'success');
+        showToast(I18N.t('ui.station_locked', 'Diese Station ist noch gesperrt.'), 'success');
         return;
       }
 
@@ -449,7 +464,7 @@ function initStationClicks() {
       if (card.classList.contains('is-fork-locked') ||
           card.closest('.mobile-world.is-locked')) {
         e.preventDefault();
-        showToast('Diese Station ist noch gesperrt.', 'success');
+        showToast(I18N.t('ui.station_locked', 'Diese Station ist noch gesperrt.'), 'success');
       }
     });
   });
@@ -469,7 +484,7 @@ function updateGameHeader() {
   if (badge) badge.textContent = 'Lv. ' + levelInfo.level;
 
   var name = document.getElementById('level-name');
-  if (name) name.textContent = levelInfo.name;
+  if (name) name.textContent = getLevelName(levelInfo);
 
   var playerNameEl = document.getElementById('header-player-name');
   if (playerNameEl) playerNameEl.textContent = getPlayerName();
@@ -547,7 +562,7 @@ function triggerLevelUp(levelInfo) {
     setTimeout(function () { badge.classList.remove('is-leveling-up'); }, 1100);
   }
 
-  showToast('Level Up! Du bist jetzt Lv. ' + levelInfo.level + ' \u2013 ' + levelInfo.name + '!', 'level-up');
+  showToast(I18N.t('toast.level_up', 'Level Up! Du bist jetzt Lv. ' + levelInfo.level + ' \u2013 ' + levelInfo.name + '!').replace('{level}', levelInfo.level).replace('{name}', getLevelName(levelInfo)), 'level-up');
 }
 
 /* ========================================
@@ -570,7 +585,7 @@ function updateMobileWorld() {
       section.classList.add('is-locked');
       var lockMsg = section.querySelector('.mobile-world__lock-msg');
       if (lockMsg) {
-        lockMsg.textContent = getWorldUnlockMessage(worldId);
+        lockMsg.textContent = getWorldUnlockMessageI18n(worldId);
         lockMsg.style.display = 'block';
       }
     } else {
@@ -677,7 +692,7 @@ function renderBadgeBar() {
   BADGES.forEach(function (badge) {
     var span = document.createElement('span');
     span.className = 'badge';
-    span.setAttribute('title', badge.name);
+    span.setAttribute('title', getBadgeName(badge));
     span.textContent = badge.icon;
     if (earnedIds.includes(badge.id)) span.classList.add('is-earned');
     container.appendChild(span);
@@ -694,11 +709,25 @@ function initResetButton() {
     var btn = document.getElementById(id);
     if (!btn) return;
     btn.addEventListener('click', function () {
-      if (confirm('Willst du wirklich deinen gesamten Fortschritt zur\u00fccksetzen?')) {
+      if (confirm(I18N.t('ui.reset_confirm', 'Willst du wirklich deinen gesamten Fortschritt zurücksetzen?'))) {
         resetProgress();
         location.reload();
       }
     });
+  });
+}
+
+/* ========================================
+   HIGHSCORE BUTTON
+   ======================================== */
+
+function initHighscoreButton() {
+  var btn = document.getElementById('highscore-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    if (typeof openHighscoreModal === 'function') {
+      openHighscoreModal();
+    }
   });
 }
 
@@ -733,7 +762,7 @@ function initFinaleMarker() {
       marker.classList.add('is-locked');
       marker.addEventListener('click', function (e) {
         e.preventDefault();
-        showToast('Schliesse zuerst alle 4 Welten ab, um die Abschluss-Feier freizuschalten.', 'success');
+        showToast(I18N.t('ui.finale_locked', 'Schliesse zuerst alle 4 Welten ab, um die Abschluss-Feier freizuschalten.'), 'success');
       });
     }
   }

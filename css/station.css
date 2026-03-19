@@ -36,6 +36,24 @@
   margin-bottom: var(--space-lg);
 }
 
+.lang-switcher {
+  background: rgba(200, 168, 78, 0.3);
+  border: 1px solid rgba(200, 168, 78, 0.5);
+  color: #c8a84e;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.lang-switcher:hover {
+  background: rgba(200, 168, 78, 0.5);
+}
+
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -67,6 +85,21 @@
   opacity: 0.9;
   max-width: 40rem;
   line-height: 1.7;
+}
+
+/* Station header scene (avatar-dependent) */
+.station-header__scene {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid rgba(200, 168, 78, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  opacity: 0.95;
 }
 
 /* Station header image (Midjourney) */
@@ -830,8 +863,15 @@
 
 /* Responsive */
 @media (max-width: 600px) {
+  .station-header__scene {
+    width: 80px;
+    height: 80px;
+    top: var(--space-md);
+    right: var(--space-md);
+    border-width: 2px;
+  }
+
   .micro-intro { flex-direction: column; }
-  .micro-intro__illustration { width: 100%; max-width: 280px; margin: 0 auto; }
 
   .station-content {
     padding: var(--space-md);
@@ -875,4 +915,59 @@
   .quiz-timer__seconds {
     font-size: 1.6rem;
   }
+}
+
+/* ========================================
+   RANKING SECTION (Abschluss-Seite)
+   ======================================== */
+
+.section-ranking h2 {
+  color: var(--color-primary-dark);
+}
+
+.ranking-your-rank {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-md);
+  color: var(--color-primary-dark);
+}
+
+.highscore-list--inline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.highscore-list--inline .highscore-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: var(--border-radius-sm);
+}
+
+.highscore-list--inline .highscore-row--self {
+  background: rgba(200, 168, 78, 0.1);
+  border: 1px solid rgba(200, 168, 78, 0.3);
+}
+
+.highscore-list--inline .highscore-row__rank {
+  width: 32px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-secondary);
+  flex-shrink: 0;
+}
+
+.highscore-list--inline .highscore-row__name {
+  flex: 1;
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+.highscore-list--inline .highscore-row__xp {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-secondary);
 }

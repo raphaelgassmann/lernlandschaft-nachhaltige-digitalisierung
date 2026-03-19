@@ -10,13 +10,14 @@
 <body class="page-station">
 
   <header class="station-header station-header--cosmos">
-    <nav class="station-header__nav">
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    <nav class="station-header__nav" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
+      <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
     <img class="station-header__image" src="../assets/station-ide-asteroid.png" alt="Ein schwebender Asteroid mit IDE-Fenstern und leuchtenden Code-Fragmenten" loading="lazy" />
-    <h1 class="station-header__title">Der IDE-Asteroid</h1>
-    <p class="station-header__meta">~7 Min.</p>
-    <p class="station-header__intro">
+    <h1 class="station-header__title" data-i18n="station.ide-asteroid.title">Der IDE-Asteroid</h1>
+    <p class="station-header__meta" data-i18n="station.ide-asteroid.duration">~7 Min.</p>
+    <p class="station-header__intro" data-i18n="station.ide-asteroid.intro">
       Auf diesem Asteroiden dreht sich alles um deine Entwicklungsumgebung.
       Wie viel Energie frisst dein IDE-Setup wirklich – und was kannst du dagegen tun?
     </p>
@@ -156,20 +157,22 @@
     <!-- Abschluss -->
         <!-- Kontrollfrage -->
     <div class="station-quiz" id="station-quiz" data-station="ide-asteroid">
-      <h3>Kontrollfrage</h3>
+      <h3 data-i18n="ui.quiz_title">Kontrollfrage</h3>
     </div>
     <div class="station-complete">
 
     
-      <button class="complete-btn" id="complete-btn" data-station="ide-asteroid">
+      <button class="complete-btn" id="complete-btn" data-i18n="ui.complete_station" data-station="ide-asteroid">
         Station abschliessen &#x2714;
       </button>
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
     </div>
 
   </main>
 
+  <script src="../js/i18n.js"></script>
   <script src="../js/progress.js"></script>
   <script src="../js/station.js"></script>
+  <script>I18N.init();</script>
 </body>
 </html>

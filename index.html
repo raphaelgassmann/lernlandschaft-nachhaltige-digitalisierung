@@ -30,6 +30,8 @@
     <div class="game-header__stats">
       <span class="stat" id="stat-stations" title="Stationen">0/12</span>
       <div class="badge-bar" id="badge-bar" aria-label="Achievements"></div>
+      <button class="highscore-btn" id="highscore-btn" title="Rangliste" aria-label="Rangliste öffnen">&#x1F3C6;</button>
+      <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
       <button class="reset-btn reset-btn--header" id="reset-btn" title="Fortschritt zurücksetzen">&#x21BB;</button>
     </div>
   </header>
@@ -41,33 +43,33 @@
          ========================================== -->
     <section class="avatar-select" id="avatar-select" aria-label="Avatar-Auswahl">
       <div class="avatar-select__content">
-        <h1 class="avatar-select__title">Erstelle deinen Charakter</h1>
-        <p class="avatar-select__subtitle">Gib deinen Namen ein und wähle deine:n Begleiter:in für die Expedition.</p>
+        <h1 class="avatar-select__title" data-i18n="avatar.title">Erstelle deinen Charakter</h1>
+        <p class="avatar-select__subtitle" data-i18n="avatar.subtitle">Gib deinen Namen ein und wähle deine:n Begleiter:in für die Expedition.</p>
 
         <div class="avatar-select__name-field">
-          <label for="player-name-input" class="avatar-select__label">Dein Name</label>
-          <input type="text" id="player-name-input" class="avatar-select__input" placeholder="z.B. Alex, Sam, Jordan..." maxlength="20" autocomplete="off" />
+          <label for="player-name-input" class="avatar-select__label" data-i18n="avatar.name_label">Dein Name</label>
+          <input type="text" id="player-name-input" class="avatar-select__input" placeholder="z.B. Alex, Sam, Jordan..." maxlength="20" autocomplete="off" data-i18n="avatar.name_placeholder" />
         </div>
 
         <div class="avatar-select__options">
           <button class="avatar-option" data-avatar="explorer">
             <img src="assets/avatar-explorer.png" alt="Entdecker:in" />
-            <span class="avatar-option__name">Entdecker:in</span>
+            <span class="avatar-option__name" data-i18n="avatar.explorer">Entdecker:in</span>
           </button>
           <button class="avatar-option" data-avatar="scientist">
             <img src="assets/avatar-scientist.png" alt="Forscher:in" />
-            <span class="avatar-option__name">Forscher:in</span>
+            <span class="avatar-option__name" data-i18n="avatar.scientist">Forscher:in</span>
           </button>
           <button class="avatar-option" data-avatar="hacker">
             <img src="assets/avatar-hacker.png" alt="Hacker:in" />
-            <span class="avatar-option__name">Hacker:in</span>
+            <span class="avatar-option__name" data-i18n="avatar.hacker">Hacker:in</span>
           </button>
         </div>
 
-        <button class="avatar-select__confirm" id="avatar-confirm-btn" disabled>
+        <button class="avatar-select__confirm" id="avatar-confirm-btn" disabled data-i18n="avatar.confirm">
           Expedition vorbereiten
         </button>
-        <button class="reset-link" id="reset-link-avatar" title="Fortschritt zurücksetzen">&#x21BB; Zurücksetzen</button>
+        <button class="reset-link" id="reset-link-avatar" title="Fortschritt zurücksetzen" data-i18n="ui.reset_progress">&#x21BB; Zurücksetzen</button>
       </div>
     </section>
 
@@ -80,12 +82,12 @@
         <img class="start-zone__avatar" id="start-avatar" src="assets/avatar-sofa.png" alt="Dein Avatar" />
         <img class="start-zone__sofa" src="assets/start-sofa.png" alt="Dein Sofa – die Komfortzone" />
         <div class="start-zone__text">
-          <h1 class="start-zone__title">Bereit, <span id="start-player-name"></span>?</h1>
-          <p class="start-zone__subtitle">Du sitzt gemütlich auf dem Sofa. Aber da draussen wartet eine ganze Welt voller Entdeckungen...</p>
-          <button class="start-zone__btn" id="start-expedition-btn">
+          <h1 class="start-zone__title" data-i18n="start.ready">Bereit, <span id="start-player-name"></span>?</h1>
+          <p class="start-zone__subtitle" data-i18n="start.subtitle">Du sitzt gemütlich auf dem Sofa. Aber da draussen wartet eine ganze Welt voller Entdeckungen...</p>
+          <button class="start-zone__btn" id="start-expedition-btn" data-i18n="start.btn">
             Aufstehen & Expedition starten
           </button>
-          <button class="reset-link" id="reset-link-start" title="Fortschritt zurücksetzen">&#x21BB; Zurücksetzen</button>
+          <button class="reset-link" id="reset-link-start" title="Fortschritt zurücksetzen" data-i18n="start.reset">&#x21BB; Zurücksetzen</button>
         </div>
       </div>
     </section>
@@ -106,7 +108,7 @@
 
       <!-- Avatar on the Map -->
       <div class="map-avatar" id="map-avatar" aria-hidden="true">
-        <img id="map-avatar-img" src="assets/avatar-explorer.png" alt="" />
+        <div class="map-avatar__sprite" id="map-avatar-sprite"></div>
         <span class="map-avatar__name" id="map-avatar-name"></span>
       </div>
 
@@ -115,99 +117,99 @@
 
       <!-- World Labels -->
       <div class="map-world-label map-world-label--jungle" data-world="jungle">
-        <span class="map-world-label__number">Welt 1</span>
-        <span class="map-world-label__name">Daten-Dschungel</span>
+        <span class="map-world-label__number" data-i18n="world.1">Welt 1</span>
+        <span class="map-world-label__name" data-i18n="world.jungle">Daten-Dschungel</span>
       </div>
       <div class="map-world-label map-world-label--ocean" data-world="ocean">
-        <span class="map-world-label__number">Welt 2</span>
-        <span class="map-world-label__name">Daten-Ozean</span>
+        <span class="map-world-label__number" data-i18n="world.2">Welt 2</span>
+        <span class="map-world-label__name" data-i18n="world.ocean">Daten-Ozean</span>
       </div>
       <div class="map-world-label map-world-label--cosmos" data-world="cosmos">
-        <span class="map-world-label__number">Welt 3</span>
-        <span class="map-world-label__name">Code-Kosmos</span>
+        <span class="map-world-label__number" data-i18n="world.3">Welt 3</span>
+        <span class="map-world-label__name" data-i18n="world.cosmos">Code-Kosmos</span>
       </div>
       <div class="map-world-label map-world-label--metro" data-world="metro">
-        <span class="map-world-label__number">Welt 4</span>
-        <span class="map-world-label__name">Zukunfts-Metropole</span>
+        <span class="map-world-label__number" data-i18n="world.4">Welt 4</span>
+        <span class="map-world-label__name" data-i18n="world.metro">Zukunfts-Metropole</span>
       </div>
 
       <!-- 12 Stations (absolute positioned) -->
       <!-- Jungle -->
       <a href="stations/geraete-lichtung.html" class="map-station map-station--mandatory" data-station="geraete-lichtung" data-world="jungle">
         <img class="map-station__img" src="assets/station-geraete-lichtung.png" alt="" />
-        <span class="map-station__label">Die Geräte-Lichtung</span>
-        <span class="map-station__badge">Pflicht</span>
+        <span class="map-station__label" data-i18n="station.geraete-lichtung.title">Die Geräte-Lichtung</span>
+        <span class="map-station__badge" data-i18n="ui.mandatory">Pflicht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/cloud-quelle.html" class="map-station map-station--fork" data-station="cloud-quelle" data-world="jungle">
         <img class="map-station__img" src="assets/station-cloud-quelle.png" alt="" />
-        <span class="map-station__label">Die Cloud-Quelle</span>
+        <span class="map-station__label" data-i18n="station.cloud-quelle.title">Die Cloud-Quelle</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/code-camp.html" class="map-station map-station--fork" data-station="code-camp" data-world="jungle">
         <img class="map-station__img" src="assets/station-code-camp.png" alt="" />
-        <span class="map-station__label">Das Code-Camp</span>
+        <span class="map-station__label" data-i18n="station.code-camp.title">Das Code-Camp</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
 
       <!-- Ocean -->
       <a href="stations/server-riff.html" class="map-station map-station--mandatory" data-station="server-riff" data-world="ocean">
         <img class="map-station__img" src="assets/station-server-riff.png" alt="" />
-        <span class="map-station__label">Das Server-Riff</span>
-        <span class="map-station__badge">Pflicht</span>
+        <span class="map-station__label" data-i18n="station.server-riff.title">Das Server-Riff</span>
+        <span class="map-station__badge" data-i18n="ui.mandatory">Pflicht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/streaming-strom.html" class="map-station map-station--fork" data-station="streaming-strom" data-world="ocean">
         <img class="map-station__img" src="assets/station-streaming-strom.png" alt="" />
-        <span class="map-station__label">Der Streaming-Strom</span>
+        <span class="map-station__label" data-i18n="station.streaming-strom.title">Der Streaming-Strom</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/backup-bucht.html" class="map-station map-station--fork" data-station="backup-bucht" data-world="ocean">
         <img class="map-station__img" src="assets/station-backup-bucht.png" alt="" />
-        <span class="map-station__label">Die Backup-Bucht</span>
+        <span class="map-station__label" data-i18n="station.backup-bucht.title">Die Backup-Bucht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
 
       <!-- Cosmos -->
       <a href="stations/ide-asteroid.html" class="map-station map-station--mandatory" data-station="ide-asteroid" data-world="cosmos">
         <img class="map-station__img" src="assets/station-ide-asteroid.png" alt="" />
-        <span class="map-station__label">Der IDE-Asteroid</span>
-        <span class="map-station__badge">Pflicht</span>
+        <span class="map-station__label" data-i18n="station.ide-asteroid.title">Der IDE-Asteroid</span>
+        <span class="map-station__badge" data-i18n="ui.mandatory">Pflicht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/deploy-stern.html" class="map-station map-station--fork" data-station="deploy-stern" data-world="cosmos">
         <img class="map-station__img" src="assets/station-deploy-stern.png" alt="" />
-        <span class="map-station__label">Der Deploy-Stern</span>
+        <span class="map-station__label" data-i18n="station.deploy-stern.title">Der Deploy-Stern</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/workflow-nebel.html" class="map-station map-station--fork" data-station="workflow-nebel" data-world="cosmos">
         <img class="map-station__img" src="assets/station-workflow-nebel.png" alt="" />
-        <span class="map-station__label">Der Workflow-Nebel</span>
+        <span class="map-station__label" data-i18n="station.workflow-nebel.title">Der Workflow-Nebel</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
 
       <!-- Metro -->
       <a href="stations/ki-kraftwerk.html" class="map-station map-station--mandatory" data-station="ki-kraftwerk" data-world="metro">
         <img class="map-station__img" src="assets/station-ki-kraftwerk.png" alt="" />
-        <span class="map-station__label">Das KI-Kraftwerk</span>
-        <span class="map-station__badge">Pflicht</span>
+        <span class="map-station__label" data-i18n="station.ki-kraftwerk.title">Das KI-Kraftwerk</span>
+        <span class="map-station__badge" data-i18n="ui.mandatory">Pflicht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/open-source-platz.html" class="map-station map-station--fork" data-station="open-source-platz" data-world="metro">
         <img class="map-station__img" src="assets/station-open-source-platz.png" alt="" />
-        <span class="map-station__label">Der Open-Source-Platz</span>
+        <span class="map-station__label" data-i18n="station.open-source-platz.title">Der Open-Source-Platz</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/digital-ethics-turm.html" class="map-station map-station--fork" data-station="digital-ethics-turm" data-world="metro">
         <img class="map-station__img" src="assets/station-digital-ethics-turm.png" alt="" />
-        <span class="map-station__label">Der Digital-Ethics-Turm</span>
+        <span class="map-station__label" data-i18n="station.digital-ethics-turm.title">Der Digital-Ethics-Turm</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
 
       <!-- Finale -->
       <a href="stations/abschluss-feier.html" class="map-station map-station--finale is-locked" id="finale-marker" data-station="abschluss-feier">
         <span class="map-station__finale-icon" aria-hidden="true">&#x1F3C6;</span>
-        <span class="map-station__label">Abschluss-Feier</span>
+        <span class="map-station__label" data-i18n="station.abschluss-feier.title">Abschluss-Feier</span>
       </a>
     </div>
 
@@ -219,8 +221,8 @@
       <!-- Jungle -->
       <section class="mobile-world" data-world="jungle">
         <div class="mobile-world__header">
-          <span class="mobile-world__number">Welt 1</span>
-          <h2 class="mobile-world__title">Daten-Dschungel</h2>
+          <span class="mobile-world__number" data-i18n="world.1">Welt 1</span>
+          <h2 class="mobile-world__title" data-i18n="world.jungle">Daten-Dschungel</h2>
           <div class="mobile-world__progress">
             <div class="mobile-world__bar"><div class="mobile-world__fill"></div></div>
             <span class="mobile-world__text">0 / 3</span>
@@ -231,27 +233,27 @@
           <a href="stations/geraete-lichtung.html" class="mobile-station-card mobile-station-card--mandatory" data-station="geraete-lichtung">
             <span class="mobile-station-card__icon" aria-hidden="true">&#x1F4BB;</span>
             <div class="mobile-station-card__content">
-              <h3>Die Geräte-Lichtung</h3>
-              <p>Wie lange lebt dein Laptop – und warum ist das wichtig?</p>
+              <h3 data-i18n="station.geraete-lichtung.title">Die Geräte-Lichtung</h3>
+              <p data-i18n="mobile.jungle.desc.geraete-lichtung">Wie lange lebt dein Laptop – und warum ist das wichtig?</p>
             </div>
-            <span class="mobile-station-card__tag">Pflicht</span>
+            <span class="mobile-station-card__tag" data-i18n="ui.mandatory">Pflicht</span>
             <span class="mobile-station-card__status" aria-label="Status"></span>
           </a>
-          <div class="mobile-fork-indicator">Wähle deinen Weg</div>
+          <div class="mobile-fork-indicator" data-i18n="ui.choose_your_path">Wähle deinen Weg</div>
           <div class="mobile-fork-group">
             <a href="stations/cloud-quelle.html" class="mobile-station-card mobile-station-card--fork" data-station="cloud-quelle">
               <span class="mobile-station-card__icon" aria-hidden="true">&#x2601;</span>
               <div class="mobile-station-card__content">
-                <h3>Die Cloud-Quelle</h3>
-                <p>Was passiert wirklich, wenn du Daten in die Cloud lädst?</p>
+                <h3 data-i18n="station.cloud-quelle.title">Die Cloud-Quelle</h3>
+                <p data-i18n="mobile.jungle.desc.cloud-quelle">Was passiert wirklich, wenn du Daten in die Cloud lädst?</p>
               </div>
               <span class="mobile-station-card__status" aria-label="Status"></span>
             </a>
             <a href="stations/code-camp.html" class="mobile-station-card mobile-station-card--fork" data-station="code-camp">
               <span class="mobile-station-card__icon" aria-hidden="true">&#x1F525;</span>
               <div class="mobile-station-card__content">
-                <h3>Das Code-Camp</h3>
-                <p>Kleine Einstellungen, grosse Wirkung – Strom sparen beim Coden.</p>
+                <h3 data-i18n="station.code-camp.title">Das Code-Camp</h3>
+                <p data-i18n="mobile.jungle.desc.code-camp">Kleine Einstellungen, grosse Wirkung – Strom sparen beim Coden.</p>
               </div>
               <span class="mobile-station-card__status" aria-label="Status"></span>
             </a>
@@ -262,8 +264,8 @@
       <!-- Ocean -->
       <section class="mobile-world" data-world="ocean">
         <div class="mobile-world__header">
-          <span class="mobile-world__number">Welt 2</span>
-          <h2 class="mobile-world__title">Daten-Ozean</h2>
+          <span class="mobile-world__number" data-i18n="world.2">Welt 2</span>
+          <h2 class="mobile-world__title" data-i18n="world.ocean">Daten-Ozean</h2>
           <div class="mobile-world__progress">
             <div class="mobile-world__bar"><div class="mobile-world__fill"></div></div>
             <span class="mobile-world__text">0 / 3</span>
@@ -274,27 +276,27 @@
           <a href="stations/server-riff.html" class="mobile-station-card mobile-station-card--mandatory" data-station="server-riff">
             <span class="mobile-station-card__icon" aria-hidden="true">&#x1F3DB;</span>
             <div class="mobile-station-card__content">
-              <h3>Das Server-Riff</h3>
-              <p>Rechenzentren verbrauchen mehr Strom als manche Länder.</p>
+              <h3 data-i18n="station.server-riff.title">Das Server-Riff</h3>
+              <p data-i18n="mobile.ocean.desc.server-riff">Rechenzentren verbrauchen mehr Strom als manche Länder.</p>
             </div>
-            <span class="mobile-station-card__tag">Pflicht</span>
+            <span class="mobile-station-card__tag" data-i18n="ui.mandatory">Pflicht</span>
             <span class="mobile-station-card__status" aria-label="Status"></span>
           </a>
-          <div class="mobile-fork-indicator">Wähle deinen Weg</div>
+          <div class="mobile-fork-indicator" data-i18n="ui.choose_your_path">Wähle deinen Weg</div>
           <div class="mobile-fork-group">
             <a href="stations/streaming-strom.html" class="mobile-station-card mobile-station-card--fork" data-station="streaming-strom">
               <span class="mobile-station-card__icon" aria-hidden="true">&#x1F3AC;</span>
               <div class="mobile-station-card__content">
-                <h3>Der Streaming-Strom</h3>
-                <p>Was kostet ein Video wirklich – in Energie, nicht in Franken?</p>
+                <h3 data-i18n="station.streaming-strom.title">Der Streaming-Strom</h3>
+                <p data-i18n="mobile.ocean.desc.streaming-strom">Was kostet ein Video wirklich – in Energie, nicht in Franken?</p>
               </div>
               <span class="mobile-station-card__status" aria-label="Status"></span>
             </a>
             <a href="stations/backup-bucht.html" class="mobile-station-card mobile-station-card--fork" data-station="backup-bucht">
               <span class="mobile-station-card__icon" aria-hidden="true">&#x1F4BE;</span>
               <div class="mobile-station-card__content">
-                <h3>Die Backup-Bucht</h3>
-                <p>Speicherst du klug – oder einfach alles?</p>
+                <h3 data-i18n="station.backup-bucht.title">Die Backup-Bucht</h3>
+                <p data-i18n="mobile.ocean.desc.backup-bucht">Speicherst du klug – oder einfach alles?</p>
               </div>
               <span class="mobile-station-card__status" aria-label="Status"></span>
             </a>
@@ -305,8 +307,8 @@
       <!-- Cosmos -->
       <section class="mobile-world" data-world="cosmos">
         <div class="mobile-world__header">
-          <span class="mobile-world__number">Welt 3</span>
-          <h2 class="mobile-world__title">Code-Kosmos</h2>
+          <span class="mobile-world__number" data-i18n="world.3">Welt 3</span>
+          <h2 class="mobile-world__title" data-i18n="world.cosmos">Code-Kosmos</h2>
           <div class="mobile-world__progress">
             <div class="mobile-world__bar"><div class="mobile-world__fill"></div></div>
             <span class="mobile-world__text">0 / 3</span>
@@ -317,27 +319,27 @@
           <a href="stations/ide-asteroid.html" class="mobile-station-card mobile-station-card--mandatory" data-station="ide-asteroid">
             <span class="mobile-station-card__icon" aria-hidden="true">&#x1F4BB;</span>
             <div class="mobile-station-card__content">
-              <h3>Der IDE-Asteroid</h3>
-              <p>Deine IDE frisst mehr Strom als du denkst – optimiere sie!</p>
+              <h3 data-i18n="station.ide-asteroid.title">Der IDE-Asteroid</h3>
+              <p data-i18n="mobile.cosmos.desc.ide-asteroid">Deine IDE frisst mehr Strom als du denkst – optimiere sie!</p>
             </div>
-            <span class="mobile-station-card__tag">Pflicht</span>
+            <span class="mobile-station-card__tag" data-i18n="ui.mandatory">Pflicht</span>
             <span class="mobile-station-card__status" aria-label="Status"></span>
           </a>
-          <div class="mobile-fork-indicator">Wähle deinen Weg</div>
+          <div class="mobile-fork-indicator" data-i18n="ui.choose_your_path">Wähle deinen Weg</div>
           <div class="mobile-fork-group">
             <a href="stations/deploy-stern.html" class="mobile-station-card mobile-station-card--fork" data-station="deploy-stern">
               <span class="mobile-station-card__icon" aria-hidden="true">&#x1F680;</span>
               <div class="mobile-station-card__content">
-                <h3>Der Deploy-Stern</h3>
-                <p>Jeder Build braucht Energie – wie deployest du effizient?</p>
+                <h3 data-i18n="station.deploy-stern.title">Der Deploy-Stern</h3>
+                <p data-i18n="mobile.cosmos.desc.deploy-stern">Jeder Build braucht Energie – wie deployest du effizient?</p>
               </div>
               <span class="mobile-station-card__status" aria-label="Status"></span>
             </a>
             <a href="stations/workflow-nebel.html" class="mobile-station-card mobile-station-card--fork" data-station="workflow-nebel">
               <span class="mobile-station-card__icon" aria-hidden="true">&#x1F300;</span>
               <div class="mobile-station-card__content">
-                <h3>Der Workflow-Nebel</h3>
-                <p>Automatisierungen können sparen – oder verschwenden.</p>
+                <h3 data-i18n="station.workflow-nebel.title">Der Workflow-Nebel</h3>
+                <p data-i18n="mobile.cosmos.desc.workflow-nebel">Automatisierungen können sparen – oder verschwenden.</p>
               </div>
               <span class="mobile-station-card__status" aria-label="Status"></span>
             </a>
@@ -348,8 +350,8 @@
       <!-- Metro -->
       <section class="mobile-world" data-world="metro">
         <div class="mobile-world__header">
-          <span class="mobile-world__number">Welt 4</span>
-          <h2 class="mobile-world__title">Zukunfts-Metropole</h2>
+          <span class="mobile-world__number" data-i18n="world.4">Welt 4</span>
+          <h2 class="mobile-world__title" data-i18n="world.metro">Zukunfts-Metropole</h2>
           <div class="mobile-world__progress">
             <div class="mobile-world__bar"><div class="mobile-world__fill"></div></div>
             <span class="mobile-world__text">0 / 3</span>
@@ -360,27 +362,27 @@
           <a href="stations/ki-kraftwerk.html" class="mobile-station-card mobile-station-card--mandatory" data-station="ki-kraftwerk">
             <span class="mobile-station-card__icon" aria-hidden="true">&#x1F916;</span>
             <div class="mobile-station-card__content">
-              <h3>Das KI-Kraftwerk</h3>
-              <p>Künstliche Intelligenz braucht enorm viel Energie – wie gehst du damit um?</p>
+              <h3 data-i18n="station.ki-kraftwerk.title">Das KI-Kraftwerk</h3>
+              <p data-i18n="mobile.metro.desc.ki-kraftwerk">Künstliche Intelligenz braucht enorm viel Energie – wie gehst du damit um?</p>
             </div>
-            <span class="mobile-station-card__tag">Pflicht</span>
+            <span class="mobile-station-card__tag" data-i18n="ui.mandatory">Pflicht</span>
             <span class="mobile-station-card__status" aria-label="Status"></span>
           </a>
-          <div class="mobile-fork-indicator">Wähle deinen Weg</div>
+          <div class="mobile-fork-indicator" data-i18n="ui.choose_your_path">Wähle deinen Weg</div>
           <div class="mobile-fork-group">
             <a href="stations/open-source-platz.html" class="mobile-station-card mobile-station-card--fork" data-station="open-source-platz">
               <span class="mobile-station-card__icon" aria-hidden="true">&#x1F310;</span>
               <div class="mobile-station-card__content">
-                <h3>Der Open-Source-Platz</h3>
-                <p>Open Source als nachhaltige Alternative – teilen statt doppelt entwickeln.</p>
+                <h3 data-i18n="station.open-source-platz.title">Der Open-Source-Platz</h3>
+                <p data-i18n="mobile.metro.desc.open-source-platz">Open Source als nachhaltige Alternative – teilen statt doppelt entwickeln.</p>
               </div>
               <span class="mobile-station-card__status" aria-label="Status"></span>
             </a>
             <a href="stations/digital-ethics-turm.html" class="mobile-station-card mobile-station-card--fork" data-station="digital-ethics-turm">
               <span class="mobile-station-card__icon" aria-hidden="true">&#x2696;</span>
               <div class="mobile-station-card__content">
-                <h3>Der Digital-Ethics-Turm</h3>
-                <p>Verantwortung in der digitalen Welt – wer entscheidet, was nachhaltig ist?</p>
+                <h3 data-i18n="station.digital-ethics-turm.title">Der Digital-Ethics-Turm</h3>
+                <p data-i18n="mobile.metro.desc.digital-ethics-turm">Verantwortung in der digitalen Welt – wer entscheidet, was nachhaltig ist?</p>
               </div>
               <span class="mobile-station-card__status" aria-label="Status"></span>
             </a>
@@ -393,8 +395,8 @@
         <a href="stations/abschluss-feier.html" class="mobile-station-card mobile-station-card--finale" data-station="abschluss-feier">
           <span class="mobile-station-card__icon" aria-hidden="true">&#x1F3C6;</span>
           <div class="mobile-station-card__content">
-            <h3>Die Abschluss-Feier</h3>
-            <p>Hole dir dein Expeditions-Zertifikat!</p>
+            <h3 data-i18n="mobile.finale.title">Die Abschluss-Feier</h3>
+            <p data-i18n="mobile.finale.desc">Hole dir dein Expeditions-Zertifikat!</p>
           </div>
         </a>
       </section>
@@ -404,12 +406,19 @@
   </main>
 
   <footer class="site-footer">
-    <p>Lernlandschaft Nachhaltige Digitalisierung – TBZ Zürich</p>
+    <p data-i18n="site.footer">Lernlandschaft Nachhaltige Digitalisierung – TBZ Zürich</p>
   </footer>
 
   <div class="level-up-flash" id="level-up-flash" aria-hidden="true"></div>
 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/profanity-filter.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/progress.js"></script>
+  <script src="js/highscore.js"></script>
   <script src="js/landscape.js"></script>
+  <script>I18N.init();</script>
 </body>
 </html>

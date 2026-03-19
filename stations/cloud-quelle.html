@@ -10,15 +10,16 @@
 <body class="page-station">
 
   <header class="station-header station-header--2">
-    <nav class="station-header__nav">
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    <nav class="station-header__nav" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
+      <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
     <img class="station-header__image" src="../assets/station-cloud-quelle.png" alt="Eine mystische leuchtende Quelle im Dschungel mit Datenströmen" />
 
-    <h1 class="station-header__title">Die Cloud-Quelle</h1>
-    <p class="station-header__meta">~7 Min.</p>
-    <p class="station-header__intro">
+    <h1 class="station-header__title" data-i18n="station.cloud-quelle.title">Die Cloud-Quelle</h1>
+    <p class="station-header__meta" data-i18n="station.cloud-quelle.duration">~7 Min.</p>
+    <p class="station-header__intro" data-i18n="station.cloud-quelle.intro">
       Tief im Dschungel findest du eine schimmernde Quelle. Daten fliessen wie Wasser –
       unsichtbar, aber nicht ohne Spuren.
     </p>
@@ -133,20 +134,22 @@
     <!-- Abschluss -->
         <!-- Kontrollfrage -->
     <div class="station-quiz" id="station-quiz" data-station="cloud-quelle">
-      <h3>Kontrollfrage</h3>
+      <h3 data-i18n="ui.quiz_title">Kontrollfrage</h3>
     </div>
     <div class="station-complete">
 
     
-      <button class="complete-btn" id="complete-btn" data-station="cloud-quelle">
+      <button class="complete-btn" id="complete-btn" data-i18n="ui.complete_station" data-station="cloud-quelle">
         Station abschliessen &#x2714;
       </button>
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
     </div>
 
   </main>
 
+  <script src="../js/i18n.js"></script>
   <script src="../js/progress.js"></script>
   <script src="../js/station.js"></script>
+  <script>I18N.init();</script>
 </body>
 </html>

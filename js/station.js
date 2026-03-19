@@ -4,12 +4,25 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   initSession();
+  updateSceneImage();
   initCompleteButton();
   initRevealButtons();
   initChallengeButton();
   initTextareas();
   initQuiz();
 });
+
+/* ========================================
+   SCENE IMAGE – Avatar-dependent header scene
+   ======================================== */
+
+function updateSceneImage() {
+  var sceneImg = document.getElementById('station-scene');
+  if (!sceneImg) return;
+  var station = sceneImg.getAttribute('data-station');
+  var avatar = getProgress().avatarChoice || 'explorer';
+  sceneImg.src = '../assets/scenes/scene-' + station + '-' + avatar + '.png';
+}
 
 /* ========================================
    QUIZ DATA – 4 Fragen pro Station
@@ -102,11 +115,11 @@ function initCompleteButton() {
 
   if (isStationComplete(stationId)) {
     btn.classList.add('is-completed');
-    btn.textContent = 'Station abgeschlossen \u2714';
+    btn.textContent = I18N.t('ui.station_completed', 'Station abgeschlossen \u2714');
   } else if (!isQuizPassed(stationId)) {
     btn.disabled = true;
     btn.classList.add('is-quiz-locked');
-    btn.textContent = 'Beantworte zuerst die Kontrollfrage';
+    btn.textContent = I18N.t('ui.answer_quiz_first', 'Beantworte zuerst die Kontrollfrage');
   }
 
   btn.addEventListener('click', function () {
@@ -122,15 +135,15 @@ function initCompleteButton() {
     setTimeout(function () {
       btn.classList.remove('is-celebrating');
       btn.classList.add('is-completed');
-      btn.textContent = 'Station abgeschlossen \u2714';
+      btn.textContent = I18N.t('ui.station_completed', 'Station abgeschlossen \u2714');
     }, 1500);
 
-    showToast('Station abgeschlossen! +' + POINTS_PER_STATION + ' Punkte', 'success');
+    showToast(I18N.t('toast.station_complete', 'Station abgeschlossen! +' + POINTS_PER_STATION + ' Punkte').replace('{points}', POINTS_PER_STATION), 'success');
 
     var worldId = getWorldForStation(stationId);
     if (worldId && isWorldComplete(worldId)) {
       setTimeout(function () {
-        showToast(WORLDS[worldId].name + ' abgeschlossen!', 'world-complete');
+        showToast(I18N.t('toast.world_complete', WORLDS[worldId].name + ' abgeschlossen!').replace('{name}', getWorldName(worldId)), 'world-complete');
       }, 1500);
     }
 
@@ -138,7 +151,7 @@ function initCompleteButton() {
       var newBadges = checkBadges();
       newBadges.forEach(function (badge, i) {
         setTimeout(function () {
-          showToast('Achievement unlocked: ' + badge.name + '! ' + badge.icon, 'achievement');
+          showToast(I18N.t('toast.badge_unlocked', 'Achievement unlocked: ' + badge.name + '! ' + badge.icon).replace('{name}', getBadgeName(badge)).replace('{icon}', badge.icon), 'achievement');
         }, i * 1200);
       });
     }, 2000);
@@ -186,11 +199,11 @@ function initRevealButtons() {
       if (isActive) {
         content.classList.remove('is-visible');
         btn.classList.remove('is-active');
-        btn.textContent = 'Denkanstoss anzeigen';
+        btn.textContent = I18N.t('ui.show_hint', 'Denkanstoss anzeigen');
       } else {
         content.classList.add('is-visible');
         btn.classList.add('is-active');
-        btn.textContent = 'Denkanstoss ausblenden';
+        btn.textContent = I18N.t('ui.hide_hint', 'Denkanstoss ausblenden');
       }
     });
   });
@@ -209,7 +222,7 @@ function initChallengeButton() {
 
   if (isChallengeComplete(stationId)) {
     btn.classList.add('is-accepted');
-    btn.textContent = 'Challenge abgegeben \u2714';
+    btn.textContent = I18N.t('ui.challenge_submitted', 'Challenge abgegeben \u2714');
     if (textarea) {
       textarea.value = getChallengeResponse(stationId);
       textarea.disabled = true;
@@ -232,15 +245,15 @@ function initChallengeButton() {
 
     markChallengeComplete(stationId);
     btn.classList.add('is-accepted');
-    btn.textContent = 'Challenge abgegeben \u2714';
+    btn.textContent = I18N.t('ui.challenge_submitted', 'Challenge abgegeben \u2714');
 
-    showToast('Challenge abgegeben! +' + POINTS_PER_CHALLENGE + ' Punkte', 'success');
+    showToast(I18N.t('toast.challenge_submitted', 'Challenge abgegeben! +' + POINTS_PER_CHALLENGE + ' Punkte').replace('{points}', POINTS_PER_CHALLENGE), 'success');
 
     setTimeout(function () {
       var newBadges = checkBadges();
       newBadges.forEach(function (badge, i) {
         setTimeout(function () {
-          showToast('Achievement unlocked: ' + badge.name + '! ' + badge.icon, 'achievement');
+          showToast(I18N.t('toast.badge_unlocked', 'Achievement unlocked: ' + badge.name + '! ' + badge.icon).replace('{name}', getBadgeName(badge)).replace('{icon}', badge.icon), 'achievement');
         }, i * 1200);
       });
     }, 500);
@@ -293,7 +306,7 @@ function initQuiz() {
 
   // Already passed
   if (isQuizPassed(stationId)) {
-    container.innerHTML = '<p class="quiz-passed">\u2714 Kontrollfrage bestanden!</p>';
+    container.innerHTML = '<p class="quiz-passed">' + I18N.t('ui.quiz_passed', '\u2714 Kontrollfrage bestanden!') + '</p>';
     return;
   }
 
@@ -309,7 +322,7 @@ function initQuiz() {
     if (remaining > 0) {
       quizState.needsBonus = true;
       // On reload we don't have the original question – show timer-only view
-      container.innerHTML = '<p class="quiz-feedback is-wrong">Leider falsch \u2013 lies den Inhalt nochmals durch.</p>';
+      container.innerHTML = '<p class="quiz-feedback is-wrong">' + I18N.t('ui.quiz_wrong', 'Leider falsch \u2013 lies den Inhalt nochmals durch.') + '</p>';
       showPenaltyTimer(container, stationId, questions, usedIndexes, quizState, remaining);
       return;
     } else {
@@ -339,12 +352,14 @@ function showNextQuestion(container, stationId, questions, usedIndexes, quizStat
 
   var html = '';
   if (quizState.bonusShown) {
-    html += '<span class="quiz-bonus-label">Bonusfrage</span>';
+    html += '<span class="quiz-bonus-label">' + I18N.t('ui.quiz_bonus_label', 'Bonusfrage') + '</span>';
   }
-  html += '<p class="quiz-question">' + q.q + '</p>';
+  var qKey = 'quiz.' + stationId + '.' + idx + '.q';
+  html += '<p class="quiz-question">' + I18N.t(qKey, q.q) + '</p>';
   html += '<div class="quiz-options">';
   for (var k = 0; k < q.o.length; k++) {
-    html += '<button class="quiz-option" data-index="' + k + '">' + q.o[k] + '</button>';
+    var oKey = 'quiz.' + stationId + '.' + idx + '.o' + k;
+    html += '<button class="quiz-option" data-index="' + k + '">' + I18N.t(oKey, q.o[k]) + '</button>';
   }
   html += '</div>';
   html += '<p class="quiz-feedback" id="quiz-feedback"></p>';
@@ -359,7 +374,7 @@ function showNextQuestion(container, stationId, questions, usedIndexes, quizStat
 
       if (chosen === q.a) {
         btn.classList.add('is-correct');
-        feedback.textContent = 'Richtig!';
+        feedback.textContent = I18N.t('ui.quiz_correct', 'Richtig!');
         feedback.className = 'quiz-feedback is-correct';
 
         if (quizState.needsBonus && !quizState.bonusShown) {
@@ -377,19 +392,19 @@ function showNextQuestion(container, stationId, questions, usedIndexes, quizStat
           if (completeBtn && !isStationComplete(stationId)) {
             completeBtn.disabled = false;
             completeBtn.classList.remove('is-quiz-locked');
-            completeBtn.textContent = 'Station abschliessen \u2714';
+            completeBtn.textContent = I18N.t('ui.complete_station', 'Station abschliessen \u2714');
           }
 
           setTimeout(function () {
-            container.innerHTML = '<p class="quiz-passed">\u2714 Kontrollfrage bestanden!</p>';
+            container.innerHTML = '<p class="quiz-passed">' + I18N.t('ui.quiz_passed', '\u2714 Kontrollfrage bestanden!') + '</p>';
           }, 1200);
         }
       } else {
         // Wrong
         btn.classList.add('is-wrong');
         deductPoints(3);
-        showToast('-3 Punkte \u2013 falsche Antwort', 'error');
-        feedback.textContent = 'Leider falsch \u2013 lies den Inhalt nochmals durch.';
+        showToast(I18N.t('toast.wrong_answer', '-3 Punkte \u2013 falsche Antwort'), 'error');
+        feedback.textContent = I18N.t('ui.quiz_wrong', 'Leider falsch \u2013 lies den Inhalt nochmals durch.');
         feedback.className = 'quiz-feedback is-wrong';
 
         options.forEach(function (b) { b.disabled = true; });
@@ -427,7 +442,7 @@ function showPenaltyTimer(container, stationId, questions, usedIndexes, quizStat
   var offset = circumference * (1 - progress);
 
   timerDiv.innerHTML =
-    '<p class="quiz-timer__message">Lies den Lerninhalt oben nochmals durch und korrigiere deine Antwort!</p>' +
+    '<p class="quiz-timer__message">' + I18N.t('ui.quiz_timer_message', 'Lies den Lerninhalt oben nochmals durch und korrigiere deine Antwort!') + '</p>' +
     '<div class="quiz-timer__circle">' +
       '<svg viewBox="0 0 120 120">' +
         '<circle class="quiz-timer__track" cx="60" cy="60" r="50"/>' +
@@ -438,7 +453,7 @@ function showPenaltyTimer(container, stationId, questions, usedIndexes, quizStat
       '</svg>' +
       '<span class="quiz-timer__seconds">' + remaining + '</span>' +
     '</div>' +
-    '<p class="quiz-timer__countdown-text">Neue Frage in ' + remaining + ' Sekunden</p>';
+    '<p class="quiz-timer__countdown-text">' + I18N.t('ui.quiz_timer_countdown', 'Neue Frage in ' + remaining + ' Sekunden').replace('{seconds}', remaining) + '</p>';
 
   container.appendChild(timerDiv);
 
@@ -454,7 +469,7 @@ function showPenaltyTimer(container, stationId, questions, usedIndexes, quizStat
       var textEl = timerDiv.querySelector('.quiz-timer__countdown-text');
       var progressEl = timerDiv.querySelector('.quiz-timer__progress');
       if (secondsEl) secondsEl.textContent = remaining;
-      if (textEl) textEl.textContent = 'Neue Frage in ' + remaining + ' Sekunden';
+      if (textEl) textEl.textContent = I18N.t('ui.quiz_timer_countdown', 'Neue Frage in ' + remaining + ' Sekunden').replace('{seconds}', remaining);
       if (progressEl) {
         var o = circumference * (1 - remaining / 60);
         progressEl.setAttribute('stroke-dashoffset', o);

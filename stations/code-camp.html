@@ -10,15 +10,16 @@
 <body class="page-station">
 
   <header class="station-header station-header--3">
-    <nav class="station-header__nav">
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    <nav class="station-header__nav" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
+      <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
     <img class="station-header__image" src="../assets/station-code-camp.png" alt="Ein Lagerfeuer im Dschungel mit Code-Symbolen und einem Zelt" />
 
-    <h1 class="station-header__title">Das Code-Camp</h1>
-    <p class="station-header__meta">~6 Min.</p>
-    <p class="station-header__intro">
+    <h1 class="station-header__title" data-i18n="station.code-camp.title">Das Code-Camp</h1>
+    <p class="station-header__meta" data-i18n="station.code-camp.duration">~6 Min.</p>
+    <p class="station-header__intro" data-i18n="station.code-camp.intro">
       Am Lagerfeuer des Code-Camps triffst du andere Entwickler:innen.
       Thema heute Abend: Wie viel Energie frisst dein Setup eigentlich?
     </p>
@@ -138,20 +139,22 @@
     <!-- Abschluss -->
         <!-- Kontrollfrage -->
     <div class="station-quiz" id="station-quiz" data-station="code-camp">
-      <h3>Kontrollfrage</h3>
+      <h3 data-i18n="ui.quiz_title">Kontrollfrage</h3>
     </div>
     <div class="station-complete">
 
     
-      <button class="complete-btn" id="complete-btn" data-station="code-camp">
+      <button class="complete-btn" id="complete-btn" data-i18n="ui.complete_station" data-station="code-camp">
         Station abschliessen &#x2714;
       </button>
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
     </div>
 
   </main>
 
+  <script src="../js/i18n.js"></script>
   <script src="../js/progress.js"></script>
   <script src="../js/station.js"></script>
+  <script>I18N.init();</script>
 </body>
 </html>

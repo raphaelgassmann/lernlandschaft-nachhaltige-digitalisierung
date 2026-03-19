@@ -10,13 +10,14 @@
 <body class="page-station">
 
   <header class="station-header station-header--metro">
-    <nav class="station-header__nav">
-      <a href="../index.html" class="back-link">&larr; Zur&uuml;ck zur Karte</a>
+    <nav class="station-header__nav" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zur&uuml;ck zur Karte</a>
+      <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
-    <h1 class="station-header__title">&#x1F389; Die Abschluss-Feier</h1>
-    <p class="station-header__meta">Herzlichen Gl&uuml;ckwunsch!</p>
-    <p class="station-header__intro">
+    <h1 class="station-header__title" data-i18n="station.abschluss-feier.title">&#x1F389; Die Abschluss-Feier</h1>
+    <p class="station-header__meta" data-i18n="station.abschluss-feier.duration">Herzlichen Gl&uuml;ckwunsch!</p>
+    <p class="station-header__intro" data-i18n="station.abschluss-feier.intro">
       Du hast alle vier Welten der Lernlandschaft durchquert &ndash; den Daten-Dschungel,
       den Daten-Ozean, den Code-Kosmos und die Zukunfts-Metropole. Das ist eine echte Leistung!
       Hier ist dein pers&ouml;nliches Expeditions-Zertifikat.
@@ -79,6 +80,14 @@
       <div id="challenge-responses-list"></div>
     </section>
 
+    <!-- Ranking -->
+    <section class="station-section section-ranking" style="margin-top: var(--space-xl); border-left-color: var(--color-secondary);">
+      <h2>&#x1F3C6; Expeditions-Rangliste</h2>
+      <div id="ranking-container">
+        <p style="color: var(--color-text-muted); font-style: italic;">Rangliste wird geladen...</p>
+      </div>
+    </section>
+
     <!-- Reflexion -->
     <section class="station-section section-reflection" style="margin-top: var(--space-xl);">
       <h2>Abschliessende Gedanken</h2>
@@ -87,12 +96,17 @@
     </section>
 
     <div class="station-complete">
-      <a href="../index.html" class="back-link">&larr; Zur&uuml;ck zur Karte</a>
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zur&uuml;ck zur Karte</a>
     </div>
 
   </main>
 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="../js/firebase-config.js"></script>
+  <script src="../js/i18n.js"></script>
   <script src="../js/progress.js"></script>
+  <script src="../js/highscore.js"></script>
   <script src="../js/station.js"></script>
   <script>
     (function () {
@@ -230,7 +244,37 @@
           URL.revokeObjectURL(url);
         });
       }
+      // Highscore: Auto-submit + Ranking anzeigen
+      if (typeof isFinaleUnlocked === 'function' && isFinaleUnlocked()) {
+        if (typeof hasAlreadySubmitted === 'function' && !hasAlreadySubmitted()) {
+          var avatar = getAvatarChoice() || 'explorer';
+          submitHighscore(name, points, avatar).then(function () {
+            markHighscoreSubmitted();
+            // Ranking nach Submit laden
+            return loadHighscores(10);
+          }).then(function (scores) {
+            var container = document.getElementById('ranking-container');
+            renderRankingInline(container, scores, points);
+          }).catch(function () {
+            var container = document.getElementById('ranking-container');
+            if (container) container.innerHTML = '<p style="color: var(--color-text-muted);">Rangliste konnte nicht geladen werden.</p>';
+          });
+        } else {
+          // Bereits submitted – nur Ranking laden
+          loadHighscores(10).then(function (scores) {
+            var container = document.getElementById('ranking-container');
+            renderRankingInline(container, scores, points);
+          }).catch(function () {
+            var container = document.getElementById('ranking-container');
+            if (container) container.innerHTML = '<p style="color: var(--color-text-muted);">Rangliste konnte nicht geladen werden.</p>';
+          });
+        }
+      } else {
+        var container = document.getElementById('ranking-container');
+        if (container) container.innerHTML = '<p style="color: var(--color-text-muted); font-style: italic;">Schliesse alle 4 Welten ab, um in der Rangliste zu erscheinen.</p>';
+      }
     })();
   </script>
+  <script>I18N.init();</script>
 </body>
 </html>

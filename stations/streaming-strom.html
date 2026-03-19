@@ -10,15 +10,16 @@
 <body class="page-station">
 
   <header class="station-header station-header--ocean">
-    <nav class="station-header__nav">
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+    <nav class="station-header__nav" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
+      <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
     <img class="station-header__image" src="../assets/station-streaming-strom.png" alt="Eine mächtige Unterwasserströmung aus leuchtenden Datenströmen" loading="lazy" />
 
-    <h1 class="station-header__title">Die Streaming-Strömung</h1>
-    <p class="station-header__meta">~8 Min.</p>
-    <p class="station-header__intro">
+    <h1 class="station-header__title" data-i18n="station.streaming-strom.title">Die Streaming-Strömung</h1>
+    <p class="station-header__meta" data-i18n="station.streaming-strom.duration">~8 Min.</p>
+    <p class="station-header__intro" data-i18n="station.streaming-strom.intro">
       Du gerätst in eine gewaltige Strömung – Milliarden von Datenpaketen rasen an dir vorbei.
       Videos, Musik, Podcasts: ein endloser Strom digitaler Inhalte.
       Doch was kostet diese Bequemlichkeit unseren Planeten?
@@ -154,20 +155,22 @@
     <!-- Abschluss -->
         <!-- Kontrollfrage -->
     <div class="station-quiz" id="station-quiz" data-station="streaming-strom">
-      <h3>Kontrollfrage</h3>
+      <h3 data-i18n="ui.quiz_title">Kontrollfrage</h3>
     </div>
     <div class="station-complete">
 
     
-      <button class="complete-btn" id="complete-btn" data-station="streaming-strom">
+      <button class="complete-btn" id="complete-btn" data-i18n="ui.complete_station" data-station="streaming-strom">
         Station abschliessen &#x2714;
       </button>
-      <a href="../index.html" class="back-link">&larr; Zurück zur Karte</a>
+      <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
     </div>
 
   </main>
 
+  <script src="../js/i18n.js"></script>
   <script src="../js/progress.js"></script>
   <script src="../js/station.js"></script>
+  <script>I18N.init();</script>
 </body>
 </html>

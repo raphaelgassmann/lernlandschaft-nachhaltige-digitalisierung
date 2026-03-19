@@ -124,9 +124,9 @@ function setLastAvatarPosition(posId) {
    ======================================== */
 
 var AVATAR_CHOICES = {
-  explorer: { name: 'Entdecker:in', image: 'assets/avatar-explorer.png' },
-  scientist: { name: 'Forscher:in', image: 'assets/avatar-scientist.png' },
-  hacker: { name: 'Hacker:in', image: 'assets/avatar-hacker.png' }
+  explorer: { name: 'Entdecker:in', image: 'assets/avatar-explorer.png', sprite: 'assets/sprites/sprite-explorer.png' },
+  scientist: { name: 'Forscher:in', image: 'assets/avatar-scientist.png', sprite: 'assets/sprites/sprite-scientist.png' },
+  hacker: { name: 'Hacker:in', image: 'assets/avatar-hacker.png', sprite: 'assets/sprites/sprite-hacker.png' }
 };
 
 function setPlayerName(name) {
@@ -217,6 +217,12 @@ function getAvatarImage() {
   var choice = progress.avatarChoice || 'explorer';
   var avatar = AVATAR_CHOICES[choice];
   return avatar ? avatar.image : 'assets/avatar-explorer.png';
+}
+
+function getAvatarSprite() {
+  var choice = getProgress().avatarChoice || 'explorer';
+  var avatar = AVATAR_CHOICES[choice];
+  return avatar ? avatar.sprite : 'assets/sprites/sprite-explorer.png';
 }
 
 function startExpedition() {
@@ -541,6 +547,7 @@ function initSession() {
 function resetProgress() {
   try {
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem('highscore-submitted');
   } catch (e) {
     // Graceful degradation
   }
@@ -598,4 +605,57 @@ function markQuizPassed(stationId) {
     progress.quizPassed.push(stationId);
     saveProgress(progress);
   }
+}
+
+/* ========================================
+   I18N HELPER FUNCTIONS
+   ======================================== */
+
+function getWorldName(worldId) {
+  var w = WORLDS[worldId];
+  if (!w) return worldId;
+  if (typeof I18N !== 'undefined') return I18N.t('world.' + worldId, w.name);
+  return w.name;
+}
+
+function getAvatarName(choice) {
+  var a = AVATAR_CHOICES[choice];
+  if (!a) return choice;
+  if (typeof I18N !== 'undefined') return I18N.t('avatar.' + choice, a.name);
+  return a.name;
+}
+
+function getLevelName(levelObj) {
+  if (typeof I18N !== 'undefined') return I18N.t('level.' + levelObj.level, levelObj.name);
+  return levelObj.name;
+}
+
+function getBadgeName(badge) {
+  if (typeof I18N !== 'undefined') return I18N.t('badge.' + badge.id, badge.name);
+  return badge.name;
+}
+
+function getWorldUnlockMessageI18n(worldId) {
+  var idx = WORLD_ORDER.indexOf(worldId);
+  if (idx <= 0) return '';
+  var prevWorld = WORLD_ORDER[idx - 1];
+  var pw = WORLDS[prevWorld];
+  var progress = getProgress();
+  var mandatoryDone = progress.completedStations.includes(pw.mandatory);
+  if (!mandatoryDone) {
+    if (typeof I18N !== 'undefined') {
+      return I18N.t('world.unlock.mandatory', 'Schliesse zuerst die Pflichtstation im ' + pw.name + ' ab.').replace('{world}', getWorldName(prevWorld));
+    }
+    return 'Schliesse zuerst die Pflichtstation im ' + pw.name + ' ab.';
+  }
+  var forkDone = pw.fork.filter(function (s) {
+    return progress.completedStations.includes(s);
+  }).length;
+  if (forkDone < pw.requiredForkCount) {
+    if (typeof I18N !== 'undefined') {
+      return I18N.t('world.unlock.fork', 'Schliesse mindestens 1 Weggabelungs-Station im ' + pw.name + ' ab.').replace('{world}', getWorldName(prevWorld));
+    }
+    return 'Schliesse mindestens 1 Weggabelungs-Station im ' + pw.name + ' ab.';
+  }
+  return '';
 }
