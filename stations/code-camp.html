@@ -15,7 +15,11 @@
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
-    <img class="station-header__image" src="../assets/station-code-camp.png" alt="Ein Lagerfeuer im Dschungel mit Code-Symbolen und einem Zelt" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-code-camp.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-code-camp.png">
+      <img class="station-header__image" src="../assets/station-code-camp.png" alt="Ein Lagerfeuer im Dschungel mit Code-Symbolen und einem Zelt" loading="lazy" />
+    </picture>
 
     <h1 class="station-header__title" data-i18n="station.code-camp.title">Das Code-Camp</h1>
     <p class="station-header__meta" data-i18n="station.code-camp.duration">~6 Min.</p>
@@ -36,8 +40,12 @@
           <p>Moderne IDEs wie VS Code, IntelliJ oder Visual Studio sind mächtig – aber sie verbrauchen auch
           ordentlich <strong>CPU und RAM</strong>, besonders mit vielen Extensions.</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-code-camp.png"
-             alt="Developer am Lagerfeuer mit Laptop, grüne Checkmarks schweben auf" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-code-camp.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-code-camp.png">
+          <img class="micro-intro__illustration" src="../assets/comic-code-camp.png"
+               alt="Developer am Lagerfeuer mit Laptop, grüne Checkmarks schweben auf" loading="lazy" />
+        </picture>
       </div>
 
       <p>Jede aktive Extension läuft als <strong>Hintergrundprozess</strong>:

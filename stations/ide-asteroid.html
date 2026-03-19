@@ -14,7 +14,11 @@
       <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
-    <img class="station-header__image" src="../assets/station-ide-asteroid.png" alt="Ein schwebender Asteroid mit IDE-Fenstern und leuchtenden Code-Fragmenten" loading="lazy" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-ide-asteroid.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-ide-asteroid.png">
+      <img class="station-header__image" src="../assets/station-ide-asteroid.png" alt="Ein schwebender Asteroid mit IDE-Fenstern und leuchtenden Code-Fragmenten" loading="lazy" />
+    </picture>
     <h1 class="station-header__title" data-i18n="station.ide-asteroid.title">Der IDE-Asteroid</h1>
     <p class="station-header__meta" data-i18n="station.ide-asteroid.duration">~7 Min.</p>
     <p class="station-header__intro" data-i18n="station.ide-asteroid.intro">
@@ -35,8 +39,12 @@
           <strong>Electron</strong> (VS Code) oder der <strong>JVM</strong> (JetBrains) und verbrauchen dabei
           ordentlich Ressourcen.</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-ide-asteroid.png"
-             alt="Astronaut auf kleinem Asteroiden, IDE-Fenster schweben im All" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-ide-asteroid.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-ide-asteroid.png">
+          <img class="micro-intro__illustration" src="../assets/comic-ide-asteroid.png"
+               alt="Astronaut auf kleinem Asteroiden, IDE-Fenster schweben im All" loading="lazy" />
+        </picture>
       </div>
 
       <div class="key-fact key-fact--orange">

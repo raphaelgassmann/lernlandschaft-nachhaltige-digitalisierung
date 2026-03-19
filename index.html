@@ -12,7 +12,10 @@
   <!-- Sticky Header with Level + Progress -->
   <header class="game-header" id="game-header">
     <div class="game-header__avatar">
-      <img id="header-avatar" src="assets/avatar-explorer.png" alt="Dein Avatar" />
+      <img id="header-avatar" src="assets/avatar-explorer.png"
+           srcset="assets/mobile/avatar-explorer.webp 256w, assets/avatar-explorer.png 1024w"
+           sizes="(max-width: 600px) 32px, 42px"
+           alt="Dein Avatar" />
     </div>
     <div class="game-header__info">
       <div class="game-header__level">
@@ -53,15 +56,24 @@
 
         <div class="avatar-select__options">
           <button class="avatar-option" data-avatar="explorer">
-            <img src="assets/avatar-explorer.png" alt="Entdecker:in" />
+            <img src="assets/avatar-explorer.png"
+                 srcset="assets/mobile/avatar-explorer.webp 256w, assets/avatar-explorer.png 1024w"
+                 sizes="(max-width: 600px) 80px, 120px"
+                 alt="Entdecker:in" loading="lazy" />
             <span class="avatar-option__name" data-i18n="avatar.explorer">Entdecker:in</span>
           </button>
           <button class="avatar-option" data-avatar="scientist">
-            <img src="assets/avatar-scientist.png" alt="Forscher:in" />
+            <img src="assets/avatar-scientist.png"
+                 srcset="assets/mobile/avatar-scientist.webp 256w, assets/avatar-scientist.png 1024w"
+                 sizes="(max-width: 600px) 80px, 120px"
+                 alt="Forscher:in" loading="lazy" />
             <span class="avatar-option__name" data-i18n="avatar.scientist">Forscher:in</span>
           </button>
           <button class="avatar-option" data-avatar="hacker">
-            <img src="assets/avatar-hacker.png" alt="Hacker:in" />
+            <img src="assets/avatar-hacker.png"
+                 srcset="assets/mobile/avatar-hacker.webp 256w, assets/avatar-hacker.png 1024w"
+                 sizes="(max-width: 600px) 80px, 120px"
+                 alt="Hacker:in" loading="lazy" />
             <span class="avatar-option__name" data-i18n="avatar.hacker">Hacker:in</span>
           </button>
         </div>
@@ -79,8 +91,15 @@
     <section class="start-zone is-hidden" id="start-zone" aria-label="Startpunkt">
       <div class="start-zone__content" id="start-content">
         <div class="start-sparkles" id="start-sparkles" aria-hidden="true"></div>
-        <img class="start-zone__avatar" id="start-avatar" src="assets/avatar-sofa.png" alt="Dein Avatar" />
-        <img class="start-zone__sofa" src="assets/start-sofa.png" alt="Dein Sofa – die Komfortzone" />
+        <img class="start-zone__avatar" id="start-avatar" src="assets/avatar-sofa.png"
+             srcset="assets/mobile/avatar-sofa.webp 256w, assets/avatar-sofa.png 1024w"
+             sizes="(max-width: 600px) 80px, 100px"
+             alt="Dein Avatar" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="assets/mobile/start-sofa.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="assets/mobile/start-sofa.png">
+          <img class="start-zone__sofa" src="assets/start-sofa.png" alt="Dein Sofa – die Komfortzone" loading="lazy" />
+        </picture>
         <div class="start-zone__text">
           <h1 class="start-zone__title" data-i18n="start.ready">Bereit, <span id="start-player-name"></span>?</h1>
           <p class="start-zone__subtitle" data-i18n="start.subtitle">Du sitzt gemütlich auf dem Sofa. Aber da draussen wartet eine ganze Welt voller Entdeckungen...</p>

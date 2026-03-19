@@ -15,7 +15,11 @@
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
-    <img class="station-header__image" src="../assets/station-geraete-lichtung.png" alt="Eine sonnige Lichtung im Dschungel mit einem moosbedeckten Laptop" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-geraete-lichtung.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-geraete-lichtung.png">
+      <img class="station-header__image" src="../assets/station-geraete-lichtung.png" alt="Eine sonnige Lichtung im Dschungel mit einem moosbedeckten Laptop" loading="lazy" />
+    </picture>
 
     <h1 class="station-header__title" data-i18n="station.geraete-lichtung.title">Die Geräte-Lichtung</h1>
     <p class="station-header__meta" data-i18n="station.geraete-lichtung.duration">~8 Min.</p>
@@ -37,8 +41,12 @@
           über <strong>60 verschiedene chemische Elemente</strong> – viele davon sind seltene Erden, die unter
           problematischen Bedingungen abgebaut werden.</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-geraete-lichtung.png"
-             alt="Explorer entdeckt moosbedeckten Laptop auf Baumstumpf in Dschungel-Lichtung" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-geraete-lichtung.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-geraete-lichtung.png">
+          <img class="micro-intro__illustration" src="../assets/comic-geraete-lichtung.png"
+               alt="Explorer entdeckt moosbedeckten Laptop auf Baumstumpf in Dschungel-Lichtung" loading="lazy" />
+        </picture>
       </div>
 
       <div class="key-fact">

@@ -14,7 +14,11 @@
       <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
-    <img class="station-header__image" src="../assets/station-deploy-stern.png" alt="Ein leuchtender Stern mit Pipelines und Zahnrädern, symbolisch für CI/CD" loading="lazy" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-deploy-stern.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-deploy-stern.png">
+      <img class="station-header__image" src="../assets/station-deploy-stern.png" alt="Ein leuchtender Stern mit Pipelines und Zahnrädern, symbolisch für CI/CD" loading="lazy" />
+    </picture>
     <h1 class="station-header__title" data-i18n="station.deploy-stern.title">Der Deploy-Stern</h1>
     <p class="station-header__meta" data-i18n="station.deploy-stern.duration">~8 Min.</p>
     <p class="station-header__intro" data-i18n="station.deploy-stern.intro">
@@ -35,8 +39,12 @@
           Server, installiert Dependencies, baut dein Projekt und führt Tests aus. Das braucht echte
           <strong>Rechenzeit auf echten Servern</strong> – und damit Strom.</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-deploy-stern.png"
-             alt="Ingenieur startet Rakete von Stern-Plattform, Pipeline als Schweif" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-deploy-stern.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-deploy-stern.png">
+          <img class="micro-intro__illustration" src="../assets/comic-deploy-stern.png"
+               alt="Ingenieur startet Rakete von Stern-Plattform, Pipeline als Schweif" loading="lazy" />
+        </picture>
       </div>
 
       <div class="key-fact key-fact--orange">

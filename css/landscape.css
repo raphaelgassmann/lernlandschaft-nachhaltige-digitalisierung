@@ -694,15 +694,13 @@
   animation: avatar-idle 2s ease-in-out infinite;
 }
 
-/* Sprite-based avatar */
+/* Sprite-based avatar – sprites are 1536x1024 (4 frames of 384x1024) */
 .map-avatar__sprite {
-  width: 64px;
-  height: 64px;
-  background-size: 256px 64px;
+  width: 54px;
+  height: 72px;
+  background-size: 216px 144px;
   background-repeat: no-repeat;
-  background-position: 0 0;
-  image-rendering: pixelated;
-  image-rendering: -webkit-optimize-contrast;
+  background-position: 0 -36px;
   position: relative;
 }
 
@@ -743,8 +741,8 @@
 }
 
 @keyframes sprite-walk {
-  from { background-position: 0 0; }
-  to { background-position: -256px 0; }
+  from { background-position: 0 -36px; }
+  to { background-position: -216px -36px; }
 }
 
 /* Direction: flip horizontally when moving left */
@@ -760,7 +758,7 @@
   }
   .map-avatar.is-walking .map-avatar__sprite {
     animation: none;
-    background-position: 0 0;
+    background-position: 0 -36px;
   }
 }
 
@@ -1506,8 +1504,8 @@
   }
 
   .start-zone__sofa {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
   }
 
   .start-zone__avatar {
@@ -1528,12 +1526,79 @@
   }
 
   .game-header__stats {
-    flex-direction: column;
-    gap: 2px;
+    flex-direction: row;
+    gap: var(--space-sm);
+  }
+
+  .level-name {
+    display: none;
+  }
+
+  .header-player-name {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
   }
 
   .badge-bar {
     display: none;
+  }
+
+  /* Block map panel background images on mobile to save bandwidth */
+  #map-panel-0, #map-panel-1, #map-panel-2, #map-panel-3, #map-panel-4 {
+    background-image: none !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .avatar-option {
+    min-width: 90px;
+    padding: var(--space-sm);
+  }
+
+  .avatar-option img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .avatar-option__name {
+    font-size: 0.85rem;
+  }
+
+  .start-zone__sofa {
+    width: 150px;
+    height: 150px;
+  }
+
+  .start-zone__avatar {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* Mobile world section backgrounds */
+@media (max-width: 600px) {
+  .mobile-world[data-world="jungle"] {
+    background: linear-gradient(180deg, rgba(26,46,26,0.92), rgba(10,10,10,0.97)),
+                url('../assets/mobile/bg-jungle-world-new.webp') center/cover no-repeat;
+  }
+  .mobile-world[data-world="ocean"] {
+    background: linear-gradient(180deg, rgba(10,30,46,0.92), rgba(10,10,10,0.97)),
+                url('../assets/mobile/bg-ocean-world-new.webp') center/cover no-repeat;
+  }
+  .mobile-world[data-world="cosmos"] {
+    background: linear-gradient(180deg, rgba(26,10,46,0.92), rgba(10,10,10,0.97)),
+                url('../assets/mobile/bg-cosmos-world-new.webp') center/cover no-repeat;
+  }
+  .mobile-world[data-world="metro"] {
+    background: linear-gradient(180deg, rgba(10,26,10,0.92), rgba(10,10,10,0.97)),
+                url('../assets/mobile/bg-metro-world-new.webp') center/cover no-repeat;
+  }
+  .mobile-world {
+    border-radius: 12px;
+    margin-bottom: var(--space-md);
   }
 }
 

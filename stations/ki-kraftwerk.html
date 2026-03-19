@@ -15,7 +15,11 @@
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
-    <img class="station-header__image" src="../assets/station-ki-kraftwerk.png" alt="Ein futuristisches Kraftwerk mit leuchtenden Datenströmen in einer Metropole" loading="lazy" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-ki-kraftwerk.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-ki-kraftwerk.png">
+      <img class="station-header__image" src="../assets/station-ki-kraftwerk.png" alt="Ein futuristisches Kraftwerk mit leuchtenden Datenströmen in einer Metropole" loading="lazy" />
+    </picture>
 
     <h1 class="station-header__title" data-i18n="station.ki-kraftwerk.title">Das KI-Kraftwerk</h1>
     <p class="station-header__meta" data-i18n="station.ki-kraftwerk.duration">~8 Min.</p>
@@ -38,8 +42,12 @@
           Code-Assistenten. Doch hinter jeder KI-Antwort steckt ein enormer Energieaufwand,
           den die meisten komplett unterschätzen.</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-ki-kraftwerk.png"
-             alt="Techworker vor riesigem KI-Kraftwerk mit neuronalen Mustern in Energieströmen" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-ki-kraftwerk.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-ki-kraftwerk.png">
+          <img class="micro-intro__illustration" src="../assets/comic-ki-kraftwerk.png"
+               alt="Techworker vor riesigem KI-Kraftwerk mit neuronalen Mustern in Energieströmen" loading="lazy" />
+        </picture>
       </div>
 
       <div class="key-fact">

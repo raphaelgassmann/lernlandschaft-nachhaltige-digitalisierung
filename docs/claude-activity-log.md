@@ -611,3 +611,39 @@ js/station.js               – Quiz/Button/Feedback-Texte über I18N.t(), dynam
 css/landscape.css           – .lang-switcher Styles
 css/station.css             – .lang-switcher Styles
 ```
+
+---
+
+## Session 5 – 2026-03-19
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 1 | Mobile-Optimierung + Bildgenerierung (Plan) | Vollständige Implementierung der Mobile-Optimierung | Page Weight auf Mobile von ~4-8MB auf ~300-500KB reduziert |
+
+### Entscheidungen
+
+- **Phase 1A:** `sips` zum Resize aller Bilder in `assets/mobile/` (Avatar 256px, Comic 400px, Station 512px, BG 600px)
+- **Phase 1B:** WebP-Konvertierung aller Mobile-Bilder mit `cwebp -q 80` (Comics: ~1.7MB → ~30KB!)
+- **Phase 2A:** Map-Panel-Backgrounds auf Mobile per CSS blockiert (`background-image: none !important`)
+- **Phase 2B-E:** CSS Mobile-Fixes: Header horizontal stats, Level-Name ausblenden, Player-Name truncate, 400px-Breakpoint für extra-kleine Screens, Station-Illustration responsive
+- **Phase 2F:** Neue DALL-E-generierte Welt-Banner als Mobile-Backgrounds für `.mobile-world` Sektionen
+- **Phase 3A:** `<picture>`-Elemente in allen 12 Stations (24 total: je 1 Header + 1 Comic)
+- **Phase 3B:** `srcset` für Avatar-Bilder und Start-Sofa in `index.html`
+- **Phase 3C:** `getMobileAssetPath()` Hilfsfunktion in `progress.js` für JS-gesteuerte Bildpfade
+- **Phase 4:** 5 DALL-E Bilder generiert (4 Welt-Banner + 1 Portrait-Sofa)
+- **CSS-Fix:** `<picture>` Wrapper für `station-header__image` brauchte absolute Positionierung via `:has()` Selektor
+
+### Erstellte/geänderte Dateien
+
+```
+assets/mobile/               – NEU: ~35 verkleinerte PNGs + WebPs
+assets/bg-*-world-new.png    – NEU: 4 generierte Welt-Banner
+assets/start-sofa-portrait.png – NEU: Portrait-Sofa für Mobile
+css/landscape.css            – Mobile CSS-Fixes, Map-Panel-Block, Welt-Backgrounds, 400px Breakpoint
+css/station.css              – Station Mobile illustration fix, picture wrapper positioning
+index.html                   – srcset für Avatare, lazy loading, picture für Sofa
+stations/*.html (12×)        – <picture> Elemente für responsive images, lazy loading
+js/progress.js               – getMobileAssetPath() Hilfsfunktion, mobile-aware getAvatarImage/getAvatarSprite
+```

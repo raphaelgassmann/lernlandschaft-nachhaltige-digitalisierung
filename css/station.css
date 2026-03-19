@@ -115,9 +115,20 @@
   z-index: 0;
 }
 
-.station-header > *:not(.station-header__image) {
+.station-header > *:not(.station-header__image):not(picture:has(.station-header__image)) {
   position: relative;
   z-index: 1;
+}
+
+/* picture wrapper for station-header__image inherits same positioning */
+.station-header > picture:has(.station-header__image) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Station Content */
@@ -914,6 +925,12 @@
 
   .quiz-timer__seconds {
     font-size: 1.6rem;
+  }
+
+  .micro-intro__illustration {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
   }
 }
 

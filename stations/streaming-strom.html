@@ -15,7 +15,11 @@
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
-    <img class="station-header__image" src="../assets/station-streaming-strom.png" alt="Eine mächtige Unterwasserströmung aus leuchtenden Datenströmen" loading="lazy" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-streaming-strom.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-streaming-strom.png">
+      <img class="station-header__image" src="../assets/station-streaming-strom.png" alt="Eine mächtige Unterwasserströmung aus leuchtenden Datenströmen" loading="lazy" />
+    </picture>
 
     <h1 class="station-header__title" data-i18n="station.streaming-strom.title">Die Streaming-Strömung</h1>
     <p class="station-header__meta" data-i18n="station.streaming-strom.duration">~8 Min.</p>
@@ -38,8 +42,12 @@
           hinter jedem Video steckt eine ganze Kette von Servern, Netzwerken und Endgeräten,
           die Energie verbrauchen.</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-streaming-strom.png"
-             alt="Explorer im U-Boot beobachtet Datenströme als Meeresströmungen" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-streaming-strom.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-streaming-strom.png">
+          <img class="micro-intro__illustration" src="../assets/comic-streaming-strom.png"
+               alt="Explorer im U-Boot beobachtet Datenströme als Meeresströmungen" loading="lazy" />
+        </picture>
       </div>
 
       <div class="key-fact">

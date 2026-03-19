@@ -15,7 +15,11 @@
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
-    <img class="station-header__image" src="../assets/station-backup-bucht.png" alt="Eine ruhige Bucht voller versunkener Datenkisten und Schatztruhen" loading="lazy" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-backup-bucht.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-backup-bucht.png">
+      <img class="station-header__image" src="../assets/station-backup-bucht.png" alt="Eine ruhige Bucht voller versunkener Datenkisten und Schatztruhen" loading="lazy" />
+    </picture>
 
     <h1 class="station-header__title" data-i18n="station.backup-bucht.title">Die Backup-Bucht</h1>
     <p class="station-header__meta" data-i18n="station.backup-bucht.duration">~6 Min.</p>
@@ -37,8 +41,12 @@
           <p>Speicherplatz ist billig geworden – und genau das ist das Problem. Wir horten Daten,
           weil es keinen Grund gibt, sie zu löschen. Aber «gratis» heisst nicht «kostenlos für die Umwelt».</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-backup-bucht.png"
-             alt="Segler versenkt Datentruhen zur Aufbewahrung in einer Bucht" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-backup-bucht.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-backup-bucht.png">
+          <img class="micro-intro__illustration" src="../assets/comic-backup-bucht.png"
+               alt="Segler versenkt Datentruhen zur Aufbewahrung in einer Bucht" loading="lazy" />
+        </picture>
       </div>
 
       <div class="key-fact">

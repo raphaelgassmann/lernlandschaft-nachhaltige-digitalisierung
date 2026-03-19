@@ -14,7 +14,11 @@
       <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
-    <img class="station-header__image" src="../assets/station-workflow-nebel.png" alt="Ein kosmischer Nebel aus Browser-Tabs, E-Mails und Chat-Blasen" loading="lazy" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-workflow-nebel.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-workflow-nebel.png">
+      <img class="station-header__image" src="../assets/station-workflow-nebel.png" alt="Ein kosmischer Nebel aus Browser-Tabs, E-Mails und Chat-Blasen" loading="lazy" />
+    </picture>
     <h1 class="station-header__title" data-i18n="station.workflow-nebel.title">Der Workflow-Nebel</h1>
     <p class="station-header__meta" data-i18n="station.workflow-nebel.duration">~7 Min.</p>
     <p class="station-header__intro" data-i18n="station.workflow-nebel.intro">
@@ -34,8 +38,12 @@
           <p>Dein digitaler Alltag besteht nicht nur aus Code – du arbeitest mit Browsern, E-Mails,
           Chat-Tools und Video-Calls. All das verbraucht Ressourcen, auch wenn es sich «leicht» anfühlt.</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-workflow-nebel.png"
-             alt="Explorer navigiert durch Nebel mit Workflow-Icons wie Kanban und E-Mail" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-workflow-nebel.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-workflow-nebel.png">
+          <img class="micro-intro__illustration" src="../assets/comic-workflow-nebel.png"
+               alt="Explorer navigiert durch Nebel mit Workflow-Icons wie Kanban und E-Mail" loading="lazy" />
+        </picture>
       </div>
 
       <div class="key-fact key-fact--orange">

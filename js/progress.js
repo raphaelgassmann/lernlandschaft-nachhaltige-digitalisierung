@@ -120,6 +120,17 @@ function setLastAvatarPosition(posId) {
 }
 
 /* ========================================
+   MOBILE ASSET HELPER
+   ======================================== */
+
+function getMobileAssetPath(path) {
+  if (window.innerWidth <= 600) {
+    return path.replace('assets/', 'assets/mobile/').replace(/\.png$/, '.webp');
+  }
+  return path;
+}
+
+/* ========================================
    AVATAR CHOICES
    ======================================== */
 
@@ -212,17 +223,18 @@ function getAvatarState() {
 function getAvatarImage() {
   var progress = getProgress();
   var state = getAvatarState();
-  if (state === 'sofa') return 'assets/avatar-sofa.png';
-  if (state === 'celebrate') return 'assets/avatar-celebrate.png';
+  if (state === 'sofa') return getMobileAssetPath('assets/avatar-sofa.png');
+  if (state === 'celebrate') return getMobileAssetPath('assets/avatar-celebrate.png');
   var choice = progress.avatarChoice || 'explorer';
   var avatar = AVATAR_CHOICES[choice];
-  return avatar ? avatar.image : 'assets/avatar-explorer.png';
+  return getMobileAssetPath(avatar ? avatar.image : 'assets/avatar-explorer.png');
 }
 
 function getAvatarSprite() {
   var choice = getProgress().avatarChoice || 'explorer';
   var avatar = AVATAR_CHOICES[choice];
-  return avatar ? avatar.sprite : 'assets/sprites/sprite-explorer.png';
+  var sprite = avatar ? avatar.sprite : 'assets/sprites/sprite-explorer.png';
+  return getMobileAssetPath(sprite);
 }
 
 function startExpedition() {

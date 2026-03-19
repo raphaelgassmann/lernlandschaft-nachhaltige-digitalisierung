@@ -15,7 +15,11 @@
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
-    <img class="station-header__image" src="../assets/station-cloud-quelle.png" alt="Eine mystische leuchtende Quelle im Dschungel mit Datenströmen" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-cloud-quelle.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-cloud-quelle.png">
+      <img class="station-header__image" src="../assets/station-cloud-quelle.png" alt="Eine mystische leuchtende Quelle im Dschungel mit Datenströmen" loading="lazy" />
+    </picture>
 
     <h1 class="station-header__title" data-i18n="station.cloud-quelle.title">Die Cloud-Quelle</h1>
     <p class="station-header__meta" data-i18n="station.cloud-quelle.duration">~7 Min.</p>
@@ -36,8 +40,12 @@
           <p>«Die Cloud» klingt leicht und unsichtbar. In Wirklichkeit besteht sie aus
           <strong>riesigen Rechenzentren</strong>, die enorme Mengen an Strom und Wasser (zur Kühlung) verbrauchen.</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-cloud-quelle.png"
-             alt="Coder an leuchtender Quelle im Dschungel, wolkenförmige Datentropfen steigen auf" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-cloud-quelle.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-cloud-quelle.png">
+          <img class="micro-intro__illustration" src="../assets/comic-cloud-quelle.png"
+               alt="Coder an leuchtender Quelle im Dschungel, wolkenförmige Datentropfen steigen auf" loading="lazy" />
+        </picture>
       </div>
 
       <div class="key-fact key-fact--blue">

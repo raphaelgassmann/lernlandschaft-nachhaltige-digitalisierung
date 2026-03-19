@@ -15,7 +15,11 @@
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
     </nav>
 
-    <img class="station-header__image" src="../assets/station-server-riff.png" alt="Ein Korallenriff aus leuchtenden Servern unter Wasser" loading="lazy" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-server-riff.webp" type="image/webp">
+      <source media="(max-width: 600px)" srcset="../assets/mobile/station-server-riff.png">
+      <img class="station-header__image" src="../assets/station-server-riff.png" alt="Ein Korallenriff aus leuchtenden Servern unter Wasser" loading="lazy" />
+    </picture>
 
     <h1 class="station-header__title" data-i18n="station.server-riff.title">Das Server-Riff</h1>
     <p class="station-header__meta" data-i18n="station.server-riff.duration">~7 Min.</p>
@@ -38,8 +42,12 @@
           deployst, arbeitet irgendwo ein Rechenzentrum für dich. Weltweit verbrauchen Rechenzentren
           ca. <strong>1–2% des globalen Stroms</strong> – Tendenz steigend.</p>
         </div>
-        <img class="micro-intro__illustration" src="../assets/comic-server-riff.png"
-             alt="Taucher schwimmt an Korallenriff aus Server-Racks vorbei" loading="lazy" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-server-riff.webp" type="image/webp">
+          <source media="(max-width: 600px)" srcset="../assets/mobile/comic-server-riff.png">
+          <img class="micro-intro__illustration" src="../assets/comic-server-riff.png"
+               alt="Taucher schwimmt an Korallenriff aus Server-Racks vorbei" loading="lazy" />
+        </picture>
       </div>
 
       <div class="key-fact">
