@@ -17,7 +17,7 @@
     <img class="station-header__image" src="../assets/station-geraete-lichtung.png" alt="Eine sonnige Lichtung im Dschungel mit einem moosbedeckten Laptop" />
 
     <h1 class="station-header__title">Die Geräte-Lichtung</h1>
-    <p class="station-header__meta">Säule: Geräte &amp; Lebenszyklus &middot; ~8 Min.</p>
+    <p class="station-header__meta">~8 Min.</p>
     <p class="station-header__intro">
       Du betrittst eine sonnige Lichtung. Vor dir liegt ein alter Laptop, halb von Moos überwachsen.
       Er funktioniert noch – aber wie lange noch? Und was steckt wirklich in ihm?
@@ -30,9 +30,15 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>Hast du dich schon mal gefragt, was in deinem Laptop steckt? Ein einzelnes Smartphone enthält
-      über <strong>60 verschiedene chemische Elemente</strong> – viele davon sind seltene Erden, die unter
-      problematischen Bedingungen abgebaut werden.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>Hast du dich schon mal gefragt, was in deinem Laptop steckt? Ein einzelnes Smartphone enthält
+          über <strong>60 verschiedene chemische Elemente</strong> – viele davon sind seltene Erden, die unter
+          problematischen Bedingungen abgebaut werden.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-geraete-lichtung.png"
+             alt="Explorer entdeckt moosbedeckten Laptop auf Baumstumpf in Dschungel-Lichtung" loading="lazy" />
+      </div>
 
       <div class="key-fact">
         Die Herstellung eines einzigen Laptops verursacht ca. <strong>300–400 kg CO₂</strong>.
@@ -76,6 +82,10 @@
         <li>Wie alt ist dein Gerät?</li>
         <li>Welche konkrete Massnahme könnte die Lebensdauer verlängern?</li>
       </ul>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="geraete-lichtung" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -90,11 +100,15 @@
       <button class="reveal-btn" data-target="reflection-hint-1">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-1" hidden>
+      <div class="reveal-content" id="reflection-hint-1">
         <p>Oft sind es Software-Updates, Trends oder der Wunsch nach neuen Features –
         nicht die Hardware selbst –, die ein Gerät «alt» erscheinen lassen.
         Ein Gerät, das noch funktioniert, ist kein altes Gerät.</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="geraete-lichtung" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -107,13 +121,22 @@
       Linux-Installation für neues Leben.</p>
       <p>Dokumentiere deine Idee in <strong>2–3 Sätzen</strong>.</p>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Welches Ger&auml;t hast du gew&auml;hlt und was ist deine Idee? (2&ndash;3 S&auml;tze)"></textarea>
+
       <button class="challenge-btn" data-station="geraete-lichtung">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="geraete-lichtung">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="geraete-lichtung">
         Station abschliessen &#x2714;
       </button>

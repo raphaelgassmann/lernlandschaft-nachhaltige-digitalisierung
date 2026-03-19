@@ -15,7 +15,7 @@
     </nav>
     <img class="station-header__image" src="../assets/station-workflow-nebel.png" alt="Ein kosmischer Nebel aus Browser-Tabs, E-Mails und Chat-Blasen" loading="lazy" />
     <h1 class="station-header__title">Der Workflow-Nebel</h1>
-    <p class="station-header__meta">Säule: Nutzungsverhalten &amp; Software &middot; ~7 Min.</p>
+    <p class="station-header__meta">~7 Min.</p>
     <p class="station-header__intro">
       Im Workflow-Nebel verlierst du leicht den Überblick: 100 offene Tabs, volle Postfächer
       und Meetings mit Kamera an. Zeit, deine digitalen Gewohnheiten zu durchleuchten.
@@ -28,8 +28,14 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>Dein digitaler Alltag besteht nicht nur aus Code – du arbeitest mit Browsern, E-Mails,
-      Chat-Tools und Video-Calls. All das verbraucht Ressourcen, auch wenn es sich «leicht» anfühlt.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>Dein digitaler Alltag besteht nicht nur aus Code – du arbeitest mit Browsern, E-Mails,
+          Chat-Tools und Video-Calls. All das verbraucht Ressourcen, auch wenn es sich «leicht» anfühlt.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-workflow-nebel.png"
+             alt="Explorer navigiert durch Nebel mit Workflow-Icons wie Kanban und E-Mail" loading="lazy" />
+      </div>
 
       <div class="key-fact key-fact--orange">
         <strong>Tab-Hoarding:</strong> 100 offene Browser-Tabs belegen schnell <strong>1 GB RAM oder mehr</strong>.
@@ -103,6 +109,10 @@
           <li>Leere den <strong>Papierkorb</strong> deines E-Mail-Kontos</li>
         </ul>
       </div>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="workflow-nebel" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -116,12 +126,16 @@
       <button class="reveal-btn" data-target="reflection-hint-workflow-nebel">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-workflow-nebel" hidden>
+      <div class="reveal-content" id="reflection-hint-workflow-nebel">
         <p>Nachhaltige Gewohnheiten sind oft auch <strong>produktivere</strong> Gewohnheiten:
         Weniger offene Tabs heisst mehr Fokus. Aufgeräumtes Postfach heisst weniger Suchzeit.
         Kamera aus bei Meetings heisst weniger Stress. <strong>Nachhaltigkeit und Effizienz
         sind keine Gegensätze</strong> – sie verstärken sich gegenseitig.</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="workflow-nebel" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -139,13 +153,22 @@
       </ul>
       <p>Schreibe am Ende des Tages auf: Was hat sich verändert? Warst du <strong>produktiver oder eingeschränkt</strong>?</p>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Was hat sich ver&auml;ndert? Warst du produktiver oder eingeschr&auml;nkt? Was hat dich &uuml;berrascht?"></textarea>
+
       <button class="challenge-btn" data-station="workflow-nebel">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="workflow-nebel">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="workflow-nebel">
         Station abschliessen &#x2714;
       </button>

@@ -15,7 +15,7 @@
     </nav>
     <img class="station-header__image" src="../assets/station-deploy-stern.png" alt="Ein leuchtender Stern mit Pipelines und Zahnrädern, symbolisch für CI/CD" loading="lazy" />
     <h1 class="station-header__title">Der Deploy-Stern</h1>
-    <p class="station-header__meta">Säule: Nutzungsverhalten &amp; Software &middot; ~8 Min.</p>
+    <p class="station-header__meta">~8 Min.</p>
     <p class="station-header__intro">
       Der Deploy-Stern strahlt bei jedem Build heller – aber jeder CI/CD-Run kostet Energie.
       Wie kannst du deine Pipelines effizienter gestalten?
@@ -28,9 +28,15 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>Jedes Mal, wenn du pushst und eine <strong>CI/CD-Pipeline</strong> loslegt, startet irgendwo ein
-      Server, installiert Dependencies, baut dein Projekt und führt Tests aus. Das braucht echte
-      <strong>Rechenzeit auf echten Servern</strong> – und damit Strom.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>Jedes Mal, wenn du pushst und eine <strong>CI/CD-Pipeline</strong> loslegt, startet irgendwo ein
+          Server, installiert Dependencies, baut dein Projekt und führt Tests aus. Das braucht echte
+          <strong>Rechenzeit auf echten Servern</strong> – und damit Strom.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-deploy-stern.png"
+             alt="Ingenieur startet Rakete von Stern-Plattform, Pipeline als Schweif" loading="lazy" />
+      </div>
 
       <div class="key-fact key-fact--orange">
         Ein durchschnittlicher <strong>GitHub Actions Run</strong> (Build + Test) dauert 2–10 Minuten.
@@ -84,25 +90,26 @@
       </div>
 
       <div class="instructions">
-        <p class="instructions__title">Aufgabe 2: Caching prüfen</p>
+        <p class="instructions__title">Aufgabe 2: Caching einrichten</p>
         <ul>
           <li>Öffne deine <code>.github/workflows/*.yml</code> Datei</li>
-          <li>Suchst du nach <code>actions/cache</code>? Falls nicht, füge es hinzu:</li>
-          <li><code>uses: actions/cache@v4</code> mit <code>path: node_modules</code> und <code>key: $&#123;&#123; runner.os &#125;&#125;-node-$&#123;&#123; hashFiles('package-lock.json') &#125;&#125;</code></li>
-          <li>Alternativ: Nutze <code>actions/setup-node@v4</code> mit <code>cache: 'npm'</code></li>
+          <li>Prüfe, ob <code>actions/cache</code> verwendet wird. Falls nicht, füge es hinzu</li>
+          <li>Nutze <code>actions/setup-node@v4</code> mit <code>cache: 'npm'</code> für automatisches Node-Caching</li>
+          <li>Alternativ: Manuelles Caching mit <code>actions/cache@v4</code> auf <code>node_modules</code></li>
         </ul>
       </div>
 
       <div class="instructions">
         <p class="instructions__title">Aufgabe 3: Concurrency einrichten</p>
         <ul>
-          <li>Füge in deinem Workflow hinzu:<br>
-          <code>concurrency:</code><br>
-          <code>&nbsp;&nbsp;group: $&#123;&#123; github.ref &#125;&#125;</code><br>
-          <code>&nbsp;&nbsp;cancel-in-progress: true</code></li>
-          <li>So werden alte Runs abgebrochen, wenn ein neuer Push kommt</li>
+          <li>Füge in deinem Workflow <code>concurrency</code> hinzu, damit alte Runs abgebrochen werden, wenn ein neuer Push kommt</li>
+          <li>Setze <code>cancel-in-progress: true</code>, um laufende Jobs bei neuem Push zu stoppen</li>
+          <li>So vermeidest du doppelte Builds auf dem gleichen Branch</li>
         </ul>
       </div>
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="deploy-stern" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -116,13 +123,16 @@
       <button class="reveal-btn" data-target="reflection-hint-deploy-stern">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-deploy-stern" hidden>
+      <div class="reveal-content" id="reflection-hint-deploy-stern">
         <p>Die DevOps-Kultur sagt: <strong>«Ship early, ship often.»</strong> Aber das heisst nicht,
         dass jeder Commit sofort in die Pipeline muss. <strong>Batching</strong> von Änderungen,
         bewusste Push-Zeitpunkte und gute Branch-Strategien können die Anzahl der Runs
         drastisch senken – ohne dass die Qualität leidet. Es geht um den <strong>Sweet Spot</strong>
         zwischen Agilität und Ressourcenbewusstsein.</p>
       </div>
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="deploy-stern" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -142,10 +152,18 @@
       </ol>
       <p>Dokumentiere die <strong>Build-Zeit vorher vs. nachher</strong>.</p>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Welche Optimierungen hast du umgesetzt? Build-Zeit vorher vs. nachher?"></textarea>
+
       <button class="challenge-btn" data-station="deploy-stern">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
+
+    <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="deploy-stern">
+      <h3>Kontrollfrage</h3>
+    </div>
 
     <!-- Abschluss -->
     <div class="station-complete">

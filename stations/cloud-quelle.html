@@ -17,7 +17,7 @@
     <img class="station-header__image" src="../assets/station-cloud-quelle.png" alt="Eine mystische leuchtende Quelle im Dschungel mit Datenströmen" />
 
     <h1 class="station-header__title">Die Cloud-Quelle</h1>
-    <p class="station-header__meta">Säule: Daten &amp; Infrastruktur &middot; ~7 Min.</p>
+    <p class="station-header__meta">~7 Min.</p>
     <p class="station-header__intro">
       Tief im Dschungel findest du eine schimmernde Quelle. Daten fliessen wie Wasser –
       unsichtbar, aber nicht ohne Spuren.
@@ -30,8 +30,14 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>«Die Cloud» klingt leicht und unsichtbar. In Wirklichkeit besteht sie aus
-      <strong>riesigen Rechenzentren</strong>, die enorme Mengen an Strom und Wasser (zur Kühlung) verbrauchen.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>«Die Cloud» klingt leicht und unsichtbar. In Wirklichkeit besteht sie aus
+          <strong>riesigen Rechenzentren</strong>, die enorme Mengen an Strom und Wasser (zur Kühlung) verbrauchen.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-cloud-quelle.png"
+             alt="Coder an leuchtender Quelle im Dschungel, wolkenförmige Datentropfen steigen auf" loading="lazy" />
+      </div>
 
       <div class="key-fact key-fact--blue">
         Weltweit verbrauchen Rechenzentren ca. <strong>1–1.5% des globalen Stroms</strong> –
@@ -78,6 +84,10 @@
           <li>Brauchst du wirklich <strong>alles</strong> in der Cloud?</li>
         </ul>
       </div>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="cloud-quelle" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -92,11 +102,15 @@
       <button class="reveal-btn" data-target="reflection-hint-2">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-2" hidden>
+      <div class="reveal-content" id="reflection-hint-2">
         <p>Kostenlos heisst nicht ressourcenfrei. Die Kosten werden nur woanders bezahlt –
         durch Energie, Rohstoffe und CO₂. Wenn etwas «gratis» ist, fehlt oft das Signal,
         das uns zum bewussten Umgang motiviert.</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="cloud-quelle" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -108,13 +122,22 @@
       <p>Tipp: Suche nach dem <strong>«Sustainability Report»</strong> deines Anbieters
       (z.B. «Microsoft sustainability report» oder «Google environmental report»).</p>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Welchen Cloud-Anbieter nutzt du und was hast du &uuml;ber dessen Nachhaltigkeit herausgefunden?"></textarea>
+
       <button class="challenge-btn" data-station="cloud-quelle">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="cloud-quelle">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="cloud-quelle">
         Station abschliessen &#x2714;
       </button>

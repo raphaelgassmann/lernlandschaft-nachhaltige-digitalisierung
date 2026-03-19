@@ -17,7 +17,7 @@
     <img class="station-header__image" src="../assets/station-streaming-strom.png" alt="Eine mächtige Unterwasserströmung aus leuchtenden Datenströmen" loading="lazy" />
 
     <h1 class="station-header__title">Die Streaming-Strömung</h1>
-    <p class="station-header__meta">Säule: Daten &amp; Infrastruktur &middot; ~8 Min.</p>
+    <p class="station-header__meta">~8 Min.</p>
     <p class="station-header__intro">
       Du gerätst in eine gewaltige Strömung – Milliarden von Datenpaketen rasen an dir vorbei.
       Videos, Musik, Podcasts: ein endloser Strom digitaler Inhalte.
@@ -31,9 +31,15 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>Streaming fühlt sich «leicht» an – kein physischer Datenträger, kein Versand. Aber
-      hinter jedem Video steckt eine ganze Kette von Servern, Netzwerken und Endgeräten,
-      die Energie verbrauchen.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>Streaming fühlt sich «leicht» an – kein physischer Datenträger, kein Versand. Aber
+          hinter jedem Video steckt eine ganze Kette von Servern, Netzwerken und Endgeräten,
+          die Energie verbrauchen.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-streaming-strom.png"
+             alt="Explorer im U-Boot beobachtet Datenströme als Meeresströmungen" loading="lazy" />
+      </div>
 
       <div class="key-fact">
         Eine Stunde HD-Video-Streaming verursacht ca. <strong>36 g CO₂</strong>.
@@ -91,6 +97,10 @@
         <li>Lade Playlists und Podcasts vorab herunter, statt sie wiederholt zu streamen</li>
         <li>Höre Musik als Audio – nicht als Musikvideo</li>
       </ul>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="streaming-strom" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -105,13 +115,17 @@
       <button class="reveal-btn" data-target="reflection-hint-streaming-strom">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-streaming-strom" hidden>
+      <div class="reveal-content" id="reflection-hint-streaming-strom">
         <p>Niemand sagt, du sollst aufhören zu streamen. Aber die Defaults sind oft auf
         Maximum gestellt – 4K auf einem 13-Zoll-Bildschirm, Autoplay überall, Hintergrundvideos.
         Die Frage ist nicht «Verzicht oder nicht», sondern: Triffst du eine bewusste Wahl?
         Plattformen sind so designt, dass du möglichst viel konsumierst.
         Wer die Grenze nicht selbst definiert, lässt sie vom Algorithmus setzen.</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="streaming-strom" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -129,13 +143,22 @@
       <p>Formel: <code>Stunden pro Woche × 4.3 × CO₂-Wert = monatlicher Fussabdruck</code></p>
       <p>Dokumentiere dein Ergebnis und überlege, wo du am einfachsten <strong>20% einsparen</strong> könntest.</p>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Wie hoch ist dein monatlicher Streaming-CO&#x2082;-Fussabdruck? Wo kannst du 20% einsparen?"></textarea>
+
       <button class="challenge-btn" data-station="streaming-strom">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="streaming-strom">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="streaming-strom">
         Station abschliessen &#x2714;
       </button>

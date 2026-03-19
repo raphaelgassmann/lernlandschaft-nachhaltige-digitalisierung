@@ -17,7 +17,7 @@
     <img class="station-header__image" src="../assets/station-ki-kraftwerk.png" alt="Ein futuristisches Kraftwerk mit leuchtenden Datenströmen in einer Metropole" loading="lazy" />
 
     <h1 class="station-header__title">Das KI-Kraftwerk</h1>
-    <p class="station-header__meta">Säule: Synthese &amp; Zukunft &middot; ~8 Min.</p>
+    <p class="station-header__meta">~8 Min.</p>
     <p class="station-header__intro">
       Du stehst vor dem pulsierenden Kraftwerk der Metropole. Hier wird die Energie erzeugt,
       die künstliche Intelligenz am Laufen hält – aber zu welchem Preis?
@@ -31,9 +31,15 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>Künstliche Intelligenz ist überall – von ChatGPT über Bildgenerierung bis hin zu
-      Code-Assistenten. Doch hinter jeder KI-Antwort steckt ein enormer Energieaufwand,
-      den die meisten komplett unterschätzen.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>Künstliche Intelligenz ist überall – von ChatGPT über Bildgenerierung bis hin zu
+          Code-Assistenten. Doch hinter jeder KI-Antwort steckt ein enormer Energieaufwand,
+          den die meisten komplett unterschätzen.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-ki-kraftwerk.png"
+             alt="Techworker vor riesigem KI-Kraftwerk mit neuronalen Mustern in Energieströmen" loading="lazy" />
+      </div>
 
       <div class="key-fact">
         Das Training von GPT-3 verbrauchte ca. <strong>1.287 MWh Strom</strong> –
@@ -84,6 +90,10 @@
 
       <p>Tipp: Beobachte dich die nächsten Tage selbst – und notiere jedes Mal, wenn du
       ein KI-Tool öffnest, ob es wirklich die beste Wahl war.</p>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="ki-kraftwerk" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -97,13 +107,17 @@
       <button class="reveal-btn" data-target="reflection-hint-ki-kraftwerk">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-ki-kraftwerk" hidden>
+      <div class="reveal-content" id="reflection-hint-ki-kraftwerk">
         <p>KI lohnt sich vor allem dann, wenn sie Aufgaben erledigt, die manuell
         unverhältnismässig viel Zeit kosten würden – oder wo die Qualität des Ergebnisses
         klar besser ist. Für einfache Aufgaben, die du in wenigen Sekunden selbst lösen könntest,
         ist der Energieaufwand einer KI-Anfrage kaum zu rechtfertigen. Die Frage ist nicht
         «Kann KI das?», sondern «Muss KI das?».</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="ki-kraftwerk" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -120,13 +134,22 @@
         <li>Was hat dich überrascht?</li>
       </ul>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Was konntest du ohne KI l&ouml;sen? Wo hast du KI wirklich vermisst? Was hat dich &uuml;berrascht?"></textarea>
+
       <button class="challenge-btn" data-station="ki-kraftwerk">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="ki-kraftwerk">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="ki-kraftwerk">
         Station abschliessen &#x2714;
       </button>

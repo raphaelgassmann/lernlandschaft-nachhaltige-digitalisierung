@@ -15,7 +15,7 @@
     </nav>
     <img class="station-header__image" src="../assets/station-ide-asteroid.png" alt="Ein schwebender Asteroid mit IDE-Fenstern und leuchtenden Code-Fragmenten" loading="lazy" />
     <h1 class="station-header__title">Der IDE-Asteroid</h1>
-    <p class="station-header__meta">Säule: Nutzungsverhalten &amp; Software &middot; ~7 Min.</p>
+    <p class="station-header__meta">~7 Min.</p>
     <p class="station-header__intro">
       Auf diesem Asteroiden dreht sich alles um deine Entwicklungsumgebung.
       Wie viel Energie frisst dein IDE-Setup wirklich – und was kannst du dagegen tun?
@@ -28,9 +28,15 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>VS Code, IntelliJ, WebStorm – moderne IDEs sind mächtige Werkzeuge. Aber sie laufen auf
-      <strong>Electron</strong> (VS Code) oder der <strong>JVM</strong> (JetBrains) und verbrauchen dabei
-      ordentlich Ressourcen.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>VS Code, IntelliJ, WebStorm – moderne IDEs sind mächtige Werkzeuge. Aber sie laufen auf
+          <strong>Electron</strong> (VS Code) oder der <strong>JVM</strong> (JetBrains) und verbrauchen dabei
+          ordentlich Ressourcen.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-ide-asteroid.png"
+             alt="Astronaut auf kleinem Asteroiden, IDE-Fenster schweben im All" loading="lazy" />
+      </div>
 
       <div class="key-fact key-fact--orange">
         VS Code mit <strong>30+ Extensions</strong> belegt locker <strong>1–2 GB RAM</strong> und beschäftigt
@@ -97,6 +103,10 @@
           <li>Schliesse Zombie-Prozesse von nicht mehr offenen Projekten</li>
         </ul>
       </div>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="ide-asteroid" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -110,13 +120,17 @@
       <button class="reveal-btn" data-target="reflection-hint-ide-asteroid">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-ide-asteroid" hidden>
+      <div class="reveal-content" id="reflection-hint-ide-asteroid">
         <p>Electron-Apps wie VS Code sind praktisch, weil sie plattformübergreifend funktionieren.
         Aber für einfache Aufgaben reicht manchmal ein <strong>leichter Editor</strong> wie Sublime Text,
         Vim oder sogar Notepad++. Die Frage ist nicht «ganz oder gar nicht», sondern:
         <strong>Passt das Tool zur Aufgabe?</strong> Für ein kurzes Config-File brauchst du keinen
         Full-Stack-IDE-Koloss.</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="ide-asteroid" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -131,13 +145,22 @@
         <li>Teile deinen Vergleich mit deiner Klasse oder deinem Berufsbildner</li>
       </ul>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Wie viel RAM hat deine IDE vorher vs. nachher verbraucht? Welche Extensions hast du deaktiviert?"></textarea>
+
       <button class="challenge-btn" data-station="ide-asteroid">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="ide-asteroid">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="ide-asteroid">
         Station abschliessen &#x2714;
       </button>

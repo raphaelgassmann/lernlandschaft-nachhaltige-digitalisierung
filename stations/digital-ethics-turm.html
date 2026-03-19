@@ -17,7 +17,7 @@
     <img class="station-header__image" src="../assets/station-digital-ethics-turm.png" alt="Ein hoher gläserner Turm in der Metropole, der für digitale Ethik und Verantwortung steht" loading="lazy" />
 
     <h1 class="station-header__title">Der Digital-Ethics-Turm</h1>
-    <p class="station-header__meta">Säule: Synthese &amp; Zukunft &middot; ~8 Min.</p>
+    <p class="station-header__meta">~8 Min.</p>
     <p class="station-header__intro">
       Du blickst hinauf zum höchsten Gebäude der Metropole – dem Turm der digitalen Ethik.
       Von hier oben siehst du das grosse Ganze: Wer trägt die Verantwortung für eine
@@ -31,9 +31,15 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>Digitale Nachhaltigkeit ist nicht nur eine technische Frage – sie hat tiefgreifende
-      ethische Dimensionen. Von geplanter Obsoleszenz über globale Ungerechtigkeit bis hin
-      zu politischen Regulierungen: Als IT-Fachperson bist du mittendrin.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>Digitale Nachhaltigkeit ist nicht nur eine technische Frage – sie hat tiefgreifende
+          ethische Dimensionen. Von geplanter Obsoleszenz über globale Ungerechtigkeit bis hin
+          zu politischen Regulierungen: Als IT-Fachperson bist du mittendrin.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-digital-ethics-turm.png"
+             alt="Denkerin am Fuss eines Turms mit Waage und Datensymbolen" loading="lazy" />
+      </div>
 
       <div class="key-fact">
         <strong>Planned Obsolescence</strong> (geplante Kurzlebigkeit) bedeutet, dass Produkte
@@ -91,6 +97,10 @@
 
       <p>Tipp: Schau dir die Webseiten von <strong>iFixit</strong> und dem <strong>BAFU</strong>
       (Bundesamt für Umwelt) an – dort findest du nützliche Informationen.</p>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="digital-ethics-turm" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -105,7 +115,7 @@
       <button class="reveal-btn" data-target="reflection-hint-digital-ethics-turm">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-digital-ethics-turm" hidden>
+      <div class="reveal-content" id="reflection-hint-digital-ethics-turm">
         <p>Die Antwort ist: alle drei – aber auf unterschiedliche Weise. Unternehmen tragen
         Verantwortung für Produktdesign, Lieferketten und Transparenz. Die Politik muss Rahmenbedingungen
         schaffen (Gesetze, Standards, Anreize). Und du als Fachperson und Konsument:in hast
@@ -113,6 +123,10 @@
         Wie entwickelst du Software? Nachhaltigkeit entsteht nicht durch eine einzelne Massnahme,
         sondern durch das Zusammenspiel aller Akteure.</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="digital-ethics-turm" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -133,13 +147,22 @@
 
       <p>Schreibe deine 5 Vorsätze auf und <strong>teile sie mit einer Kollegin oder einem Kollegen</strong>.</p>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Schreibe hier deine 5 Vors&auml;tze f&uuml;r nachhaltigeres digitales Arbeiten und Leben."></textarea>
+
       <button class="challenge-btn" data-station="digital-ethics-turm">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="digital-ethics-turm">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="digital-ethics-turm">
         Station abschliessen &#x2714;
       </button>

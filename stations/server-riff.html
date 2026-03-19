@@ -17,7 +17,7 @@
     <img class="station-header__image" src="../assets/station-server-riff.png" alt="Ein Korallenriff aus leuchtenden Servern unter Wasser" loading="lazy" />
 
     <h1 class="station-header__title">Das Server-Riff</h1>
-    <p class="station-header__meta">Säule: Daten &amp; Infrastruktur &middot; ~7 Min.</p>
+    <p class="station-header__meta">~7 Min.</p>
     <p class="station-header__intro">
       Tief im Ozean stösst du auf ein leuchtendes Riff – doch es besteht nicht aus Korallen,
       sondern aus endlosen Reihen blinkender Server. Hier pulsiert das Herz der Cloud.
@@ -31,9 +31,15 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>Jedes Mal, wenn du eine Datei in die Cloud lädst, ein Modell trainierst oder einen Container
-      deployst, arbeitet irgendwo ein Rechenzentrum für dich. Weltweit verbrauchen Rechenzentren
-      ca. <strong>1–2% des globalen Stroms</strong> – Tendenz steigend.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>Jedes Mal, wenn du eine Datei in die Cloud lädst, ein Modell trainierst oder einen Container
+          deployst, arbeitet irgendwo ein Rechenzentrum für dich. Weltweit verbrauchen Rechenzentren
+          ca. <strong>1–2% des globalen Stroms</strong> – Tendenz steigend.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-server-riff.png"
+             alt="Taucher schwimmt an Korallenriff aus Server-Racks vorbei" loading="lazy" />
+      </div>
 
       <div class="key-fact">
         Ein einzelnes grosses Rechenzentrum benötigt so viel Strom wie eine
@@ -91,6 +97,10 @@
         <li>Welchen PUE-Wert hat dein Provider (falls veröffentlicht)?</li>
         <li>Nutzt der Provider erneuerbare Energie?</li>
       </ul>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="server-riff" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -104,13 +114,17 @@
       <button class="reveal-btn" data-target="reflection-hint-server-riff">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-server-riff" hidden>
+      <div class="reveal-content" id="reflection-hint-server-riff">
         <p>Bei Lebensmitteln helfen Labels wie «Bio» oder «Fairtrade» bei der Kaufentscheidung.
         Bei Cloud-Diensten fehlt so etwas komplett. Stell dir vor, du könntest bei jedem
         Deployment sehen: «Dieser Service läuft in einem Rechenzentrum mit PUE 1.1,
         100% Wasserstrom, Region Norwegen.» Würde das deine Entscheidungen beeinflussen?
         Und wer sollte so ein Label vergeben – die Branche selbst oder eine unabhängige Stelle?</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="server-riff" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -128,13 +142,22 @@
       </ul>
       <p>Halte dein Ergebnis in einer <strong>kurzen Vergleichstabelle</strong> fest.</p>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Welche zwei Provider hast du verglichen? Was war dein Ergebnis (PUE, Energie, Standort)?"></textarea>
+
       <button class="challenge-btn" data-station="server-riff">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="server-riff">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="server-riff">
         Station abschliessen &#x2714;
       </button>

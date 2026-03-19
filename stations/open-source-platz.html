@@ -17,7 +17,7 @@
     <img class="station-header__image" src="../assets/station-open-source-platz.png" alt="Ein offener Platz in der Metropole mit vernetzten Bildschirmen und gemeinsam arbeitenden Menschen" loading="lazy" />
 
     <h1 class="station-header__title">Der Open-Source-Platz</h1>
-    <p class="station-header__meta">Säule: Synthese &amp; Zukunft &middot; ~7 Min.</p>
+    <p class="station-header__meta">~7 Min.</p>
     <p class="station-header__intro">
       Willkommen auf dem belebten Platz im Herzen der Metropole. Hier wird Wissen geteilt,
       Code offen entwickelt und gemeinsam an der digitalen Zukunft gebaut.
@@ -31,9 +31,15 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>Open-Source-Software ist Software, deren Quellcode öffentlich zugänglich ist.
-      Jede:r kann sie nutzen, studieren, verändern und weiterverbreiten. Das klingt simpel –
-      hat aber enorme Auswirkungen auf Nachhaltigkeit.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>Open-Source-Software ist Software, deren Quellcode öffentlich zugänglich ist.
+          Jede:r kann sie nutzen, studieren, verändern und weiterverbreiten. Das klingt simpel –
+          hat aber enorme Auswirkungen auf Nachhaltigkeit.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-open-source-platz.png"
+             alt="Developer auf Stadtplatz mit offenen Türen und Code-Hologrammen" loading="lazy" />
+      </div>
 
       <div class="key-fact">
         Der <strong>Linux-Kernel</strong> enthält über 30 Millionen Zeilen Code, geschrieben
@@ -88,6 +94,10 @@
 
       <p>Bonus: Schau dir die <strong>Issues</strong> an – gibt es welche mit dem Label
       <code>good first issue</code>? Das sind Einstiegspunkte für neue Contributor:innen.</p>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="open-source-platz" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -101,13 +111,17 @@
       <button class="reveal-btn" data-target="reflection-hint-open-source-platz">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-open-source-platz" hidden>
+      <div class="reveal-content" id="reflection-hint-open-source-platz">
         <p>Open Source fördert Nachhaltigkeit durch geteilte Ressourcen, Langlebigkeit und
         Reparierbarkeit. Aber: Auch Open-Source-Software kann ineffizient sein, unnötige
         Ressourcen verbrauchen oder schlecht gewartet werden. Die Lizenz allein macht Software
         nicht nachhaltig – es kommt auf die Community, die Architektur und die bewusste
         Weiterentwicklung an. Nachhaltigkeit ist kein Feature, sondern eine Haltung.</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="open-source-platz" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -126,13 +140,22 @@
 
       <p>Dokumentiere deinen Beitrag mit einem <strong>Screenshot oder Link</strong>.</p>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Welchen Beitrag hast du geleistet? (Link zum Issue/PR oder Beschreibung)"></textarea>
+
       <button class="challenge-btn" data-station="open-source-platz">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="open-source-platz">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="open-source-platz">
         Station abschliessen &#x2714;
       </button>

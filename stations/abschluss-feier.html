@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Die Abschluss-Feier – Expeditions-Zertifikat</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/station.css">
+</head>
+<body class="page-station">
+
+  <header class="station-header station-header--metro">
+    <nav class="station-header__nav">
+      <a href="../index.html" class="back-link">&larr; Zur&uuml;ck zur Karte</a>
+    </nav>
+
+    <h1 class="station-header__title">&#x1F389; Die Abschluss-Feier</h1>
+    <p class="station-header__meta">Herzlichen Gl&uuml;ckwunsch!</p>
+    <p class="station-header__intro">
+      Du hast alle vier Welten der Lernlandschaft durchquert &ndash; den Daten-Dschungel,
+      den Daten-Ozean, den Code-Kosmos und die Zukunfts-Metropole. Das ist eine echte Leistung!
+      Hier ist dein pers&ouml;nliches Expeditions-Zertifikat.
+    </p>
+  </header>
+
+  <main class="station-content">
+
+    <!-- Zertifikat -->
+    <section class="station-section section-certificate">
+      <div class="cert-card" id="cert-card">
+        <div class="cert-header">
+          <span class="cert-header__icon" aria-hidden="true">&#x1F30D;</span>
+          <h2 class="cert-header__title">Expeditions-Zertifikat</h2>
+          <p class="cert-header__subtitle">Lernlandschaft Nachhaltige Digitalisierung &ndash; TBZ Z&uuml;rich</p>
+        </div>
+
+        <img class="cert-avatar" id="cert-avatar" src="../assets/avatar-explorer.png" alt="Dein Avatar" />
+
+        <div class="cert-name" id="cert-name">Entdecker:in</div>
+
+        <div class="cert-stats">
+          <div class="cert-stat">
+            <span class="cert-stat__value" id="cert-level">Lv. 1</span>
+            <span class="cert-stat__label">Level</span>
+          </div>
+          <div class="cert-stat">
+            <span class="cert-stat__value" id="cert-xp">0 XP</span>
+            <span class="cert-stat__label">Punkte</span>
+          </div>
+          <div class="cert-stat">
+            <span class="cert-stat__value" id="cert-stations">0/12</span>
+            <span class="cert-stat__label">Stationen</span>
+          </div>
+        </div>
+
+        <div class="cert-badges" id="cert-badges"></div>
+
+        <p class="cert-date" id="cert-date"></p>
+        <p class="cert-footer">Nachhaltige Digitalisierung &ndash; Technische Berufsschule Z&uuml;rich</p>
+      </div>
+    </section>
+
+    <!-- Aktionen -->
+    <div class="cert-actions" id="cert-actions">
+      <button class="btn btn--print" id="btn-print">
+        &#x1F5A8; Als PDF drucken
+      </button>
+      <a class="btn btn--email" id="btn-email" href="#">
+        &#x2709; Per E-Mail senden
+      </a>
+      <button class="btn btn--ics" id="btn-ics">
+        &#x1F4C5; Kalender-Erinnerung
+      </button>
+    </div>
+
+    <!-- Challenge-Abgaben -->
+    <section class="station-section section-challenges" id="cert-challenges" style="margin-top: var(--space-xl); border-left-color: var(--color-secondary);">
+      <h2>&#x1F4DD; Deine Challenge-Abgaben</h2>
+      <div id="challenge-responses-list"></div>
+    </section>
+
+    <!-- Reflexion -->
+    <section class="station-section section-reflection" style="margin-top: var(--space-xl);">
+      <h2>Abschliessende Gedanken</h2>
+      <p>Was nimmst du aus dieser Expedition mit? Was wirst du in deinem Alltag anders machen?</p>
+      <textarea class="station-textarea" data-station="abschluss-feier" data-type="reflection" placeholder="Schreibe hier deine abschliessenden Gedanken..."></textarea>
+    </section>
+
+    <div class="station-complete">
+      <a href="../index.html" class="back-link">&larr; Zur&uuml;ck zur Karte</a>
+    </div>
+
+  </main>
+
+  <script src="../js/progress.js"></script>
+  <script src="../js/station.js"></script>
+  <script>
+    (function () {
+      // Populate certificate
+      var name = getPlayerName() || 'Entdecker:in';
+      var points = getPoints();
+      var levelInfo = getLevel(points);
+      var count = getCompletionCount();
+      var total = getTotalStations();
+      var badges = getEarnedBadges();
+      var today = new Date();
+      var dateStr = today.toLocaleDateString('de-CH', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      var certName = document.getElementById('cert-name');
+      if (certName) certName.textContent = name;
+
+      var certAvatar = document.getElementById('cert-avatar');
+      if (certAvatar) certAvatar.src = '../' + getAvatarImage();
+
+      var certLevel = document.getElementById('cert-level');
+      if (certLevel) certLevel.textContent = 'Lv. ' + levelInfo.level + ' – ' + levelInfo.name;
+
+      var certXp = document.getElementById('cert-xp');
+      if (certXp) certXp.textContent = points + ' XP';
+
+      var certStations = document.getElementById('cert-stations');
+      if (certStations) certStations.textContent = count + '/' + total;
+
+      var certDate = document.getElementById('cert-date');
+      if (certDate) certDate.textContent = 'Abgeschlossen am ' + dateStr;
+
+      // Badges
+      var certBadges = document.getElementById('cert-badges');
+      if (certBadges && badges.length > 0) {
+        badges.forEach(function (badge) {
+          var span = document.createElement('span');
+          span.className = 'cert-badge';
+          span.title = badge.name;
+          span.textContent = badge.icon;
+          certBadges.appendChild(span);
+        });
+      }
+
+      // Challenge responses
+      var STATION_NAMES = {
+        'geraete-lichtung': 'Die Ger\u00e4te-Lichtung',
+        'cloud-quelle': 'Die Cloud-Quelle',
+        'code-camp': 'Das Code-Camp',
+        'server-riff': 'Das Server-Riff',
+        'streaming-strom': 'Der Streaming-Strom',
+        'backup-bucht': 'Die Backup-Bucht',
+        'ide-asteroid': 'Der IDE-Asteroid',
+        'deploy-stern': 'Der Deploy-Stern',
+        'workflow-nebel': 'Der Workflow-Nebel',
+        'ki-kraftwerk': 'Das KI-Kraftwerk',
+        'open-source-platz': 'Der Open-Source-Platz',
+        'digital-ethics-turm': 'Der Digital-Ethics-Turm'
+      };
+
+      var responses = getAllChallengeResponses();
+      var responseList = document.getElementById('challenge-responses-list');
+      var challengeSection = document.getElementById('cert-challenges');
+      var responseKeys = Object.keys(responses);
+
+      if (responseList && responseKeys.length > 0) {
+        responseKeys.forEach(function (stationId) {
+          var text = responses[stationId];
+          if (!text) return;
+          var div = document.createElement('div');
+          div.className = 'challenge-response-item';
+          div.innerHTML = '<h3>' + (STATION_NAMES[stationId] || stationId) + '</h3>' +
+            '<p>' + text.replace(/\n/g, '<br>') + '</p>';
+          responseList.appendChild(div);
+        });
+      } else if (challengeSection) {
+        challengeSection.innerHTML = '<h2>&#x1F4DD; Deine Challenge-Abgaben</h2>' +
+          '<p style="color: var(--color-text-muted); font-style: italic;">Noch keine Challenges abgegeben. ' +
+          'Gehe zur\u00fcck zu den Stationen und reiche deine Ergebnisse ein!</p>';
+      }
+
+      // Print button
+      var btnPrint = document.getElementById('btn-print');
+      if (btnPrint) {
+        btnPrint.addEventListener('click', function () {
+          window.print();
+        });
+      }
+
+      // Email button
+      var btnEmail = document.getElementById('btn-email');
+      if (btnEmail) {
+        var subject = encodeURIComponent('Mein Expeditions-Zertifikat – Nachhaltige Digitalisierung');
+        var body = encodeURIComponent(
+          'Expeditions-Zertifikat\n' +
+          '=====================\n\n' +
+          'Name: ' + name + '\n' +
+          'Level: Lv. ' + levelInfo.level + ' – ' + levelInfo.name + '\n' +
+          'Punkte: ' + points + ' XP\n' +
+          'Stationen: ' + count + '/' + total + '\n' +
+          'Badges: ' + badges.map(function (b) { return b.icon + ' ' + b.name; }).join(', ') + '\n' +
+          'Datum: ' + dateStr + '\n\n' +
+          'Lernlandschaft Nachhaltige Digitalisierung – TBZ Zürich'
+        );
+        btnEmail.href = 'mailto:?subject=' + subject + '&body=' + body;
+      }
+
+      // ICS download
+      var btnIcs = document.getElementById('btn-ics');
+      if (btnIcs) {
+        btnIcs.addEventListener('click', function () {
+          var now = today.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+          var endTime = new Date(today.getTime() + 3600000).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
+          var icsContent = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Lernlandschaft//TBZ//DE',
+            'BEGIN:VEVENT',
+            'DTSTART:' + now,
+            'DTEND:' + endTime,
+            'SUMMARY:Lernlandschaft Nachhaltige Digitalisierung abgeschlossen!',
+            'DESCRIPTION:Name: ' + name + '\\nLevel: Lv. ' + levelInfo.level + ' – ' + levelInfo.name + '\\nPunkte: ' + points + ' XP\\nStationen: ' + count + '/' + total,
+            'END:VEVENT',
+            'END:VCALENDAR'
+          ].join('\r\n');
+
+          var blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = 'zertifikat.ics';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -17,7 +17,7 @@
     <img class="station-header__image" src="../assets/station-code-camp.png" alt="Ein Lagerfeuer im Dschungel mit Code-Symbolen und einem Zelt" />
 
     <h1 class="station-header__title">Das Code-Camp</h1>
-    <p class="station-header__meta">Säule: Nutzungsverhalten &amp; Software-Praxis &middot; ~6 Min.</p>
+    <p class="station-header__meta">~6 Min.</p>
     <p class="station-header__intro">
       Am Lagerfeuer des Code-Camps triffst du andere Entwickler:innen.
       Thema heute Abend: Wie viel Energie frisst dein Setup eigentlich?
@@ -30,8 +30,14 @@
     <section class="station-section section-microlearning">
       <h2><img class="section-icon" src="../assets/icons/icon-microlearning.png" alt="" aria-hidden="true" /> Microlearning</h2>
 
-      <p>Moderne IDEs wie VS Code, IntelliJ oder Visual Studio sind mächtig – aber sie verbrauchen auch
-      ordentlich <strong>CPU und RAM</strong>, besonders mit vielen Extensions.</p>
+      <div class="micro-intro">
+        <div class="micro-intro__text">
+          <p>Moderne IDEs wie VS Code, IntelliJ oder Visual Studio sind mächtig – aber sie verbrauchen auch
+          ordentlich <strong>CPU und RAM</strong>, besonders mit vielen Extensions.</p>
+        </div>
+        <img class="micro-intro__illustration" src="../assets/comic-code-camp.png"
+             alt="Developer am Lagerfeuer mit Laptop, grüne Checkmarks schweben auf" loading="lazy" />
+      </div>
 
       <p>Jede aktive Extension läuft als <strong>Hintergrundprozess</strong>:
       Linter, Formatter, Language Server, AI Copilots – alles braucht Ressourcen.</p>
@@ -80,6 +86,10 @@
           <code>afterDelay</code> mit mindestens <strong>1000ms</strong> statt instant</li>
         </ul>
       </div>
+    
+
+      <label class="textarea-label">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="code-camp" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
@@ -94,11 +104,15 @@
       <button class="reveal-btn" data-target="reflection-hint-3">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-3" hidden>
+      <div class="reveal-content" id="reflection-hint-3">
         <p>Eine Extension, die dir <strong>30 Minuten pro Tag</strong> spart, ist den Strom wert.
         Eine, die du <strong>einmal im Monat</strong> brauchst, kannst du bei Bedarf aktivieren.
         Die Frage ist nicht «alles oder nichts», sondern «bewusst wählen».</p>
       </div>
+    
+
+      <label class="textarea-label">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="code-camp" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
@@ -113,13 +127,22 @@
       <p>VS Code: <code>Ctrl+Shift+P</code> &rarr; <code>Profiles: Create Profile</code></p>
       <p>Wechsle eine Woche lang zum Lean-Profil und berichte, ob du einen Unterschied merkst.</p>
 
+      <label class="challenge-response-label">Deine Abgabe</label>
+      <textarea class="challenge-response" placeholder="Welche Extensions hast du im Lean-Profil behalten? Hast du einen Unterschied gemerkt?"></textarea>
+
       <button class="challenge-btn" data-station="code-camp">
-        Challenge annehmen (+5 Punkte)
+        Challenge abgeben (+5 Punkte)
       </button>
     </section>
 
     <!-- Abschluss -->
+        <!-- Kontrollfrage -->
+    <div class="station-quiz" id="station-quiz" data-station="code-camp">
+      <h3>Kontrollfrage</h3>
+    </div>
     <div class="station-complete">
+
+    
       <button class="complete-btn" id="complete-btn" data-station="code-camp">
         Station abschliessen &#x2714;
       </button>
