@@ -32,6 +32,7 @@
     </div>
     <div class="game-header__stats">
       <span class="stat" id="stat-stations" title="Stationen">0/12</span>
+      <button class="notebook-btn" id="notebook-btn" title="Notizbuch" aria-label="Notizbuch öffnen">&#x1F4D3;</button>
       <button class="highscore-btn" id="highscore-btn" title="Rangliste" aria-label="Rangliste öffnen">&#x1F3C6;</button>
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
       <button class="reset-btn reset-btn--header" id="reset-btn" title="Fortschritt zurücksetzen">&#x21BB;</button>
@@ -416,8 +417,26 @@
   </main>
 
   <footer class="site-footer">
-    <p data-i18n="site.footer">Lernlandschaft Nachhaltige Digitalisierung – TBZ Zürich</p>
+    <p data-i18n="site.footer">Lernlandschaft Nachhaltige Digitalisierung</p>
   </footer>
+
+  <!-- Notebook Modal -->
+  <div class="notebook-modal" id="notebook-modal" aria-hidden="true">
+    <div class="notebook-card">
+      <div class="notebook-card__header">
+        <span class="notebook-card__icon">&#x1F4D3;</span>
+        <h2 class="notebook-card__title">Dein Notizbuch</h2>
+        <p class="notebook-card__subtitle">Alle deine Notizen, Reflexionen und Challenge-Abgaben</p>
+      </div>
+      <div class="notebook-card__tabs">
+        <button class="notebook-tab is-active" data-tab="challenges">Challenges</button>
+        <button class="notebook-tab" data-tab="reflections">Reflexionen</button>
+        <button class="notebook-tab" data-tab="notes">Notizen</button>
+      </div>
+      <div class="notebook-card__content" id="notebook-content"></div>
+      <button class="notebook-card__close" id="notebook-close">Schliessen</button>
+    </div>
+  </div>
 
   <div class="level-up-flash" id="level-up-flash" aria-hidden="true"></div>
 

@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   updateGameHeader();
   initResetButton();
   initHighscoreButton();
+  initNotebookButton();
 });
 
 /* ========================================
@@ -716,6 +717,109 @@ function initHighscoreButton() {
       openHighscoreModal();
     }
   });
+}
+
+/* ========================================
+   NOTEBOOK MODAL
+   ======================================== */
+
+var STATION_LABELS = {
+  'geraete-lichtung': 'Die Geräte-Lichtung',
+  'cloud-quelle': 'Die Cloud-Quelle',
+  'code-camp': 'Das Code-Camp',
+  'server-riff': 'Das Server-Riff',
+  'streaming-strom': 'Der Streaming-Strom',
+  'backup-bucht': 'Die Backup-Bucht',
+  'ide-asteroid': 'Der IDE-Asteroid',
+  'deploy-stern': 'Der Deploy-Stern',
+  'workflow-nebel': 'Der Workflow-Nebel',
+  'ki-kraftwerk': 'Das KI-Kraftwerk',
+  'open-source-platz': 'Der Open-Source-Platz',
+  'digital-ethics-turm': 'Der Digital-Ethics-Turm'
+};
+
+function getStationLabel(stationId) {
+  if (typeof I18N !== 'undefined') {
+    return I18N.t('station.' + stationId + '.title', STATION_LABELS[stationId] || stationId);
+  }
+  return STATION_LABELS[stationId] || stationId;
+}
+
+function initNotebookButton() {
+  var btn = document.getElementById('notebook-btn');
+  var modal = document.getElementById('notebook-modal');
+  var closeBtn = document.getElementById('notebook-close');
+  if (!btn || !modal) return;
+
+  btn.addEventListener('click', function () {
+    renderNotebookContent('challenges');
+    modal.classList.add('is-visible');
+    modal.setAttribute('aria-hidden', 'false');
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      modal.classList.remove('is-visible');
+      modal.setAttribute('aria-hidden', 'true');
+    });
+  }
+
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) {
+      modal.classList.remove('is-visible');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  var tabs = modal.querySelectorAll('.notebook-tab');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('is-active'); });
+      tab.classList.add('is-active');
+      renderNotebookContent(tab.dataset.tab);
+    });
+  });
+}
+
+function renderNotebookContent(tabName) {
+  var container = document.getElementById('notebook-content');
+  if (!container) return;
+
+  var entries = {};
+  if (tabName === 'challenges') {
+    entries = getAllChallengeResponses();
+  } else if (tabName === 'reflections') {
+    entries = getAllReflections();
+  } else if (tabName === 'notes') {
+    entries = getAllNotes();
+  }
+
+  var keys = Object.keys(entries).filter(function (k) { return entries[k] && entries[k].trim(); });
+
+  if (keys.length === 0) {
+    var emptyMsg = tabName === 'challenges' ? 'Noch keine Challenge-Abgaben vorhanden.'
+                 : tabName === 'reflections' ? 'Noch keine Reflexionen geschrieben.'
+                 : 'Noch keine Notizen vorhanden.';
+    container.innerHTML = '<p class="notebook-empty">' + emptyMsg + '</p>';
+    return;
+  }
+
+  var html = '';
+  keys.forEach(function (stationId) {
+    var text = entries[stationId];
+    html += '<div class="notebook-entry">' +
+      '<div class="notebook-entry__station">' + getStationLabel(stationId) + '</div>' +
+      '<div class="notebook-entry__text">' + escapeHtml(text) + '</div>' +
+    '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function escapeHtml(str) {
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
 /* ========================================

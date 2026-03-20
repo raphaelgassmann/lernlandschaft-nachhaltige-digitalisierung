@@ -152,6 +152,48 @@ ul, ol {
 }
 
 /* ========================================
+   PAGE LOADER
+   ======================================== */
+
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  background: #0a0a0a;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.page-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.page-loader__spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(200, 168, 78, 0.15);
+  border-top-color: var(--color-secondary, #c8a84e);
+  border-radius: 50%;
+  animation: loader-spin 0.8s linear infinite;
+}
+
+.page-loader__text {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #a09880);
+  font-family: var(--font-body, sans-serif);
+}
+
+@keyframes loader-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ========================================
    TOAST NOTIFICATIONS
    ======================================== */
 

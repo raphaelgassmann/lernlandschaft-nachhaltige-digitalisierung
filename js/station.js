@@ -10,7 +10,24 @@ document.addEventListener('DOMContentLoaded', function () {
   initChallengeButton();
   initTextareas();
   initQuiz();
+  hidePageLoader();
 });
+
+function hidePageLoader() {
+  var loader = document.getElementById('page-loader');
+  if (!loader) return;
+  window.addEventListener('load', function () {
+    loader.classList.add('is-hidden');
+    setTimeout(function () { loader.remove(); }, 500);
+  });
+  // Fallback: hide after 4s even if load hasn't fired
+  setTimeout(function () {
+    if (loader.parentNode) {
+      loader.classList.add('is-hidden');
+      setTimeout(function () { if (loader.parentNode) loader.remove(); }, 500);
+    }
+  }, 4000);
+}
 
 /* ========================================
    SCENE IMAGE – Avatar-dependent header scene

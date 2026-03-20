@@ -9,6 +9,11 @@
 </head>
 <body class="page-station">
 
+  <div class="page-loader" id="page-loader">
+    <div class="page-loader__spinner"></div>
+    <span class="page-loader__text">Station wird geladen...</span>
+  </div>
+
   <header class="station-header station-header--ocean">
     <nav class="station-header__nav" style="display:flex;justify-content:space-between;align-items:center;">
       <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zurück zur Karte</a>
@@ -173,5 +178,6 @@
   <script src="../js/progress.js"></script>
   <script src="../js/station.js"></script>
   <script>I18N.init();</script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
