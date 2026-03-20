@@ -156,12 +156,8 @@ function initStartZone() {
       updateGameHeader();
       initMapView();
 
-      // Avatar starts at sofa, then walks to first station
+      // Avatar stays at sofa until user clicks a station
       positionAvatarAt('sofa');
-      setTimeout(function () {
-        var target = findAvatarStation();
-        animateAvatarTo(target);
-      }, 600);
 
       if (mapContainer) {
         mapContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
