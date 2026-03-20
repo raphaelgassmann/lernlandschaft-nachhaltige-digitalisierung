@@ -9,6 +9,11 @@
 </head>
 <body class="page-station">
 
+  <div class="page-loader" id="page-loader">
+    <div class="page-loader__spinner"></div>
+    <span class="page-loader__text">Station wird geladen...</span>
+  </div>
+
   <header class="station-header station-header--metro">
     <nav class="station-header__nav" style="display:flex;justify-content:space-between;align-items:center;">
       <a href="../index.html" class="back-link" data-i18n="ui.back_to_map">&larr; Zur&uuml;ck zur Karte</a>
@@ -101,9 +106,6 @@
 
   </main>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-  <script src="../js/firebase-config.js"></script>
   <script src="../js/i18n.js"></script>
   <script src="../js/progress.js"></script>
   <script src="../js/highscore.js"></script>
@@ -245,36 +247,20 @@
         });
       }
       // Highscore: Auto-submit + Ranking anzeigen
+      var rankContainer = document.getElementById('ranking-container');
       if (typeof isFinaleUnlocked === 'function' && isFinaleUnlocked()) {
-        if (typeof hasAlreadySubmitted === 'function' && !hasAlreadySubmitted()) {
+        if (!hasAlreadySubmitted()) {
           var avatar = getAvatarChoice() || 'explorer';
-          submitHighscore(name, points, avatar).then(function () {
-            markHighscoreSubmitted();
-            // Ranking nach Submit laden
-            return loadHighscores(10);
-          }).then(function (scores) {
-            var container = document.getElementById('ranking-container');
-            renderRankingInline(container, scores, points);
-          }).catch(function () {
-            var container = document.getElementById('ranking-container');
-            if (container) container.innerHTML = '<p style="color: var(--color-text-muted);">Rangliste konnte nicht geladen werden.</p>';
-          });
-        } else {
-          // Bereits submitted – nur Ranking laden
-          loadHighscores(10).then(function (scores) {
-            var container = document.getElementById('ranking-container');
-            renderRankingInline(container, scores, points);
-          }).catch(function () {
-            var container = document.getElementById('ranking-container');
-            if (container) container.innerHTML = '<p style="color: var(--color-text-muted);">Rangliste konnte nicht geladen werden.</p>';
-          });
+          submitHighscore(name, points, avatar, count);
+          markHighscoreSubmitted();
         }
+        renderRankingInline(rankContainer);
       } else {
-        var container = document.getElementById('ranking-container');
-        if (container) container.innerHTML = '<p style="color: var(--color-text-muted); font-style: italic;">Schliesse alle 4 Welten ab, um in der Rangliste zu erscheinen.</p>';
+        if (rankContainer) rankContainer.innerHTML = '<p style="color: var(--color-text-muted); font-style: italic;">Schliesse alle 4 Welten ab, um in der Rangliste zu erscheinen.</p>';
       }
     })();
   </script>
   <script>I18N.init();</script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
