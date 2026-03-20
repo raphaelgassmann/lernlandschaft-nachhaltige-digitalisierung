@@ -21,6 +21,7 @@
       <div class="game-header__level">
         <span class="level-badge" id="level-badge">Lv. 1</span>
         <span class="header-player-name" id="header-player-name"></span>
+        <span class="header-separator">–</span>
         <span class="level-name" id="level-name">Sofa-Surfer</span>
       </div>
       <div class="game-header__progress">
@@ -91,6 +92,7 @@
     <section class="start-zone is-hidden" id="start-zone" aria-label="Startpunkt">
       <div class="start-zone__content" id="start-content">
         <div class="start-sparkles" id="start-sparkles" aria-hidden="true"></div>
+        <img class="start-zone__sofa" src="assets/start-sofa.png" alt="Gemütliches Sofa" />
         <img class="start-zone__avatar" id="start-avatar" src="assets/avatar-explorer.png" alt="Dein Avatar" />
         <div class="start-zone__text">
           <h1 class="start-zone__title" data-i18n="start.ready">Bereit, <span id="start-player-name"></span>?</h1>
@@ -429,9 +431,9 @@
         <p class="notebook-card__subtitle">Alle deine Notizen, Reflexionen und Challenge-Abgaben</p>
       </div>
       <div class="notebook-card__tabs">
-        <button class="notebook-tab is-active" data-tab="challenges">Challenges</button>
-        <button class="notebook-tab" data-tab="reflections">Reflexionen</button>
-        <button class="notebook-tab" data-tab="notes">Notizen</button>
+        <button class="notebook-tab is-active" data-tab="challenges">🏆 Challenges</button>
+        <button class="notebook-tab" data-tab="reflections">💭 Reflexionen</button>
+        <button class="notebook-tab" data-tab="notes">📝 Notizen</button>
       </div>
       <div class="notebook-card__content" id="notebook-content"></div>
       <button class="notebook-card__close" id="notebook-close">Schliessen</button>

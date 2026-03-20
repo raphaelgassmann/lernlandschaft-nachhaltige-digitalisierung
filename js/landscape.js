@@ -40,6 +40,17 @@ function applyInitialState() {
     if (mobileLandscape) mobileLandscape.classList.add('is-active');
     if (header) header.classList.add('is-active');
     initMapView();
+
+    // Scroll to avatar position when returning from a station
+    var returningFromStation = sessionStorage.getItem('xp-before') !== null;
+    if (returningFromStation) {
+      setTimeout(function () {
+        var avatar = document.getElementById('map-avatar');
+        if (avatar) {
+          avatar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 200);
+    }
   } else if (hasAvatar && hasName) {
     if (avatarSelect) avatarSelect.classList.add('is-hidden');
     if (startZone) startZone.classList.remove('is-hidden');
@@ -909,13 +920,16 @@ function renderNotebookContent(tabName) {
     return;
   }
 
+  var tabIcons = { challenges: '🏆', reflections: '💭', notes: '📝' };
+  var icon = tabIcons[tabName] || '';
+
   var html = '';
   keys.forEach(function (stationId) {
     var text = entries[stationId];
     var context = getNotebookContext(stationId, tabName);
     var heading = context || getStationLabel(stationId);
-    html += '<div class="notebook-entry">' +
-      '<div class="notebook-entry__context">' + escapeHtml(heading) + '</div>' +
+    html += '<div class="notebook-entry notebook-entry--' + tabName + '">' +
+      '<div class="notebook-entry__context">' + icon + ' ' + escapeHtml(heading) + '</div>' +
       '<div class="notebook-entry__text">' + escapeHtml(text) + '</div>' +
     '</div>';
   });

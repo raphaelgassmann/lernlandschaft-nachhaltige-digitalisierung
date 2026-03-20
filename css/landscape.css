@@ -292,6 +292,11 @@
   color: var(--color-text);
 }
 
+.header-separator {
+  color: var(--color-text-muted);
+  margin: 0 2px;
+}
+
 /* ========================================
    START ZONE (Sofa / Komfortzone)
    ======================================== */
@@ -1823,6 +1828,11 @@
   }
 
   /* Start zone */
+  .start-zone__sofa {
+    width: 200px;
+    height: 200px;
+  }
+
   .start-zone__avatar {
     width: 140px;
     height: 140px;
@@ -1844,7 +1854,8 @@
     gap: var(--space-sm);
   }
 
-  .level-name {
+  .level-name,
+  .header-separator {
     display: none;
   }
 
@@ -1874,6 +1885,11 @@
 
   .avatar-option__name {
     font-size: 0.85rem;
+  }
+
+  .start-zone__sofa {
+    width: 160px;
+    height: 160px;
   }
 
   .start-zone__avatar {

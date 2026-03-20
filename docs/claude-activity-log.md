@@ -702,3 +702,23 @@ index.html          – srcset/sizes auf allen 12 map-station__img für responsi
 | 5 | Abschluss-Feier Position anpassen | Finale-Marker von top 88.5% auf 91% verschoben (weiter unten, zentrierter im Panel) | `js/progress.js` |
 | 6 | Notizbuch: Kontext statt Stationsname | Stationsname entfernt, Kontext-Text (Aktion/Aufgabe) als Überschrift | `js/landscape.js` |
 | 7 | XP-Bar: Gesamtfortschritt statt Level-Fortschritt | Bar zeigt 0–180 XP (MAX_POINTS), Text "X / 180 XP" | `js/landscape.js`, `js/progress.js` |
+
+---
+
+## Session 10 – 2026-03-20
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 1 | Notizbuch lesbarer machen mit Icons | Emoji-Icons (🏆💭📝) in Tabs und Einträgen, farbige Border-left pro Tab-Typ (gold/lila/grün), bessere Entry-Styles mit Hintergrund und Padding | `index.html`, `js/landscape.js`, `css/landscape.css` |
+
+---
+
+## Session 11 – 2026-03-20
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 1 | `init` | Session gestartet, Aktivitätsprotokoll aktualisiert | Bereit für neue Aufgaben |
