@@ -357,11 +357,11 @@ function positionWorldLabels() {
 
 function positionMapAvatar() {
   var avatar = document.getElementById('map-avatar');
-  var avatarSprite = document.getElementById('map-avatar-sprite');
+  var avatarImg = document.getElementById('map-avatar-img');
   var avatarName = document.getElementById('map-avatar-name');
   if (!avatar) return;
 
-  if (avatarSprite) avatarSprite.style.backgroundImage = 'url(' + getAvatarSprite() + ')';
+  if (avatarImg) avatarImg.src = getAvatarImage();
   if (avatarName) avatarName.textContent = getPlayerName();
 
   // Position at last known location (no animation)
@@ -389,21 +389,11 @@ function animateAvatarTo(posId, callback) {
   var pos = getPositionFor(posId);
   if (!pos) return;
 
-  // Determine direction for sprite flipping
-  var currentLeft = parseFloat(avatar.style.left) || 0;
-  if (pos.left < currentLeft) {
-    avatar.classList.add('face-left');
-  } else {
-    avatar.classList.remove('face-left');
-  }
-
   avatar.style.transition = 'top 1.2s ease-in-out, left 1.2s ease-in-out';
-  avatar.classList.add('is-walking');
   avatar.style.top = pos.top + '%';
   avatar.style.left = pos.left + '%';
 
   setTimeout(function () {
-    avatar.classList.remove('is-walking');
     if (callback) callback();
   }, 1300);
 }

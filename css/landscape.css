@@ -694,27 +694,14 @@
   animation: avatar-idle 2s ease-in-out infinite;
 }
 
-/* Sprite-based avatar – sprites are 1536x1024 (4 frames of 384x1024) */
-.map-avatar__sprite {
-  width: 54px;
-  height: 72px;
-  background-size: 216px 144px;
-  background-repeat: no-repeat;
-  background-position: 0 -36px;
-  position: relative;
-}
-
-/* Ground shadow for depth */
-.map-avatar__sprite::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 10px;
-  background: radial-gradient(ellipse, rgba(0,0,0,0.3) 0%, transparent 70%);
+/* Avatar image on map */
+.map-avatar__img {
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-secondary);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
 .map-avatar__name {
@@ -735,30 +722,11 @@
   50% { transform: translate(-50%, -100%) translateY(-6px); }
 }
 
-/* Walking: 4-frame sprite cycle */
-.map-avatar.is-walking .map-avatar__sprite {
-  animation: sprite-walk 0.5s steps(4) infinite;
-}
-
-@keyframes sprite-walk {
-  from { background-position: 0 -36px; }
-  to { background-position: -216px -36px; }
-}
-
-/* Direction: flip horizontally when moving left */
-.map-avatar.face-left .map-avatar__sprite {
-  transform: scaleX(-1);
-}
-
-/* Reduced motion: disable sprite animation */
+/* Reduced motion: disable bob animation */
 @media (prefers-reduced-motion: reduce) {
   .map-avatar {
     animation: none;
     transform: translate(-50%, -100%);
-  }
-  .map-avatar.is-walking .map-avatar__sprite {
-    animation: none;
-    background-position: 0 -36px;
   }
 }
 
