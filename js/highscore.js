@@ -30,7 +30,7 @@ function supabaseFetch(path, options) {
  * Returns a Promise that resolves to sorted array (highest XP first).
  */
 function loadHighscores() {
-  return supabaseFetch('/highscores?order=xp.desc')
+  return supabaseFetch('/highscores?xp=gte.10&order=xp.desc')
     .then(function (res) { return res.json(); })
     .then(function (scores) {
       _highscoreCache = scores || [];

@@ -4,6 +4,24 @@ Dieses Dokument protokolliert alle Aktivitäten, Prompts und Entscheidungen aus 
 
 ---
 
+## Session 2 – 2026-03-20
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 1 | `init` | Session gestartet, Aktivitätsprotokoll aktualisiert | Bereit für Aufgaben |
+| 2 | `nimm spieler erst ins ranking ab 10 XP` | Supabase-Query in `loadHighscores()` um `xp=gte.10` Filter ergänzt | Nur Spieler mit ≥10 XP im Ranking sichtbar |
+
+### Geänderte Dateien
+
+```
+docs/claude-activity-log.md – Neue Session dokumentiert
+js/highscore.js            – loadHighscores() filtert jetzt auf xp >= 10
+```
+
+---
+
 ## Session – 2026-03-20
 
 ### Prompts & Aktionen
