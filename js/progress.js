@@ -244,6 +244,7 @@ function startExpedition() {
     progress.expeditionStarted = true;
     progress.onboardingSeen = true;
     saveProgress(progress);
+    if (typeof syncCurrentPlayer === 'function') syncCurrentPlayer();
   }
 }
 
@@ -330,6 +331,7 @@ function markStationComplete(stationId) {
     progress.completedStations.push(stationId);
     progress.points += POINTS_PER_STATION;
     saveProgress(progress);
+    if (typeof syncCurrentPlayer === 'function') syncCurrentPlayer();
   }
   return progress;
 }
@@ -352,6 +354,7 @@ function markChallengeComplete(stationId) {
     progress.challengesCompleted.push(stationId);
     progress.points += POINTS_PER_CHALLENGE;
     saveProgress(progress);
+    if (typeof syncCurrentPlayer === 'function') syncCurrentPlayer();
   }
   return progress;
 }
@@ -571,7 +574,6 @@ function initSession() {
 function resetProgress() {
   try {
     localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem('highscore-submitted');
   } catch (e) {
     // Graceful degradation
   }

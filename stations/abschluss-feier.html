@@ -247,17 +247,10 @@
           URL.revokeObjectURL(url);
         });
       }
-      // Highscore: Auto-submit + Ranking anzeigen
+      // Ranking anzeigen (Spieler wird bereits laufend via syncCurrentPlayer gesynct)
       var rankContainer = document.getElementById('ranking-container');
-      if (typeof isFinaleUnlocked === 'function' && isFinaleUnlocked()) {
-        if (!hasAlreadySubmitted()) {
-          var avatar = getAvatarChoice() || 'explorer';
-          submitHighscore(name, points, avatar, count);
-          markHighscoreSubmitted();
-        }
+      if (rankContainer) {
         renderRankingInline(rankContainer);
-      } else {
-        if (rankContainer) rankContainer.innerHTML = '<p style="color: var(--color-text-muted); font-style: italic;">Schliesse alle 4 Welten ab, um in der Rangliste zu erscheinen.</p>';
       }
     })();
   </script>

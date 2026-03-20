@@ -1,73 +1,66 @@
 /* ========================================
-   HIGHSCORE.JS – Leaderboard (localStorage)
+   HIGHSCORE.JS – Leaderboard (Supabase)
    ======================================== */
 
-var HIGHSCORE_KEY = 'lernlandschaft-highscores';
+var SUPABASE_URL = 'https://krzbzlxxycodagmhodrr.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtyemJ6bHh4eWNvZGFnbWhvZHJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMDk5NTYsImV4cCI6MjA4OTU4NTk1Nn0.DSydLkumxwcFruYNiTGwya7eVbfHIXv5qbXo-KKZwfQ';
 
-/**
- * Loads all highscores from localStorage.
- * @returns {Array} Sorted list (highest first)
- */
-function loadHighscores() {
-  try {
-    var data = localStorage.getItem(HIGHSCORE_KEY);
-    if (data) {
-      var scores = JSON.parse(data);
-      scores.sort(function (a, b) { return b.xp - a.xp; });
-      return scores;
+// Local cache to avoid blocking UI while fetching
+var _highscoreCache = [];
+
+function supabaseFetch(path, options) {
+  var url = SUPABASE_URL + '/rest/v1' + path;
+  var defaults = {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
     }
-  } catch (e) {}
-  return [];
+  };
+  var opts = Object.assign({}, defaults, options);
+  if (options && options.headers) {
+    opts.headers = Object.assign({}, defaults.headers, options.headers);
+  }
+  return fetch(url, opts);
 }
 
 /**
- * Saves a highscore entry to localStorage.
+ * Loads all highscores from Supabase.
+ * Returns a Promise that resolves to sorted array (highest XP first).
+ */
+function loadHighscores() {
+  return supabaseFetch('/highscores?order=xp.desc')
+    .then(function (res) { return res.json(); })
+    .then(function (scores) {
+      _highscoreCache = scores || [];
+      return _highscoreCache;
+    })
+    .catch(function () {
+      return _highscoreCache;
+    });
+}
+
+/**
+ * Upserts a highscore entry to Supabase (insert or update on name conflict).
  */
 function submitHighscore(name, xp, avatar, stations) {
-  var scores = loadHighscores();
   var entry = {
     name: name,
     xp: xp,
     avatar: avatar || 'explorer',
     stations: stations || 0,
-    date: new Date().toISOString().split('T')[0],
-    id: Date.now()
+    updated_at: new Date().toISOString().split('T')[0]
   };
 
-  // Update existing entry for this name or add new
-  var found = false;
-  for (var i = 0; i < scores.length; i++) {
-    if (scores[i].name === name) {
-      if (xp >= scores[i].xp) {
-        scores[i] = entry;
-      }
-      found = true;
-      break;
-    }
-  }
-  if (!found) scores.push(entry);
-
-  scores.sort(function (a, b) { return b.xp - a.xp; });
-
-  try {
-    localStorage.setItem(HIGHSCORE_KEY, JSON.stringify(scores));
-  } catch (e) {}
-
-  return scores;
-}
-
-function hasAlreadySubmitted() {
-  try {
-    return localStorage.getItem('highscore-submitted') === 'true';
-  } catch (e) {
-    return false;
-  }
-}
-
-function markHighscoreSubmitted() {
-  try {
-    localStorage.setItem('highscore-submitted', 'true');
-  } catch (e) {}
+  return supabaseFetch('/highscores', {
+    method: 'POST',
+    headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
+    body: JSON.stringify(entry)
+  })
+    .then(function (res) { return res.json(); })
+    .then(function () { return loadHighscores(); })
+    .catch(function () { return _highscoreCache; });
 }
 
 /**
@@ -83,24 +76,30 @@ function getPlayerRank(xp, allScores) {
 
 /**
  * Auto-saves current player to leaderboard.
+ * Returns a Promise.
  */
 function syncCurrentPlayer() {
   var name = getPlayerName();
-  if (!name) return;
+  if (!name) return Promise.resolve();
   var xp = getPoints();
   var avatar = getAvatarChoice() || 'explorer';
   var stations = getCompletionCount();
-  submitHighscore(name, xp, avatar, stations);
+  return submitHighscore(name, xp, avatar, stations);
 }
 
 /**
  * Opens the highscore modal popup.
  */
 function openHighscoreModal() {
-  // Sync current progress first
-  syncCurrentPlayer();
+  // Sync current progress first, then show
+  syncCurrentPlayer().then(function () {
+    return loadHighscores();
+  }).then(function (scores) {
+    _renderHighscoreModal(scores);
+  });
+}
 
-  var scores = loadHighscores();
+function _renderHighscoreModal(scores) {
   var playerName = getPlayerName();
   var playerXp = getPoints();
   var playerLevel = getLevel(playerXp);
@@ -217,9 +216,14 @@ function openHighscoreModal() {
  */
 function renderRankingInline(container) {
   if (!container) return;
-  syncCurrentPlayer();
+  syncCurrentPlayer().then(function () {
+    return loadHighscores();
+  }).then(function (scores) {
+    _renderRankingContent(container, scores);
+  });
+}
 
-  var scores = loadHighscores();
+function _renderRankingContent(container, scores) {
   var playerName = getPlayerName();
   var playerXp = getPoints();
   var html = '';
