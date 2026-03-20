@@ -244,8 +244,7 @@ function _renderHighscoreModal(scores) {
   var header = document.createElement('div');
   header.className = 'highscore-card__header';
   header.innerHTML = '<span class="highscore-card__icon">&#x1F3C6;</span>' +
-    '<h2 class="highscore-card__title">' + I18N.t('highscore.title', 'Expeditions-Rangliste') + '</h2>' +
-    '<p class="highscore-card__subtitle">' + I18N.t('highscore.subtitle', 'Alle Entdecker:innen') + '</p>';
+    '<h2 class="highscore-card__title">' + I18N.t('highscore.title', 'Expeditions-Rangliste') + '</h2>';
   card.appendChild(header);
 
   // Player highlight card

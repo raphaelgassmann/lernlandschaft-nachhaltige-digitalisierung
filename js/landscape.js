@@ -52,10 +52,16 @@ function applyInitialState() {
       }, 200);
     }
   } else if (hasAvatar && hasName) {
+    // Skip start-zone, go directly to expedition
     if (avatarSelect) avatarSelect.classList.add('is-hidden');
-    if (startZone) startZone.classList.remove('is-hidden');
-    updateStartAvatarImage();
-    updateStartName();
+    if (startZone) startZone.classList.add('is-hidden');
+    startExpedition();
+    if (mapContainer) mapContainer.classList.add('is-active');
+    if (mobileLandscape) mobileLandscape.classList.add('is-active');
+    if (header) header.classList.add('is-active');
+    updateGameHeader();
+    initMapView();
+    positionAvatarAt('sofa');
   } else {
     if (startZone) startZone.classList.add('is-hidden');
   }
@@ -102,9 +108,18 @@ function initAvatarSelect() {
 
       setPlayerName(name);
       document.getElementById('avatar-select').classList.add('is-hidden');
-      document.getElementById('start-zone').classList.remove('is-hidden');
-      updateStartAvatarImage();
-      updateStartName();
+
+      // Skip start-zone (sofa), go directly to expedition
+      startExpedition();
+      var mapContainer = document.getElementById('map-container');
+      var mobileLandscape = document.getElementById('mobile-landscape');
+      var header = document.getElementById('game-header');
+      if (mapContainer) mapContainer.classList.add('is-active');
+      if (mobileLandscape) mobileLandscape.classList.add('is-active');
+      if (header) header.classList.add('is-active');
+      updateGameHeader();
+      initMapView();
+      positionAvatarAt('sofa');
     });
   }
 }
