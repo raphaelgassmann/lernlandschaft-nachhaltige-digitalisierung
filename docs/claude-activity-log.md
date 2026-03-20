@@ -700,3 +700,5 @@ index.html          – srcset/sizes auf allen 12 map-station__img für responsi
 | 3 | Quiz penalty timer anpassen | Erste falsche Antwort: 45s→35s, weitere: 30s→20s | `js/station.js` |
 | 4 | Falsche Frage wiederholen | Nach Timer wird dieselbe Frage nochmals gestellt statt eine neue; Refactoring in `renderQuestion` extrahiert | `js/station.js` |
 | 5 | Abschluss-Feier Position anpassen | Finale-Marker von top 88.5% auf 91% verschoben (weiter unten, zentrierter im Panel) | `js/progress.js` |
+| 6 | Notizbuch: Kontext statt Stationsname | Stationsname entfernt, Kontext-Text (Aktion/Aufgabe) als Überschrift | `js/landscape.js` |
+| 7 | XP-Bar: Gesamtfortschritt statt Level-Fortschritt | Bar zeigt 0–180 XP (MAX_POINTS), Text "X / 180 XP" | `js/landscape.js`, `js/progress.js` |

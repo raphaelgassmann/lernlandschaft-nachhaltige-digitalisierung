@@ -6,6 +6,7 @@
 var STORAGE_KEY = 'lernlandschaft-progress';
 var POINTS_PER_STATION = 10;
 var POINTS_PER_CHALLENGE = 5;
+var MAX_POINTS = 180;
 
 /* ========================================
    WORLDS – Fork-Modell: 1 Pflicht + 2 Fork

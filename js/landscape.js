@@ -489,25 +489,27 @@ function updateGameHeader() {
     sessionStorage.removeItem('stations-before');
   } catch (e) { /* ignore */ }
 
+  var xpPercent = Math.min(1, points / MAX_POINTS) * 100;
+
   if (xpBefore !== null && xpFill) {
     // Start at old value (no transition), then animate to new value
     var oldPoints = parseInt(xpBefore) || 0;
-    var oldLevel = getLevel(oldPoints);
+    var oldPercent = Math.min(1, oldPoints / MAX_POINTS) * 100;
     xpFill.style.transition = 'none';
-    xpFill.style.width = (oldLevel.progressToNext * 100) + '%';
-    if (xpText) xpText.textContent = oldPoints + ' XP';
+    xpFill.style.width = oldPercent + '%';
+    if (xpText) xpText.textContent = oldPoints + ' / ' + MAX_POINTS + ' XP';
     if (stat) stat.textContent = (parseInt(stationsBefore) || 0) + '/' + total;
 
     // Force reflow, then animate to new value
     void xpFill.offsetWidth;
     xpFill.style.transition = '';
     setTimeout(function () {
-      xpFill.style.width = (levelInfo.progressToNext * 100) + '%';
+      xpFill.style.width = xpPercent + '%';
       if (xpText) animateXpText(xpText, points);
       if (stat) stat.textContent = count + '/' + total;
     }, 400);
   } else {
-    if (xpFill) xpFill.style.width = (levelInfo.progressToNext * 100) + '%';
+    if (xpFill) xpFill.style.width = xpPercent + '%';
     if (xpText) animateXpText(xpText, points);
     if (stat) stat.textContent = count + '/' + total;
   }
@@ -532,7 +534,7 @@ function animateXpText(el, targetXp) {
   var currentXp = parseInt(currentText) || 0;
 
   if (currentXp === targetXp) {
-    el.textContent = targetXp + ' XP';
+    el.textContent = targetXp + ' / ' + MAX_POINTS + ' XP';
     return;
   }
 
@@ -546,7 +548,7 @@ function animateXpText(el, targetXp) {
     var progress = Math.min((timestamp - startTime) / duration, 1);
     var eased = 1 - Math.pow(1 - progress, 3);
     var value = Math.round(currentXp + (targetXp - currentXp) * eased);
-    el.textContent = value + ' XP';
+    el.textContent = value + ' / ' + MAX_POINTS + ' XP';
     if (progress < 1) {
       _xpAnimFrame = requestAnimationFrame(step);
     }
@@ -911,9 +913,9 @@ function renderNotebookContent(tabName) {
   keys.forEach(function (stationId) {
     var text = entries[stationId];
     var context = getNotebookContext(stationId, tabName);
+    var heading = context || getStationLabel(stationId);
     html += '<div class="notebook-entry">' +
-      '<div class="notebook-entry__station">' + getStationLabel(stationId) + '</div>' +
-      (context ? '<div class="notebook-entry__context">' + escapeHtml(context) + '</div>' : '') +
+      '<div class="notebook-entry__context">' + escapeHtml(heading) + '</div>' +
       '<div class="notebook-entry__text">' + escapeHtml(text) + '</div>' +
     '</div>';
   });
