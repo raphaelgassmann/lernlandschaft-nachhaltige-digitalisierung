@@ -312,7 +312,7 @@ function initQuiz() {
 
   var questions = QUIZ_DATA[stationId].slice();
   var usedIndexes = [];
-  var quizState = { needsBonus: false, bonusShown: false, timerInterval: null };
+  var quizState = { needsBonus: false, bonusShown: false, timerInterval: null, wrongCount: 0 };
 
   // Check for active penalty timer from page reload
   var timerKey = 'quizTimer_' + stationId;
@@ -409,11 +409,13 @@ function showNextQuestion(container, stationId, questions, usedIndexes, quizStat
 
         options.forEach(function (b) { b.disabled = true; });
 
+        quizState.wrongCount++;
         quizState.needsBonus = true;
         quizState.bonusShown = false;
 
+        var penaltySeconds = quizState.wrongCount === 1 ? 45 : 30;
         setTimeout(function () {
-          showPenaltyTimer(container, stationId, questions, usedIndexes, quizState, 60);
+          showPenaltyTimer(container, stationId, questions, usedIndexes, quizState, penaltySeconds);
         }, 500);
       }
     });
@@ -438,7 +440,8 @@ function showPenaltyTimer(container, stationId, questions, usedIndexes, quizStat
   var timerDiv = document.createElement('div');
   timerDiv.className = 'quiz-timer';
 
-  var progress = remaining / 60;
+  var totalSeconds = seconds;
+  var progress = remaining / totalSeconds;
   var offset = circumference * (1 - progress);
 
   timerDiv.innerHTML =
@@ -471,7 +474,7 @@ function showPenaltyTimer(container, stationId, questions, usedIndexes, quizStat
       if (secondsEl) secondsEl.textContent = remaining;
       if (textEl) textEl.textContent = I18N.t('ui.quiz_timer_countdown', 'Neue Frage in ' + remaining + ' Sekunden').replace('{seconds}', remaining);
       if (progressEl) {
-        var o = circumference * (1 - remaining / 60);
+        var o = circumference * (1 - remaining / totalSeconds);
         progressEl.setAttribute('stroke-dashoffset', o);
       }
     }

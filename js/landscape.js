@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
   initStartZone();
   initStartSparkles();
   updateGameHeader();
-  renderBadgeBar();
   initResetButton();
   initHighscoreButton();
 });
@@ -164,7 +163,7 @@ function initStartZone() {
         animateAvatarTo(target);
       }, 600);
 
-      if (mapContainer && window.innerWidth > 600) {
+      if (mapContainer) {
         mapContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
@@ -626,10 +625,12 @@ var PARTICLE_REGIONS = [
 function initMapParticles() {
   var container = document.getElementById('map-particles');
   if (!container || container.children.length > 0) return;
-  if (window.innerWidth < 600) return;
+
+  var isMobile = window.innerWidth < 600;
 
   PARTICLE_REGIONS.forEach(function (region) {
-    for (var i = 0; i < region.count; i++) {
+    var count = isMobile ? Math.floor(region.count / 3) : region.count;
+    for (var i = 0; i < count; i++) {
       var span = document.createElement('span');
       span.className = 'particle ' + region.cls;
 

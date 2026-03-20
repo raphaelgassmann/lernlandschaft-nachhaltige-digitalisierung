@@ -647,3 +647,31 @@ index.html                   – srcset für Avatare, lazy loading, picture für
 stations/*.html (12×)        – <picture> Elemente für responsive images, lazy loading
 js/progress.js               – getMobileAssetPath() Hilfsfunktion, mobile-aware getAvatarImage/getAvatarSprite
 ```
+
+---
+
+## Session 6 – 2026-03-20
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 1 | Mobile als Karte statt Cards | Card-Layout durch skalierte Kartenansicht ersetzt | Mobile zeigt jetzt die gleiche visuelle Karte wie Desktop |
+
+### Entscheidungen
+
+- **Strategie:** Bestehende `.map-container` auf Mobile zeigen statt separates Card-Layout
+- **Card-Layout entfernt:** `.mobile-landscape` wird per CSS komplett ausgeblendet
+- **Map-Panel-Backgrounds:** Statt der schweren Desktop-PNGs die generierten Welt-Banner-WebPs (12-40KB) als Hintergründe
+- **Panel-Seitenverhältnis:** Auf Mobile `aspect-ratio: 1/1` statt 1536/1024 für mehr vertikalen Platz
+- **Skalierung:** Station-Bilder 72px (400px: 58px), Labels kleiner, Avatar 40px (34px), Pfade dünner
+- **Partikel:** Auf Mobile 1/3 der Desktop-Menge statt komplett deaktiviert
+- **Scroll:** Map scrollt auch auf Mobile nach Expedition-Start ins Sichtfeld
+
+### Erstellte/geänderte Dateien
+
+```
+css/landscape.css   – Mobile @media komplett umgeschrieben: Map statt Cards, skalierte Elemente, Welt-Backgrounds
+js/landscape.js     – Scroll-Check für Mobile entfernt, Partikel auf Mobile reduziert statt deaktiviert
+index.html          – srcset/sizes auf allen 12 map-station__img für responsive Bildladung
+```

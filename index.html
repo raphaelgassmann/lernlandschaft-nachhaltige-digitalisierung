@@ -32,7 +32,6 @@
     </div>
     <div class="game-header__stats">
       <span class="stat" id="stat-stations" title="Stationen">0/12</span>
-      <div class="badge-bar" id="badge-bar" aria-label="Achievements"></div>
       <button class="highscore-btn" id="highscore-btn" title="Rangliste" aria-label="Rangliste öffnen">&#x1F3C6;</button>
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
       <button class="reset-btn reset-btn--header" id="reset-btn" title="Fortschritt zurücksetzen">&#x21BB;</button>
@@ -91,15 +90,7 @@
     <section class="start-zone is-hidden" id="start-zone" aria-label="Startpunkt">
       <div class="start-zone__content" id="start-content">
         <div class="start-sparkles" id="start-sparkles" aria-hidden="true"></div>
-        <img class="start-zone__avatar" id="start-avatar" src="assets/avatar-sofa.png"
-             srcset="assets/mobile/avatar-sofa.webp 256w, assets/avatar-sofa.png 1024w"
-             sizes="(max-width: 600px) 80px, 100px"
-             alt="Dein Avatar" loading="lazy" />
-        <picture>
-          <source media="(max-width: 600px)" srcset="assets/mobile/start-sofa.webp" type="image/webp">
-          <source media="(max-width: 600px)" srcset="assets/mobile/start-sofa.png">
-          <img class="start-zone__sofa" src="assets/start-sofa.png" alt="Dein Sofa – die Komfortzone" loading="lazy" />
-        </picture>
+        <img class="start-zone__avatar" id="start-avatar" src="assets/avatar-explorer.png" alt="Dein Avatar" />
         <div class="start-zone__text">
           <h1 class="start-zone__title" data-i18n="start.ready">Bereit, <span id="start-player-name"></span>?</h1>
           <p class="start-zone__subtitle" data-i18n="start.subtitle">Du sitzt gemütlich auf dem Sofa. Aber da draussen wartet eine ganze Welt voller Entdeckungen...</p>
@@ -155,72 +146,72 @@
       <!-- 12 Stations (absolute positioned) -->
       <!-- Jungle -->
       <a href="stations/geraete-lichtung.html" class="map-station map-station--mandatory" data-station="geraete-lichtung" data-world="jungle">
-        <img class="map-station__img" src="assets/station-geraete-lichtung.png" alt="" />
+        <img class="map-station__img" src="assets/station-geraete-lichtung.png" srcset="assets/mobile/station-geraete-lichtung.webp 512w, assets/station-geraete-lichtung.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.geraete-lichtung.title">Die Geräte-Lichtung</span>
         <span class="map-station__badge" data-i18n="ui.mandatory">Pflicht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/cloud-quelle.html" class="map-station map-station--fork" data-station="cloud-quelle" data-world="jungle">
-        <img class="map-station__img" src="assets/station-cloud-quelle.png" alt="" />
+        <img class="map-station__img" src="assets/station-cloud-quelle.png" srcset="assets/mobile/station-cloud-quelle.webp 512w, assets/station-cloud-quelle.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.cloud-quelle.title">Die Cloud-Quelle</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/code-camp.html" class="map-station map-station--fork" data-station="code-camp" data-world="jungle">
-        <img class="map-station__img" src="assets/station-code-camp.png" alt="" />
+        <img class="map-station__img" src="assets/station-code-camp.png" srcset="assets/mobile/station-code-camp.webp 512w, assets/station-code-camp.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.code-camp.title">Das Code-Camp</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
 
       <!-- Ocean -->
       <a href="stations/server-riff.html" class="map-station map-station--mandatory" data-station="server-riff" data-world="ocean">
-        <img class="map-station__img" src="assets/station-server-riff.png" alt="" />
+        <img class="map-station__img" src="assets/station-server-riff.png" srcset="assets/mobile/station-server-riff.webp 512w, assets/station-server-riff.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.server-riff.title">Das Server-Riff</span>
         <span class="map-station__badge" data-i18n="ui.mandatory">Pflicht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/streaming-strom.html" class="map-station map-station--fork" data-station="streaming-strom" data-world="ocean">
-        <img class="map-station__img" src="assets/station-streaming-strom.png" alt="" />
+        <img class="map-station__img" src="assets/station-streaming-strom.png" srcset="assets/mobile/station-streaming-strom.webp 512w, assets/station-streaming-strom.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.streaming-strom.title">Der Streaming-Strom</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/backup-bucht.html" class="map-station map-station--fork" data-station="backup-bucht" data-world="ocean">
-        <img class="map-station__img" src="assets/station-backup-bucht.png" alt="" />
+        <img class="map-station__img" src="assets/station-backup-bucht.png" srcset="assets/mobile/station-backup-bucht.webp 512w, assets/station-backup-bucht.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.backup-bucht.title">Die Backup-Bucht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
 
       <!-- Cosmos -->
       <a href="stations/ide-asteroid.html" class="map-station map-station--mandatory" data-station="ide-asteroid" data-world="cosmos">
-        <img class="map-station__img" src="assets/station-ide-asteroid.png" alt="" />
+        <img class="map-station__img" src="assets/station-ide-asteroid.png" srcset="assets/mobile/station-ide-asteroid.webp 512w, assets/station-ide-asteroid.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.ide-asteroid.title">Der IDE-Asteroid</span>
         <span class="map-station__badge" data-i18n="ui.mandatory">Pflicht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/deploy-stern.html" class="map-station map-station--fork" data-station="deploy-stern" data-world="cosmos">
-        <img class="map-station__img" src="assets/station-deploy-stern.png" alt="" />
+        <img class="map-station__img" src="assets/station-deploy-stern.png" srcset="assets/mobile/station-deploy-stern.webp 512w, assets/station-deploy-stern.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.deploy-stern.title">Der Deploy-Stern</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/workflow-nebel.html" class="map-station map-station--fork" data-station="workflow-nebel" data-world="cosmos">
-        <img class="map-station__img" src="assets/station-workflow-nebel.png" alt="" />
+        <img class="map-station__img" src="assets/station-workflow-nebel.png" srcset="assets/mobile/station-workflow-nebel.webp 512w, assets/station-workflow-nebel.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.workflow-nebel.title">Der Workflow-Nebel</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
 
       <!-- Metro -->
       <a href="stations/ki-kraftwerk.html" class="map-station map-station--mandatory" data-station="ki-kraftwerk" data-world="metro">
-        <img class="map-station__img" src="assets/station-ki-kraftwerk.png" alt="" />
+        <img class="map-station__img" src="assets/station-ki-kraftwerk.png" srcset="assets/mobile/station-ki-kraftwerk.webp 512w, assets/station-ki-kraftwerk.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.ki-kraftwerk.title">Das KI-Kraftwerk</span>
         <span class="map-station__badge" data-i18n="ui.mandatory">Pflicht</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/open-source-platz.html" class="map-station map-station--fork" data-station="open-source-platz" data-world="metro">
-        <img class="map-station__img" src="assets/station-open-source-platz.png" alt="" />
+        <img class="map-station__img" src="assets/station-open-source-platz.png" srcset="assets/mobile/station-open-source-platz.webp 512w, assets/station-open-source-platz.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.open-source-platz.title">Der Open-Source-Platz</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
       <a href="stations/digital-ethics-turm.html" class="map-station map-station--fork" data-station="digital-ethics-turm" data-world="metro">
-        <img class="map-station__img" src="assets/station-digital-ethics-turm.png" alt="" />
+        <img class="map-station__img" src="assets/station-digital-ethics-turm.png" srcset="assets/mobile/station-digital-ethics-turm.webp 512w, assets/station-digital-ethics-turm.png 1024w" sizes="(max-width: 600px) 72px, 135px" alt="" loading="lazy" />
         <span class="map-station__label" data-i18n="station.digital-ethics-turm.title">Der Digital-Ethics-Turm</span>
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
