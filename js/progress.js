@@ -52,7 +52,7 @@ var TOTAL_STATIONS = Object.values(WORLDS).reduce(function (sum, w) {
 var SOFA_POSITION = { top: 3.5, left: 28 };
 
 var STATION_POSITIONS = {
-  'abschluss-feier':     { top: 90, left: 50 },
+  'abschluss-feier':     { top: 88.5, left: 50 },
   // Panel 0 (0-20%): Jungle – sofa, door, Y-fork path
   'geraete-lichtung':    { top: 11, left: 50 },
   'cloud-quelle':        { top: 16.5, left: 32 },
@@ -69,9 +69,9 @@ var STATION_POSITIONS = {
   'workflow-nebel':      { top: 54, left: 72 },
 
   // Panel 3-4 (60-100%): Cosmos -> Metro – convergence, city grid
-  'ki-kraftwerk':        { top: 71, left: 50 },
-  'open-source-platz':   { top: 77, left: 32 },
-  'digital-ethics-turm': { top: 77, left: 68 }
+  'ki-kraftwerk':        { top: 69.5, left: 50 },
+  'open-source-platz':   { top: 75.5, left: 32 },
+  'digital-ethics-turm': { top: 75.5, left: 68 }
 };
 
 /* ========================================

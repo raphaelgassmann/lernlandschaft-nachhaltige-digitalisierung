@@ -330,7 +330,7 @@ function positionWorldLabels() {
     jungle: { top: 1, left: 50 },
     ocean:  { top: 21, left: 50 },
     cosmos: { top: 41, left: 50 },
-    metro:  { top: 63, left: 50 }
+    metro:  { top: 61.5, left: 50 }
   };
 
   var labels = document.querySelectorAll('.map-world-label');
