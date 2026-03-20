@@ -35,7 +35,7 @@
 
       <div class="micro-intro">
         <div class="micro-intro__text">
-          <p>VS Code, IntelliJ, WebStorm – moderne IDEs sind mächtige Werkzeuge. Aber sie laufen auf
+          <p data-i18n="station.ide-asteroid.micro.p1">VS Code, IntelliJ, WebStorm – moderne IDEs sind mächtige Werkzeuge. Aber sie laufen auf
           <strong>Electron</strong> (VS Code) oder der <strong>JVM</strong> (JetBrains) und verbrauchen dabei
           ordentlich Ressourcen.</p>
         </div>
@@ -47,33 +47,33 @@
         </picture>
       </div>
 
-      <div class="key-fact key-fact--orange">
+      <div class="key-fact key-fact--orange" data-i18n="station.ide-asteroid.micro.keyfact1">
         VS Code mit <strong>30+ Extensions</strong> belegt locker <strong>1–2 GB RAM</strong> und beschäftigt
         deine CPU mit Dutzenden Hintergrundprozessen – Linter, Language Server, AI Copilots, Formatter.
       </div>
 
-      <p>Jede Extension läuft als eigener Prozess. Das heisst:</p>
-      <ul>
+      <p data-i18n="station.ide-asteroid.micro.p2">Jede Extension läuft als eigener Prozess. Das heisst:</p>
+      <ul data-i18n="station.ide-asteroid.micro.list1">
         <li>Mehr Extensions = mehr <strong>RAM</strong> und <strong>CPU-Last</strong></li>
         <li><strong>Idle-Prozesse</strong> laufen weiter, auch wenn du sie gerade nicht brauchst</li>
         <li>Electron-basierte Apps (VS Code, Slack, Discord) sind im Grunde <strong>vollständige Browser</strong> – jede davon braucht eigene Ressourcen</li>
       </ul>
 
-      <div class="key-fact key-fact--orange">
+      <div class="key-fact key-fact--orange" data-i18n="station.ide-asteroid.micro.keyfact2">
         <strong>Dark Mode</strong> auf OLED-Displays spart bis zu <strong>60% Bildschirm-Energie</strong>,
         weil schwarze Pixel komplett ausgeschaltet sind. Auf LCD-Displays ist der Effekt geringer, aber
         deine Augen danken es dir trotzdem.
       </div>
 
-      <p>Weitere Energiefresser in deiner IDE:</p>
-      <ul>
+      <p data-i18n="station.ide-asteroid.micro.p3">Weitere Energiefresser in deiner IDE:</p>
+      <ul data-i18n="station.ide-asteroid.micro.list2">
         <li><strong>Auto-Save</strong> mit Sofort-Intervall löst bei jedem Tastendruck Disk-Writes und Extension-Neuauswertungen aus – 1000ms Delay reicht</li>
         <li><strong>Telemetrie &amp; Crash-Reporting</strong> sendet im Hintergrund Daten – das braucht Netzwerk und CPU</li>
         <li><strong>Real-Time Type Checking</strong> und <strong>AI Autocomplete</strong> sind CPU-intensiv und nicht immer nötig</li>
         <li>Nicht geschlossene IDE-Fenster bleiben im <strong>Task Manager</strong> als Zombie-Prozesse hängen</li>
       </ul>
 
-      <div class="key-fact key-fact--orange">
+      <div class="key-fact key-fact--orange" data-i18n="station.ide-asteroid.micro.keyfact3">
         Tipp: Öffne den <strong>Task Manager</strong> (Windows: <code>Ctrl+Shift+Esc</code>, macOS: Aktivitätsanzeige)
         und staune, wie viele Prozesse deine IDE startet.
       </div>
@@ -83,11 +83,11 @@
     <section class="station-section section-action">
       <h2><img class="section-icon" src="../assets/icons/icon-action.png" alt="" aria-hidden="true" /> Tat / Einstellung</h2>
 
-      <p><strong>Mach dein IDE-Setup schlanker</strong> – weniger Ressourcen, gleiche Produktivität.</p>
+      <p data-i18n="station.ide-asteroid.action.p1"><strong>Mach dein IDE-Setup schlanker</strong> – weniger Ressourcen, gleiche Produktivität.</p>
 
       <div class="instructions">
-        <p class="instructions__title">Aufgabe 1: Extensions aufräumen</p>
-        <ul>
+        <p class="instructions__title" data-i18n="station.ide-asteroid.action.task1_title">Aufgabe 1: Extensions aufräumen</p>
+        <ul data-i18n="station.ide-asteroid.action.task1">
           <li>Öffne VS Code und gehe zu Extensions: <code>Ctrl+Shift+X</code> (oder <code>Cmd+Shift+X</code>)</li>
           <li>Filtere nach «Installed» und scrolle durch die Liste</li>
           <li><strong>Deaktiviere mindestens 3 Extensions</strong>, die du nicht regelmässig brauchst</li>
@@ -96,16 +96,16 @@
       </div>
 
       <div class="instructions">
-        <p class="instructions__title">Aufgabe 2: Dark Mode &amp; Telemetrie</p>
-        <ul>
+        <p class="instructions__title" data-i18n="station.ide-asteroid.action.task2_title">Aufgabe 2: Dark Mode &amp; Telemetrie</p>
+        <ul data-i18n="station.ide-asteroid.action.task2">
           <li>Aktiviere ein <strong>dunkles Theme</strong>: <code>Ctrl+Shift+P</code> &rarr; <code>Color Theme</code> &rarr; wähle ein Dark Theme</li>
           <li>Deaktiviere Telemetrie: <code>Settings</code> &rarr; suche <code>telemetry.telemetryLevel</code> &rarr; setze auf <code>off</code></li>
         </ul>
       </div>
 
       <div class="instructions">
-        <p class="instructions__title">Aufgabe 3: Task Manager prüfen</p>
-        <ul>
+        <p class="instructions__title" data-i18n="station.ide-asteroid.action.task3_title">Aufgabe 3: Task Manager prüfen</p>
+        <ul data-i18n="station.ide-asteroid.action.task3">
           <li>Öffne den Task Manager / Aktivitätsanzeige</li>
           <li>Sortiere nach <strong>Arbeitsspeicher</strong></li>
           <li>Notiere dir, wie viel RAM deine IDE aktuell verbraucht</li>
@@ -114,22 +114,22 @@
       </div>
     
 
-      <label class="textarea-label">Deine Notizen</label>
-      <textarea class="station-textarea" data-station="ide-asteroid" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
+      <label class="textarea-label" data-i18n="ui.your_notes">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="ide-asteroid" data-type="note" data-i18n="ui.notes_placeholder" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
     <section class="station-section section-reflection">
       <h2><img class="section-icon" src="../assets/icons/icon-reflection.png" alt="" aria-hidden="true" /> Reflexion</h2>
 
-      <p class="reflection-question">
+      <p class="reflection-question" data-i18n="station.ide-asteroid.reflection.q">
         Brauchen wir wirklich eine IDE, die wie ein Browser läuft – oder ginge es auch leichter?
       </p>
 
-      <button class="reveal-btn" data-target="reflection-hint-ide-asteroid">
+      <button class="reveal-btn" data-target="reflection-hint-ide-asteroid" data-i18n="ui.show_hint">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-ide-asteroid">
+      <div class="reveal-content" id="reflection-hint-ide-asteroid" data-i18n="station.ide-asteroid.reflection.hint">
         <p>Electron-Apps wie VS Code sind praktisch, weil sie plattformübergreifend funktionieren.
         Aber für einfache Aufgaben reicht manchmal ein <strong>leichter Editor</strong> wie Sublime Text,
         Vim oder sogar Notepad++. Die Frage ist nicht «ganz oder gar nicht», sondern:
@@ -138,26 +138,26 @@
       </div>
     
 
-      <label class="textarea-label">Deine Antwort</label>
-      <textarea class="station-textarea" data-station="ide-asteroid" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
+      <label class="textarea-label" data-i18n="ui.your_answer">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="ide-asteroid" data-type="reflection" data-i18n="ui.reflection_placeholder" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
     <section class="station-section section-challenge">
       <h2><img class="section-icon" src="../assets/icons/icon-challenge.png" alt="" aria-hidden="true" /> Challenge</h2>
 
-      <p><strong>RAM-Vergleich: Vorher vs. Nachher</strong></p>
-      <ul>
+      <p data-i18n="station.ide-asteroid.challenge.p1"><strong>RAM-Vergleich: Vorher vs. Nachher</strong></p>
+      <ul data-i18n="station.ide-asteroid.challenge.list">
         <li>Öffne den Task Manager und mache einen <strong>Screenshot</strong> vom RAM-Verbrauch deiner IDE mit allen Extensions</li>
         <li>Deaktiviere dann alle nicht-essentiellen Extensions und starte die IDE neu</li>
         <li>Mache einen <strong>zweiten Screenshot</strong> und vergleiche</li>
         <li>Teile deinen Vergleich mit deiner Klasse oder deinem Berufsbildner</li>
       </ul>
 
-      <label class="challenge-response-label">Deine Abgabe</label>
-      <textarea class="challenge-response" placeholder="Wie viel RAM hat deine IDE vorher vs. nachher verbraucht? Welche Extensions hast du deaktiviert?"></textarea>
+      <label class="challenge-response-label" data-i18n="ui.your_submission">Deine Abgabe</label>
+      <textarea class="challenge-response" data-i18n="station.ide-asteroid.challenge.placeholder" placeholder="Wie viel RAM hat deine IDE vorher vs. nachher verbraucht? Welche Extensions hast du deaktiviert?"></textarea>
 
-      <button class="challenge-btn" data-station="ide-asteroid">
+      <button class="challenge-btn" data-station="ide-asteroid" data-i18n="ui.submit_challenge">
         Challenge abgeben (+5 Punkte)
       </button>
     </section>

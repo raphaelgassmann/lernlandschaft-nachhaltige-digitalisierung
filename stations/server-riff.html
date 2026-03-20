@@ -38,7 +38,7 @@
 
       <div class="micro-intro">
         <div class="micro-intro__text">
-          <p>Jedes Mal, wenn du eine Datei in die Cloud lädst, ein Modell trainierst oder einen Container
+          <p data-i18n="station.server-riff.micro.p1">Jedes Mal, wenn du eine Datei in die Cloud lädst, ein Modell trainierst oder einen Container
           deployst, arbeitet irgendwo ein Rechenzentrum für dich. Weltweit verbrauchen Rechenzentren
           ca. <strong>1–2% des globalen Stroms</strong> – Tendenz steigend.</p>
         </div>
@@ -50,33 +50,33 @@
         </picture>
       </div>
 
-      <div class="key-fact">
+      <div class="key-fact" data-i18n="station.server-riff.micro.keyfact1">
         Ein einzelnes grosses Rechenzentrum benötigt so viel Strom wie eine
         <strong>Kleinstadt mit 30'000 Einwohnern</strong>. Bis zu 40% der Energie
         geht allein für die Kühlung drauf.
       </div>
 
-      <p>Um die Effizienz eines Rechenzentrums zu messen, gibt es den <strong>PUE-Wert
+      <p data-i18n="station.server-riff.micro.p2">Um die Effizienz eines Rechenzentrums zu messen, gibt es den <strong>PUE-Wert
       (Power Usage Effectiveness)</strong>:</p>
 
-      <ul>
+      <ul data-i18n="station.server-riff.micro.list1">
         <li><strong>PUE 1.0</strong> = perfekt – jede Kilowattstunde geht in die Rechenleistung</li>
         <li><strong>PUE 1.2</strong> = sehr gut (Google-Durchschnitt)</li>
         <li><strong>PUE 1.6</strong> = Branchendurchschnitt – 60% Overhead für Kühlung, Beleuchtung etc.</li>
         <li><strong>PUE 2.0</strong> = schlecht – die Hälfte der Energie ist «Verschwendung»</li>
       </ul>
 
-      <div class="key-fact">
+      <div class="key-fact" data-i18n="station.server-riff.micro.keyfact2">
         Darum stehen viele Rechenzentren in <strong>Norwegen, Irland oder Schweden</strong>:
         Das kühle Klima senkt den Kühlbedarf massiv. Google nutzt in Finnland sogar
         <strong>Meerwasser zur Kühlung</strong>.
       </div>
 
-      <p>Auch in der Schweiz gibt es smarte Ansätze: Die <strong>Abwärme von Rechenzentren</strong>
+      <p data-i18n="station.server-riff.micro.p3">Auch in der Schweiz gibt es smarte Ansätze: Die <strong>Abwärme von Rechenzentren</strong>
       wird ins Fernwärmenetz eingespeist. In Zürich heizt das Rechenzentrum von Green.ch
       bereits Wohnungen – aus Serverabwärme wird Heizenergie.</p>
 
-      <ul>
+      <ul data-i18n="station.server-riff.micro.list2">
         <li>Microsoft hat ein experimentelles <strong>Unterwasser-Rechenzentrum</strong> (Project Natick) getestet</li>
         <li>Meta setzt an vielen Standorten auf <strong>100% erneuerbare Energie</strong></li>
         <li>AWS bietet eine <strong>«Customer Carbon Footprint»</strong>-Ansicht in der Konsole</li>
@@ -87,12 +87,12 @@
     <section class="station-section section-action">
       <h2><img class="section-icon" src="../assets/icons/icon-action.png" alt="" aria-hidden="true" /> Tat / Einstellung</h2>
 
-      <p><strong>Finde heraus, wo dein Cloud-Provider seine Rechenzentren betreibt</strong> –
+      <p data-i18n="station.server-riff.action.p1"><strong>Finde heraus, wo dein Cloud-Provider seine Rechenzentren betreibt</strong> –
       und recherchiere den PUE-Wert oder die Nachhaltigkeitsstrategie.</p>
 
       <div class="instructions">
-        <p class="instructions__title">Anleitung</p>
-        <ul>
+        <p class="instructions__title" data-i18n="ui.instructions">Anleitung</p>
+        <ul data-i18n="station.server-riff.action.instructions">
           <li><strong>Azure:</strong> Suche nach «Azure Sustainability» – Microsoft veröffentlicht Standortdaten und PUE-Werte</li>
           <li><strong>AWS:</strong> In der AWS-Konsole &rarr; <code>Customer Carbon Footprint Tool</code> unter «Billing»</li>
           <li><strong>Google Cloud:</strong> <code>Carbon Footprint Dashboard</code> im Cloud-Console-Menü</li>
@@ -100,30 +100,30 @@
         </ul>
       </div>
 
-      <p>Notiere dir:</p>
-      <ul>
+      <p data-i18n="station.server-riff.action.p2">Notiere dir:</p>
+      <ul data-i18n="station.server-riff.action.list2">
         <li>In welcher Region laufen deine Cloud-Dienste?</li>
         <li>Welchen PUE-Wert hat dein Provider (falls veröffentlicht)?</li>
         <li>Nutzt der Provider erneuerbare Energie?</li>
       </ul>
     
 
-      <label class="textarea-label">Deine Notizen</label>
-      <textarea class="station-textarea" data-station="server-riff" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
+      <label class="textarea-label" data-i18n="ui.your_notes">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="server-riff" data-type="note" data-i18n="ui.notes_placeholder" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
     <section class="station-section section-reflection">
       <h2><img class="section-icon" src="../assets/icons/icon-reflection.png" alt="" aria-hidden="true" /> Reflexion</h2>
 
-      <p class="reflection-question">
+      <p class="reflection-question" data-i18n="station.server-riff.reflection.q">
         Sollte es ein Label für nachhaltige Cloud-Dienste geben – wie bei Lebensmitteln?
       </p>
 
-      <button class="reveal-btn" data-target="reflection-hint-server-riff">
+      <button class="reveal-btn" data-target="reflection-hint-server-riff" data-i18n="ui.show_hint">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-server-riff">
+      <div class="reveal-content" id="reflection-hint-server-riff" data-i18n="station.server-riff.reflection.hint">
         <p>Bei Lebensmitteln helfen Labels wie «Bio» oder «Fairtrade» bei der Kaufentscheidung.
         Bei Cloud-Diensten fehlt so etwas komplett. Stell dir vor, du könntest bei jedem
         Deployment sehen: «Dieser Service läuft in einem Rechenzentrum mit PUE 1.1,
@@ -132,29 +132,29 @@
       </div>
     
 
-      <label class="textarea-label">Deine Antwort</label>
-      <textarea class="station-textarea" data-station="server-riff" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
+      <label class="textarea-label" data-i18n="ui.your_answer">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="server-riff" data-type="reflection" data-i18n="ui.reflection_placeholder" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
     <section class="station-section section-challenge">
       <h2><img class="section-icon" src="../assets/icons/icon-challenge.png" alt="" aria-hidden="true" /> Challenge</h2>
 
-      <p>Vergleiche <strong>zwei Cloud-Provider</strong> (z.B. Azure vs. AWS oder Google Cloud vs. Infomaniak)
+      <p data-i18n="station.server-riff.challenge.p1">Vergleiche <strong>zwei Cloud-Provider</strong> (z.B. Azure vs. AWS oder Google Cloud vs. Infomaniak)
       bezüglich ihrer Nachhaltigkeit.</p>
-      <p>Recherchiere folgende Punkte für beide Anbieter:</p>
-      <ul>
+      <p data-i18n="station.server-riff.challenge.p2">Recherchiere folgende Punkte für beide Anbieter:</p>
+      <ul data-i18n="station.server-riff.challenge.list">
         <li>PUE-Durchschnittswert</li>
         <li>Anteil erneuerbarer Energie</li>
         <li>Standorte der Rechenzentren</li>
         <li>Transparenz-Tools für Kunden (CO₂-Dashboard etc.)</li>
       </ul>
-      <p>Halte dein Ergebnis in einer <strong>kurzen Vergleichstabelle</strong> fest.</p>
+      <p data-i18n="station.server-riff.challenge.p3">Halte dein Ergebnis in einer <strong>kurzen Vergleichstabelle</strong> fest.</p>
 
-      <label class="challenge-response-label">Deine Abgabe</label>
-      <textarea class="challenge-response" placeholder="Welche zwei Provider hast du verglichen? Was war dein Ergebnis (PUE, Energie, Standort)?"></textarea>
+      <label class="challenge-response-label" data-i18n="ui.your_submission">Deine Abgabe</label>
+      <textarea class="challenge-response" data-i18n="station.server-riff.challenge.placeholder" placeholder="Welche zwei Provider hast du verglichen? Was war dein Ergebnis (PUE, Energie, Standort)?"></textarea>
 
-      <button class="challenge-btn" data-station="server-riff">
+      <button class="challenge-btn" data-station="server-riff" data-i18n="ui.submit_challenge">
         Challenge abgeben (+5 Punkte)
       </button>
     </section>

@@ -31,8 +31,8 @@
       <div class="cert-card" id="cert-card">
         <div class="cert-header">
           <span class="cert-header__icon" aria-hidden="true">&#x1F30D;</span>
-          <h2 class="cert-header__title">Expeditions-Zertifikat</h2>
-          <p class="cert-header__subtitle">Lernlandschaft Nachhaltige Digitalisierung &ndash; TBZ Z&uuml;rich</p>
+          <h2 class="cert-header__title" data-i18n="station.abschluss-feier.cert_title">Expeditions-Zertifikat</h2>
+          <p class="cert-header__subtitle" data-i18n="station.abschluss-feier.cert_subtitle">Lernlandschaft Nachhaltige Digitalisierung &ndash; TBZ Z&uuml;rich</p>
         </div>
 
         <img class="cert-avatar" id="cert-avatar" src="../assets/avatar-explorer.png" alt="Dein Avatar" />
@@ -42,41 +42,41 @@
         <div class="cert-stats">
           <div class="cert-stat">
             <span class="cert-stat__value" id="cert-level">Lv. 1</span>
-            <span class="cert-stat__label">Level</span>
+            <span class="cert-stat__label" data-i18n="station.abschluss-feier.cert_level">Level</span>
           </div>
           <div class="cert-stat">
             <span class="cert-stat__value" id="cert-xp">0 XP</span>
-            <span class="cert-stat__label">Punkte</span>
+            <span class="cert-stat__label" data-i18n="station.abschluss-feier.cert_points">Punkte</span>
           </div>
           <div class="cert-stat">
             <span class="cert-stat__value" id="cert-stations">0/12</span>
-            <span class="cert-stat__label">Stationen</span>
+            <span class="cert-stat__label" data-i18n="station.abschluss-feier.cert_stations">Stationen</span>
           </div>
         </div>
 
         <div class="cert-badges" id="cert-badges"></div>
 
         <p class="cert-date" id="cert-date"></p>
-        <p class="cert-footer">Nachhaltige Digitalisierung &ndash; Technische Berufsschule Z&uuml;rich</p>
+        <p class="cert-footer" data-i18n="station.abschluss-feier.cert_footer">Nachhaltige Digitalisierung &ndash; Technische Berufsschule Z&uuml;rich</p>
       </div>
     </section>
 
     <!-- Aktionen -->
     <div class="cert-actions" id="cert-actions">
-      <button class="btn btn--print" id="btn-print">
+      <button class="btn btn--print" id="btn-print" data-i18n="station.abschluss-feier.btn_print">
         &#x1F5A8; Als PDF drucken
       </button>
-      <a class="btn btn--email" id="btn-email" href="#">
+      <a class="btn btn--email" id="btn-email" href="#" data-i18n="station.abschluss-feier.btn_email">
         &#x2709; Per E-Mail senden
       </a>
-      <button class="btn btn--ics" id="btn-ics">
+      <button class="btn btn--ics" id="btn-ics" data-i18n="station.abschluss-feier.btn_ics">
         &#x1F4C5; Kalender-Erinnerung
       </button>
     </div>
 
     <!-- Challenge-Abgaben -->
     <section class="station-section section-challenges" id="cert-challenges" style="margin-top: var(--space-xl); border-left-color: var(--color-secondary);">
-      <h2>&#x1F4DD; Deine Challenge-Abgaben</h2>
+      <h2 data-i18n="station.abschluss-feier.challenges_title">&#x1F4DD; Deine Challenge-Abgaben</h2>
       <div id="challenge-responses-list"></div>
     </section>
 
@@ -90,9 +90,9 @@
 
     <!-- Reflexion -->
     <section class="station-section section-reflection" style="margin-top: var(--space-xl);">
-      <h2>Abschliessende Gedanken</h2>
-      <p>Was nimmst du aus dieser Expedition mit? Was wirst du in deinem Alltag anders machen?</p>
-      <textarea class="station-textarea" data-station="abschluss-feier" data-type="reflection" placeholder="Schreibe hier deine abschliessenden Gedanken..."></textarea>
+      <h2 data-i18n="station.abschluss-feier.reflection_title">Abschliessende Gedanken</h2>
+      <p data-i18n="station.abschluss-feier.reflection_p">Was nimmst du aus dieser Expedition mit? Was wirst du in deinem Alltag anders machen?</p>
+      <textarea class="station-textarea" data-station="abschluss-feier" data-type="reflection" data-i18n="station.abschluss-feier.reflection_placeholder" placeholder="Schreibe hier deine abschliessenden Gedanken..."></textarea>
     </section>
 
     <div class="station-complete">

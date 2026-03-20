@@ -35,7 +35,7 @@
 
       <div class="micro-intro">
         <div class="micro-intro__text">
-          <p>Jedes Mal, wenn du pushst und eine <strong>CI/CD-Pipeline</strong> loslegt, startet irgendwo ein
+          <p data-i18n="station.deploy-stern.micro.p1">Jedes Mal, wenn du pushst und eine <strong>CI/CD-Pipeline</strong> loslegt, startet irgendwo ein
           Server, installiert Dependencies, baut dein Projekt und führt Tests aus. Das braucht echte
           <strong>Rechenzeit auf echten Servern</strong> – und damit Strom.</p>
         </div>
@@ -47,28 +47,28 @@
         </picture>
       </div>
 
-      <div class="key-fact key-fact--orange">
+      <div class="key-fact key-fact--orange" data-i18n="station.deploy-stern.micro.keyfact1">
         Ein durchschnittlicher <strong>GitHub Actions Run</strong> (Build + Test) dauert 2–10 Minuten.
         Bei 20 Pushes pro Tag in einem Team sind das schnell <strong>200 Minuten Serverzeit pro Tag</strong> –
         nur für ein einziges Projekt.
       </div>
 
-      <p><strong>Typische Energiefresser in Pipelines:</strong></p>
-      <ul>
+      <p data-i18n="station.deploy-stern.micro.p2"><strong>Typische Energiefresser in Pipelines:</strong></p>
+      <ul data-i18n="station.deploy-stern.micro.list1">
         <li><strong>Unnecessary Rebuilds</strong> – jeder Push triggert einen vollständigen Build, auch wenn sich nur eine README geändert hat</li>
         <li><strong>npm install</strong> bei jedem Run – Tausende Pakete werden jedes Mal neu heruntergeladen statt gecacht</li>
         <li><strong>Docker Images</strong> ohne Layer Caching – jedes Layer wird jedes Mal neu gebaut</li>
         <li><strong>Doppelte Pipelines</strong> – Build läuft auf Push UND auf Pull Request, also zweimal</li>
       </ul>
 
-      <div class="key-fact key-fact--orange">
+      <div class="key-fact key-fact--orange" data-i18n="station.deploy-stern.micro.keyfact2">
         <strong>Docker Layer Caching</strong> kann Build-Zeiten um <strong>50–80%</strong> reduzieren.
         Und <strong>pnpm</strong> statt npm spart bis zu <strong>60% Speicherplatz</strong> und ist
         oft 2–3x schneller beim Installieren.
       </div>
 
-      <p><strong>Green CI Practices:</strong></p>
-      <ul>
+      <p data-i18n="station.deploy-stern.micro.p3"><strong>Green CI Practices:</strong></p>
+      <ul data-i18n="station.deploy-stern.micro.list2">
         <li><strong>Caching</strong> nutzen – Dependencies, Docker Layers, Build-Artefakte</li>
         <li><strong>Conditional Builds</strong> – nur bauen, wenn relevante Dateien geändert wurden (<code>paths</code>-Filter in GitHub Actions)</li>
         <li><strong>Monorepo-Tools</strong> wie Nx oder Turborepo bauen nur, was sich geändert hat</li>
@@ -76,7 +76,7 @@
         <li><strong>Lightweight Runner</strong> wählen – nicht jeder Job braucht eine fette VM</li>
       </ul>
 
-      <div class="key-fact key-fact--orange">
+      <div class="key-fact key-fact--orange" data-i18n="station.deploy-stern.micro.keyfact3">
         GitHub bietet jedem Free-Konto <strong>2000 Actions-Minuten/Monat</strong>. Wenn du die
         erreichst, ist das ein Zeichen, dass deine Pipelines zu verschwenderisch laufen.
       </div>
@@ -86,11 +86,11 @@
     <section class="station-section section-action">
       <h2><img class="section-icon" src="../assets/icons/icon-action.png" alt="" aria-hidden="true" /> Tat / Einstellung</h2>
 
-      <p><strong>Analysiere deine eigene Pipeline</strong> – wie effizient ist dein Build-Prozess wirklich?</p>
+      <p data-i18n="station.deploy-stern.action.p1"><strong>Analysiere deine eigene Pipeline</strong> – wie effizient ist dein Build-Prozess wirklich?</p>
 
       <div class="instructions">
-        <p class="instructions__title">Aufgabe 1: GitHub Actions prüfen</p>
-        <ul>
+        <p class="instructions__title" data-i18n="station.deploy-stern.action.task1_title">Aufgabe 1: GitHub Actions prüfen</p>
+        <ul data-i18n="station.deploy-stern.action.task1">
           <li>Öffne ein Projekt auf GitHub und gehe zu <strong>Actions</strong></li>
           <li>Zähle: Wie viele Runs liefen in der <strong>letzten Woche</strong>?</li>
           <li>Wie lange dauert ein durchschnittlicher Run?</li>
@@ -99,8 +99,8 @@
       </div>
 
       <div class="instructions">
-        <p class="instructions__title">Aufgabe 2: Caching einrichten</p>
-        <ul>
+        <p class="instructions__title" data-i18n="station.deploy-stern.action.task2_title">Aufgabe 2: Caching einrichten</p>
+        <ul data-i18n="station.deploy-stern.action.task2">
           <li>Öffne deine <code>.github/workflows/*.yml</code> Datei</li>
           <li>Prüfe, ob <code>actions/cache</code> verwendet wird. Falls nicht, füge es hinzu</li>
           <li>Nutze <code>actions/setup-node@v4</code> mit <code>cache: 'npm'</code> für automatisches Node-Caching</li>
@@ -109,30 +109,30 @@
       </div>
 
       <div class="instructions">
-        <p class="instructions__title">Aufgabe 3: Concurrency einrichten</p>
-        <ul>
+        <p class="instructions__title" data-i18n="station.deploy-stern.action.task3_title">Aufgabe 3: Concurrency einrichten</p>
+        <ul data-i18n="station.deploy-stern.action.task3">
           <li>Füge in deinem Workflow <code>concurrency</code> hinzu, damit alte Runs abgebrochen werden, wenn ein neuer Push kommt</li>
           <li>Setze <code>cancel-in-progress: true</code>, um laufende Jobs bei neuem Push zu stoppen</li>
           <li>So vermeidest du doppelte Builds auf dem gleichen Branch</li>
         </ul>
       </div>
 
-      <label class="textarea-label">Deine Notizen</label>
-      <textarea class="station-textarea" data-station="deploy-stern" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
+      <label class="textarea-label" data-i18n="ui.your_notes">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="deploy-stern" data-type="note" data-i18n="ui.notes_placeholder" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
     <section class="station-section section-reflection">
       <h2><img class="section-icon" src="../assets/icons/icon-reflection.png" alt="" aria-hidden="true" /> Reflexion</h2>
 
-      <p class="reflection-question">
+      <p class="reflection-question" data-i18n="station.deploy-stern.reflection.q">
         Ist es besser, schnell und oft zu deployen – oder seltener und bewusster?
       </p>
 
-      <button class="reveal-btn" data-target="reflection-hint-deploy-stern">
+      <button class="reveal-btn" data-target="reflection-hint-deploy-stern" data-i18n="ui.show_hint">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-deploy-stern">
+      <div class="reveal-content" id="reflection-hint-deploy-stern" data-i18n="station.deploy-stern.reflection.hint">
         <p>Die DevOps-Kultur sagt: <strong>«Ship early, ship often.»</strong> Aber das heisst nicht,
         dass jeder Commit sofort in die Pipeline muss. <strong>Batching</strong> von Änderungen,
         bewusste Push-Zeitpunkte und gute Branch-Strategien können die Anzahl der Runs
@@ -140,31 +140,31 @@
         zwischen Agilität und Ressourcenbewusstsein.</p>
       </div>
 
-      <label class="textarea-label">Deine Antwort</label>
-      <textarea class="station-textarea" data-station="deploy-stern" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
+      <label class="textarea-label" data-i18n="ui.your_answer">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="deploy-stern" data-type="reflection" data-i18n="ui.reflection_placeholder" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
     <section class="station-section section-challenge">
       <h2><img class="section-icon" src="../assets/icons/icon-challenge.png" alt="" aria-hidden="true" /> Challenge</h2>
 
-      <p><strong>Optimiere eine CI/CD Pipeline</strong></p>
-      <ul>
+      <p data-i18n="station.deploy-stern.challenge.p1"><strong>Optimiere eine CI/CD Pipeline</strong></p>
+      <ul data-i18n="station.deploy-stern.challenge.list1">
         <li>Wähle ein Projekt mit einer bestehenden GitHub Actions Pipeline</li>
         <li>Implementiere mindestens <strong>2 der folgenden Optimierungen</strong>:</li>
       </ul>
-      <ol>
+      <ol data-i18n="station.deploy-stern.challenge.list2">
         <li><strong>Dependency Caching</strong> hinzufügen</li>
         <li><strong>Conditional Builds</strong> mit <code>paths</code>-Filter einrichten</li>
         <li><strong>Concurrency</strong> mit <code>cancel-in-progress</code> aktivieren</li>
         <li>Von <strong>npm</strong> auf <strong>pnpm</strong> wechseln</li>
       </ol>
-      <p>Dokumentiere die <strong>Build-Zeit vorher vs. nachher</strong>.</p>
+      <p data-i18n="station.deploy-stern.challenge.p2">Dokumentiere die <strong>Build-Zeit vorher vs. nachher</strong>.</p>
 
-      <label class="challenge-response-label">Deine Abgabe</label>
-      <textarea class="challenge-response" placeholder="Welche Optimierungen hast du umgesetzt? Build-Zeit vorher vs. nachher?"></textarea>
+      <label class="challenge-response-label" data-i18n="ui.your_submission">Deine Abgabe</label>
+      <textarea class="challenge-response" data-i18n="station.deploy-stern.challenge.placeholder" placeholder="Welche Optimierungen hast du umgesetzt? Build-Zeit vorher vs. nachher?"></textarea>
 
-      <button class="challenge-btn" data-station="deploy-stern">
+      <button class="challenge-btn" data-station="deploy-stern" data-i18n="ui.submit_challenge">
         Challenge abgeben (+5 Punkte)
       </button>
     </section>

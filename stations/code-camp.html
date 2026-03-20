@@ -37,7 +37,7 @@
 
       <div class="micro-intro">
         <div class="micro-intro__text">
-          <p>Moderne IDEs wie VS Code, IntelliJ oder Visual Studio sind mächtig – aber sie verbrauchen auch
+          <p data-i18n="station.code-camp.micro.p1">Moderne IDEs wie VS Code, IntelliJ oder Visual Studio sind mächtig – aber sie verbrauchen auch
           ordentlich <strong>CPU und RAM</strong>, besonders mit vielen Extensions.</p>
         </div>
         <picture>
@@ -48,15 +48,15 @@
         </picture>
       </div>
 
-      <p>Jede aktive Extension läuft als <strong>Hintergrundprozess</strong>:
+      <p data-i18n="station.code-camp.micro.p2">Jede aktive Extension läuft als <strong>Hintergrundprozess</strong>:
       Linter, Formatter, Language Server, AI Copilots – alles braucht Ressourcen.</p>
 
-      <div class="key-fact key-fact--orange">
+      <div class="key-fact key-fact--orange" data-i18n="station.code-camp.micro.keyfact1">
         VS Code mit <strong>30+ Extensions</strong> kann leicht <strong>1–2 GB RAM</strong> belegen –
         ein «schlankes» Setup mit nur den nötigsten Extensions spart 200–500 MB.
       </div>
 
-      <ul>
+      <ul data-i18n="station.code-camp.micro.list1">
         <li><strong>Dark Themes</strong> auf OLED-Displays sparen bis zu <strong>60% Energie</strong>
         gegenüber hellen Themes</li>
         <li><strong>Auto-Save</strong> mit sehr kurzen Intervallen löst ständig Disk-Writes und
@@ -65,7 +65,7 @@
         sind CPU-intensiv – lohnen sie sich immer?</li>
       </ul>
 
-      <div class="key-fact key-fact--orange">
+      <div class="key-fact key-fact--orange" data-i18n="station.code-camp.micro.keyfact2">
         Nicht jedes Tool, das «praktisch» ist, muss immer laufen.
         Bewusst aktivieren statt immer-an ist oft der bessere Weg.
       </div>
@@ -75,11 +75,11 @@
     <section class="station-section section-action">
       <h2><img class="section-icon" src="../assets/icons/icon-action.png" alt="" aria-hidden="true" /> Tat / Einstellung</h2>
 
-      <p><strong>Optimiere dein IDE-Setup</strong> – schlanker arbeiten, weniger Ressourcen verbrauchen.</p>
+      <p data-i18n="station.code-camp.action.p1"><strong>Optimiere dein IDE-Setup</strong> – schlanker arbeiten, weniger Ressourcen verbrauchen.</p>
 
       <div class="instructions">
-        <p class="instructions__title">Aufgabe 1: Extensions aufräumen</p>
-        <ul>
+        <p class="instructions__title" data-i18n="station.code-camp.action.task1_title">Aufgabe 1: Extensions aufräumen</p>
+        <ul data-i18n="station.code-camp.action.task1">
           <li>Öffne deine IDE und zähle deine installierten Extensions/Plugins</li>
           <li>VS Code: <code>Ctrl+Shift+X</code> (oder <code>Cmd+Shift+X</code>) &rarr; «Installed»</li>
           <li><strong>Deaktiviere mindestens 2 Extensions</strong>, die du nicht regelmässig brauchst</li>
@@ -88,58 +88,58 @@
       </div>
 
       <div class="instructions">
-        <p class="instructions__title">Aufgabe 2: Theme &amp; Auto-Save prüfen</p>
-        <ul>
+        <p class="instructions__title" data-i18n="station.code-camp.action.task2_title">Aufgabe 2: Theme &amp; Auto-Save prüfen</p>
+        <ul data-i18n="station.code-camp.action.task2">
           <li>Hast du ein <strong>OLED-Display</strong>? Aktiviere ein dunkles Theme.</li>
           <li>Überprüfe deine Auto-Save-Einstellung: <code>Files: Auto Save</code> auf
           <code>afterDelay</code> mit mindestens <strong>1000ms</strong> statt instant</li>
         </ul>
       </div>
-    
 
-      <label class="textarea-label">Deine Notizen</label>
-      <textarea class="station-textarea" data-station="code-camp" data-type="note" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
+
+      <label class="textarea-label" data-i18n="ui.your_notes">Deine Notizen</label>
+      <textarea class="station-textarea" data-station="code-camp" data-type="note" data-i18n="ui.notes_placeholder" placeholder="Halte hier deine Beobachtungen fest..."></textarea>
     </section>
 
     <!-- Reflexion -->
     <section class="station-section section-reflection">
       <h2><img class="section-icon" src="../assets/icons/icon-reflection.png" alt="" aria-hidden="true" /> Reflexion</h2>
 
-      <p class="reflection-question">
+      <p class="reflection-question" data-i18n="station.code-camp.reflection.q">
         Wo ist die Grenze zwischen Produktivität und Ressourcenverbrauch?
         Wann ist eine Extension den Energieverbrauch wert – und wann nicht?
       </p>
 
-      <button class="reveal-btn" data-target="reflection-hint-3">
+      <button class="reveal-btn" data-target="reflection-hint-3" data-i18n="ui.show_hint">
         Denkanstoss anzeigen
       </button>
-      <div class="reveal-content" id="reflection-hint-3">
+      <div class="reveal-content" id="reflection-hint-3" data-i18n="station.code-camp.reflection.hint">
         <p>Eine Extension, die dir <strong>30 Minuten pro Tag</strong> spart, ist den Strom wert.
         Eine, die du <strong>einmal im Monat</strong> brauchst, kannst du bei Bedarf aktivieren.
         Die Frage ist nicht «alles oder nichts», sondern «bewusst wählen».</p>
       </div>
-    
 
-      <label class="textarea-label">Deine Antwort</label>
-      <textarea class="station-textarea" data-station="code-camp" data-type="reflection" placeholder="Schreibe hier deine Gedanken..."></textarea>
+
+      <label class="textarea-label" data-i18n="ui.your_answer">Deine Antwort</label>
+      <textarea class="station-textarea" data-station="code-camp" data-type="reflection" data-i18n="ui.reflection_placeholder" placeholder="Schreibe hier deine Gedanken..."></textarea>
     </section>
 
     <!-- Challenge -->
     <section class="station-section section-challenge">
       <h2><img class="section-icon" src="../assets/icons/icon-challenge.png" alt="" aria-hidden="true" /> Challenge</h2>
 
-      <p>Erstelle <strong>zwei VS Code Profiles</strong>:</p>
-      <ul>
+      <p data-i18n="station.code-camp.challenge.p1">Erstelle <strong>zwei VS Code Profiles</strong>:</p>
+      <ul data-i18n="station.code-camp.challenge.list">
         <li><strong>«Lean»</strong> – nur die nötigsten Extensions (Sprache, Formatter, Git)</li>
         <li><strong>«Full»</strong> – alles, was du für spezielle Projekte brauchst</li>
       </ul>
-      <p>VS Code: <code>Ctrl+Shift+P</code> &rarr; <code>Profiles: Create Profile</code></p>
-      <p>Wechsle eine Woche lang zum Lean-Profil und berichte, ob du einen Unterschied merkst.</p>
+      <p data-i18n="station.code-camp.challenge.p2">VS Code: <code>Ctrl+Shift+P</code> &rarr; <code>Profiles: Create Profile</code></p>
+      <p data-i18n="station.code-camp.challenge.p3">Wechsle eine Woche lang zum Lean-Profil und berichte, ob du einen Unterschied merkst.</p>
 
-      <label class="challenge-response-label">Deine Abgabe</label>
-      <textarea class="challenge-response" placeholder="Welche Extensions hast du im Lean-Profil behalten? Hast du einen Unterschied gemerkt?"></textarea>
+      <label class="challenge-response-label" data-i18n="ui.your_submission">Deine Abgabe</label>
+      <textarea class="challenge-response" data-i18n="station.code-camp.challenge.placeholder" placeholder="Welche Extensions hast du im Lean-Profil behalten? Hast du einen Unterschied gemerkt?"></textarea>
 
-      <button class="challenge-btn" data-station="code-camp">
+      <button class="challenge-btn" data-station="code-camp" data-i18n="ui.submit_challenge">
         Challenge abgeben (+5 Punkte)
       </button>
     </section>
