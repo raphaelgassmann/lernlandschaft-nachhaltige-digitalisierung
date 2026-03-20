@@ -265,6 +265,11 @@ function initChallengeButton() {
     if (isChallengeComplete(stationId)) return;
     if (textarea && countWords(textarea.value) < MIN_CHALLENGE_WORDS) return;
 
+    if (textarea && typeof containsProfanity === 'function' && containsProfanity(textarea.value)) {
+      showToast('Bitte formuliere deinen Text ohne Schimpfwörter.', 'error');
+      return;
+    }
+
     if (textarea) {
       saveChallengeResponse(stationId, textarea.value.trim());
       textarea.disabled = true;
@@ -310,6 +315,10 @@ function initTextareas() {
     ta.addEventListener('input', function () {
       clearTimeout(saveTimer);
       saveTimer = setTimeout(function () {
+        if (typeof containsProfanity === 'function' && containsProfanity(ta.value)) {
+          showToast('Bitte formuliere deinen Text ohne Schimpfwörter.', 'error');
+          return;
+        }
         if (type === 'reflection') {
           saveReflection(stationId, ta.value);
         } else if (type === 'note') {
