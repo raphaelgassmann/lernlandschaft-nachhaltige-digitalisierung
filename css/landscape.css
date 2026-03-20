@@ -743,15 +743,14 @@
   align-items: center;
   gap: 4px;
   pointer-events: none;
-  opacity: 0.7;
 }
 
 .map-world-label__number {
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--color-text-muted);
-  background: rgba(0, 0, 0, 0.5);
+  color: var(--color-text);
+  background: rgba(0, 0, 0, 0.7);
   padding: 2px 10px;
   border-radius: 10px;
 }
@@ -760,7 +759,7 @@
   font-family: var(--font-heading);
   font-size: 1.2rem;
   font-weight: 600;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 .map-world-label--jungle .map-world-label__name { color: var(--world-jungle-secondary); }
@@ -885,8 +884,8 @@
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--color-text-muted);
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text);
+  background: rgba(0, 0, 0, 0.5);
   padding: 2px 12px;
   border-radius: 20px;
   margin-bottom: var(--space-xs);
@@ -1314,10 +1313,22 @@
 
 .notebook-entry {
   padding: var(--space-md);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: var(--border-radius-sm);
   margin-bottom: var(--space-sm);
   border-left: 3px solid var(--color-primary);
+}
+
+.notebook-entry--challenges {
+  border-left-color: #f0a500;
+}
+
+.notebook-entry--reflections {
+  border-left-color: #9b7fda;
+}
+
+.notebook-entry--notes {
+  border-left-color: #4caf50;
 }
 
 .notebook-entry__station {
@@ -1330,10 +1341,10 @@
 }
 
 .notebook-entry__context {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-text);
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-sm);
 }
 
 .notebook-entry__text {
@@ -1341,6 +1352,10 @@
   color: var(--color-text);
   line-height: 1.6;
   white-space: pre-wrap;
+  padding-left: var(--space-md);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--border-radius-sm);
+  padding: var(--space-sm) var(--space-md);
 }
 
 .notebook-empty {
