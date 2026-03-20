@@ -452,5 +452,12 @@
   <script src="js/landscape.js"></script>
   <script>I18N.init();</script>
   <script defer src="/_vercel/insights/script.js"></script>
+
+  <!-- Cookie Banner (minimal) -->
+  <div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:10000;background:rgba(15,15,15,0.95);color:#ccc;font-size:0.85rem;padding:12px 20px;text-align:center;backdrop-filter:blur(6px)">
+    Diese Seite nutzt localStorage, um deinen Spielfortschritt zu speichern.
+    <button onclick="localStorage.setItem('cookie-ok','1');document.getElementById('cookie-banner').remove()" style="margin-left:12px;background:#2e7d32;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:0.85rem">OK</button>
+  </div>
+  <script>if(!localStorage.getItem('cookie-ok'))document.getElementById('cookie-banner').style.display='';</script>
 </body>
 </html>
