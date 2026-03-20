@@ -149,29 +149,12 @@ function initCompleteButton() {
     btn.classList.add('is-celebrating');
     spawnConfetti(btn);
 
-    setTimeout(function () {
-      btn.classList.remove('is-celebrating');
-      btn.classList.add('is-completed');
-      btn.textContent = I18N.t('ui.station_completed', 'Station abgeschlossen \u2714');
-    }, 1500);
-
     showToast(I18N.t('toast.station_complete', 'Station abgeschlossen! +' + POINTS_PER_STATION + ' Punkte').replace('{points}', POINTS_PER_STATION), 'success');
 
-    var worldId = getWorldForStation(stationId);
-    if (worldId && isWorldComplete(worldId)) {
-      setTimeout(function () {
-        showToast(I18N.t('toast.world_complete', WORLDS[worldId].name + ' abgeschlossen!').replace('{name}', getWorldName(worldId)), 'world-complete');
-      }, 1500);
-    }
-
+    // Redirect back to map after celebration
     setTimeout(function () {
-      var newBadges = checkBadges();
-      newBadges.forEach(function (badge, i) {
-        setTimeout(function () {
-          showToast(I18N.t('toast.badge_unlocked', 'Achievement unlocked: ' + badge.name + '! ' + badge.icon).replace('{name}', getBadgeName(badge)).replace('{icon}', badge.icon), 'achievement');
-        }, i * 1200);
-      });
-    }, 2000);
+      window.location.href = '../index.html';
+    }, 1800);
   });
 }
 
@@ -230,6 +213,28 @@ function initRevealButtons() {
    CHALLENGE BUTTON
    ======================================== */
 
+var MIN_CHALLENGE_WORDS = 10;
+
+function countWords(text) {
+  var trimmed = text.trim();
+  if (!trimmed) return 0;
+  return trimmed.split(/\s+/).length;
+}
+
+function createWordCounter(textarea) {
+  var counter = document.createElement('div');
+  counter.className = 'challenge-word-counter';
+  textarea.parentNode.insertBefore(counter, textarea.nextSibling);
+  return counter;
+}
+
+function updateWordCounter(counter, wordCount) {
+  var met = wordCount >= MIN_CHALLENGE_WORDS;
+  counter.textContent = wordCount + ' / ' + MIN_CHALLENGE_WORDS + ' Wörter';
+  counter.classList.toggle('is-met', met);
+  return met;
+}
+
 function initChallengeButton() {
   var btn = document.querySelector('.challenge-btn');
   if (!btn) return;
@@ -243,17 +248,22 @@ function initChallengeButton() {
     if (textarea) {
       textarea.value = getChallengeResponse(stationId);
       textarea.disabled = true;
+      var counter = createWordCounter(textarea);
+      updateWordCounter(counter, countWords(textarea.value));
     }
   } else if (textarea) {
-    btn.disabled = !textarea.value.trim();
-    textarea.addEventListener('input', function () {
-      btn.disabled = !textarea.value.trim();
-    });
+    var counter = createWordCounter(textarea);
+    var checkMin = function () {
+      var met = updateWordCounter(counter, countWords(textarea.value));
+      btn.disabled = !met;
+    };
+    checkMin();
+    textarea.addEventListener('input', checkMin);
   }
 
   btn.addEventListener('click', function () {
     if (isChallengeComplete(stationId)) return;
-    if (textarea && !textarea.value.trim()) return;
+    if (textarea && countWords(textarea.value) < MIN_CHALLENGE_WORDS) return;
 
     if (textarea) {
       saveChallengeResponse(stationId, textarea.value.trim());
@@ -351,6 +361,11 @@ function initQuiz() {
   showNextQuestion(container, stationId, questions, usedIndexes, quizState);
 }
 
+function showQuestionByIndex(container, stationId, questions, usedIndexes, quizState, idx) {
+  var q = questions[idx];
+  renderQuestion(container, stationId, questions, usedIndexes, quizState, idx, q);
+}
+
 function showNextQuestion(container, stationId, questions, usedIndexes, quizState) {
   // Pick a random unused question
   var available = [];
@@ -366,6 +381,10 @@ function showNextQuestion(container, stationId, questions, usedIndexes, quizStat
   var idx = available[Math.floor(Math.random() * available.length)];
   usedIndexes.push(idx);
   var q = questions[idx];
+  renderQuestion(container, stationId, questions, usedIndexes, quizState, idx, q);
+}
+
+function renderQuestion(container, stationId, questions, usedIndexes, quizState, idx, q) {
 
   var html = '';
   if (quizState.bonusShown) {
@@ -430,16 +449,16 @@ function showNextQuestion(container, stationId, questions, usedIndexes, quizStat
         quizState.needsBonus = true;
         quizState.bonusShown = false;
 
-        var penaltySeconds = quizState.wrongCount === 1 ? 45 : 30;
+        var penaltySeconds = quizState.wrongCount === 1 ? 35 : 20;
         setTimeout(function () {
-          showPenaltyTimer(container, stationId, questions, usedIndexes, quizState, penaltySeconds);
+          showPenaltyTimer(container, stationId, questions, usedIndexes, quizState, penaltySeconds, idx);
         }, 500);
       }
     });
   });
 }
 
-function showPenaltyTimer(container, stationId, questions, usedIndexes, quizState, seconds) {
+function showPenaltyTimer(container, stationId, questions, usedIndexes, quizState, seconds, repeatIdx) {
   var timerKey = 'quizTimer_' + stationId;
   var circumference = 2 * Math.PI * 50;
   var remaining = seconds;
@@ -473,7 +492,7 @@ function showPenaltyTimer(container, stationId, questions, usedIndexes, quizStat
       '</svg>' +
       '<span class="quiz-timer__seconds">' + remaining + '</span>' +
     '</div>' +
-    '<p class="quiz-timer__countdown-text">' + I18N.t('ui.quiz_timer_countdown', 'Neue Frage in ' + remaining + ' Sekunden').replace('{seconds}', remaining) + '</p>';
+    '<p class="quiz-timer__countdown-text">' + I18N.t('ui.quiz_timer_countdown', 'Erneuter Versuch in ' + remaining + ' Sekunden').replace('{seconds}', remaining) + '</p>';
 
   container.appendChild(timerDiv);
 
@@ -483,13 +502,17 @@ function showPenaltyTimer(container, stationId, questions, usedIndexes, quizStat
       clearInterval(quizState.timerInterval);
       quizState.timerInterval = null;
       sessionStorage.removeItem(timerKey);
-      showNextQuestion(container, stationId, questions, usedIndexes, quizState);
+      if (typeof repeatIdx === 'number') {
+        showQuestionByIndex(container, stationId, questions, usedIndexes, quizState, repeatIdx);
+      } else {
+        showNextQuestion(container, stationId, questions, usedIndexes, quizState);
+      }
     } else {
       var secondsEl = timerDiv.querySelector('.quiz-timer__seconds');
       var textEl = timerDiv.querySelector('.quiz-timer__countdown-text');
       var progressEl = timerDiv.querySelector('.quiz-timer__progress');
       if (secondsEl) secondsEl.textContent = remaining;
-      if (textEl) textEl.textContent = I18N.t('ui.quiz_timer_countdown', 'Neue Frage in ' + remaining + ' Sekunden').replace('{seconds}', remaining);
+      if (textEl) textEl.textContent = I18N.t('ui.quiz_timer_countdown', 'Erneuter Versuch in ' + remaining + ' Sekunden').replace('{seconds}', remaining);
       if (progressEl) {
         var o = circumference * (1 - remaining / totalSeconds);
         progressEl.setAttribute('stroke-dashoffset', o);

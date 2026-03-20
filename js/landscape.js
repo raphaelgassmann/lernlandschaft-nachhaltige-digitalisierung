@@ -476,13 +476,41 @@ function updateGameHeader() {
   if (playerNameEl) playerNameEl.textContent = getPlayerName();
 
   var xpFill = document.getElementById('xp-fill');
-  if (xpFill) xpFill.style.width = (levelInfo.progressToNext * 100) + '%';
-
   var xpText = document.getElementById('xp-text');
-  if (xpText) animateXpText(xpText, points);
-
   var stat = document.getElementById('stat-stations');
-  if (stat) stat.textContent = count + '/' + total;
+
+  // Check if we're returning from a station completion → animate from old values
+  var xpBefore = null;
+  var stationsBefore = null;
+  try {
+    xpBefore = sessionStorage.getItem('xp-before');
+    stationsBefore = sessionStorage.getItem('stations-before');
+    sessionStorage.removeItem('xp-before');
+    sessionStorage.removeItem('stations-before');
+  } catch (e) { /* ignore */ }
+
+  if (xpBefore !== null && xpFill) {
+    // Start at old value (no transition), then animate to new value
+    var oldPoints = parseInt(xpBefore) || 0;
+    var oldLevel = getLevel(oldPoints);
+    xpFill.style.transition = 'none';
+    xpFill.style.width = (oldLevel.progressToNext * 100) + '%';
+    if (xpText) xpText.textContent = oldPoints + ' XP';
+    if (stat) stat.textContent = (parseInt(stationsBefore) || 0) + '/' + total;
+
+    // Force reflow, then animate to new value
+    void xpFill.offsetWidth;
+    xpFill.style.transition = '';
+    setTimeout(function () {
+      xpFill.style.width = (levelInfo.progressToNext * 100) + '%';
+      if (xpText) animateXpText(xpText, points);
+      if (stat) stat.textContent = count + '/' + total;
+    }, 400);
+  } else {
+    if (xpFill) xpFill.style.width = (levelInfo.progressToNext * 100) + '%';
+    if (xpText) animateXpText(xpText, points);
+    if (stat) stat.textContent = count + '/' + total;
+  }
 
   var avatarImg = document.getElementById('header-avatar');
   if (avatarImg) avatarImg.src = getAvatarImage();
@@ -556,6 +584,16 @@ function triggerLevelUp(levelInfo) {
    ======================================== */
 
 function updateMobileWorld() {
+  // Check if we're returning from a station completion
+  var completedWorld = null;
+  var worldBefore = null;
+  try {
+    completedWorld = sessionStorage.getItem('world-completed');
+    worldBefore = sessionStorage.getItem('world-before');
+    sessionStorage.removeItem('world-completed');
+    sessionStorage.removeItem('world-before');
+  } catch (e) { /* ignore */ }
+
   var worlds = document.querySelectorAll('.mobile-world[data-world]');
   worlds.forEach(function (section) {
     var worldId = section.dataset.world;
@@ -564,8 +602,23 @@ function updateMobileWorld() {
 
     var fill = section.querySelector('.mobile-world__fill');
     var text = section.querySelector('.mobile-world__text');
-    if (fill) fill.style.width = percentage + '%';
-    if (text) text.textContent = wp.completed + ' / ' + wp.total;
+
+    // Animate from old value if this is the world we just completed a station in
+    if (completedWorld === worldId && worldBefore !== null && fill) {
+      var oldPct = Math.round((parseInt(worldBefore) / wp.total) * 100);
+      fill.style.transition = 'none';
+      fill.style.width = oldPct + '%';
+      if (text) text.textContent = parseInt(worldBefore) + ' / ' + wp.total;
+      void fill.offsetWidth;
+      fill.style.transition = '';
+      setTimeout(function () {
+        fill.style.width = percentage + '%';
+        if (text) text.textContent = wp.completed + ' / ' + wp.total;
+      }, 400);
+    } else {
+      if (fill) fill.style.width = percentage + '%';
+      if (text) text.textContent = wp.completed + ' / ' + wp.total;
+    }
 
     if (!isWorldUnlocked(worldId)) {
       section.classList.add('is-locked');
@@ -738,6 +791,56 @@ var STATION_LABELS = {
   'digital-ethics-turm': 'Der Digital-Ethics-Turm'
 };
 
+var NOTEBOOK_CONTEXT = {
+  challenges: {
+    'geraete-lichtung': 'So kannst du dein ältestes Gerät aufrüsten oder weiterverwenden:',
+    'cloud-quelle': 'Das hast du über die Nachhaltigkeit deines Cloud-Anbieters herausgefunden:',
+    'code-camp': 'Dein Lean vs. Full IDE-Profil – Erfahrungsbericht:',
+    'server-riff': 'Dein Nachhaltigkeits-Vergleich zweier Cloud-Provider:',
+    'streaming-strom': 'Dein monatlicher Streaming-CO₂-Fussabdruck und Sparpotenzial:',
+    'backup-bucht': 'Dein 4-Wochen Daten-Aufräum-Plan:',
+    'ide-asteroid': 'RAM-Verbrauch deiner IDE – vorher vs. nachher:',
+    'deploy-stern': 'Deine CI/CD-Pipeline-Optimierungen und Build-Zeiten:',
+    'workflow-nebel': 'Dein Digital Detox Day – was hat sich verändert:',
+    'ki-kraftwerk': 'Ein Tag ohne KI – was du gelernt hast:',
+    'open-source-platz': 'Dein erster Open-Source-Beitrag:',
+    'digital-ethics-turm': 'Dein persönlicher Digital Sustainability Pledge:'
+  },
+  reflections: {
+    'geraete-lichtung': 'Was beeinflusst deine Kaufentscheidung bei neuen Geräten wirklich?',
+    'cloud-quelle': 'Was kostenloser Cloud-Speicher über Nachhaltigkeit verrät:',
+    'code-camp': 'Wo liegt die Grenze zwischen Produktivität und Ressourcenverbrauch?',
+    'server-riff': 'Braucht es ein Nachhaltigkeits-Label für Cloud-Dienste?',
+    'streaming-strom': 'Ab wann wird Bequemlichkeit zur Verschwendung?',
+    'backup-bucht': 'Was wäre, wenn Speicherplatz teurer wäre?',
+    'ide-asteroid': 'Brauchen wir wirklich eine IDE, die wie ein Browser läuft?',
+    'deploy-stern': 'Schnell und oft deployen – oder seltener und bewusster?',
+    'workflow-nebel': 'Welche digitalen Gewohnheiten sind nachhaltig – und welche nicht?',
+    'ki-kraftwerk': 'Ab wann lohnt sich der KI-Einsatz trotz CO₂-Kosten wirklich?',
+    'open-source-platz': 'Was hat Open Source mit Nachhaltigkeit zu tun?',
+    'digital-ethics-turm': 'Wer trägt die Verantwortung für nachhaltiges Handeln in der IT?'
+  },
+  notes: {
+    'geraete-lichtung': 'Beobachtungen zu Gerätelebensdauer und Ressourcenschonung:',
+    'cloud-quelle': 'Cloud-Speicher aufräumen und Synchronisierungen prüfen:',
+    'code-camp': 'IDE-Setup Optimierungen, Extensions und Einstellungen:',
+    'server-riff': 'Recherche zu Cloud-Providern, PUE-Werten und Standorten:',
+    'streaming-strom': 'Streaming-Einstellungen optimieren (Video, Audio, Calls):',
+    'backup-bucht': 'Speicherplatz-Aufräumung und Dark Data Bewusstsein:',
+    'ide-asteroid': 'IDE RAM-Verbrauch, Extensions und Telemetrie-Einstellungen:',
+    'deploy-stern': 'GitHub Actions, Caching und Pipeline-Optimierungen:',
+    'workflow-nebel': 'Browser-RAM, E-Mail-Aufräumen und Video-Call-Einstellungen:',
+    'ki-kraftwerk': 'Sinnvolle vs. unnötige Situationen für KI-Tools:',
+    'open-source-platz': 'Open-Source-Projekte, Lizenzen und Community-Beteiligung:',
+    'digital-ethics-turm': 'Konsumentenrechte, Right-to-Repair und digitale Gerechtigkeit:'
+  }
+};
+
+function getNotebookContext(stationId, tabName) {
+  var tab = NOTEBOOK_CONTEXT[tabName];
+  return (tab && tab[stationId]) || '';
+}
+
 function getStationLabel(stationId) {
   if (typeof I18N !== 'undefined') {
     return I18N.t('station.' + stationId + '.title', STATION_LABELS[stationId] || stationId);
@@ -807,8 +910,10 @@ function renderNotebookContent(tabName) {
   var html = '';
   keys.forEach(function (stationId) {
     var text = entries[stationId];
+    var context = getNotebookContext(stationId, tabName);
     html += '<div class="notebook-entry">' +
       '<div class="notebook-entry__station">' + getStationLabel(stationId) + '</div>' +
+      (context ? '<div class="notebook-entry__context">' + escapeHtml(context) + '</div>' : '') +
       '<div class="notebook-entry__text">' + escapeHtml(text) + '</div>' +
     '</div>';
   });

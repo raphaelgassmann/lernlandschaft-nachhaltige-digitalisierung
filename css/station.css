@@ -330,6 +330,18 @@
   color: rgba(0, 0, 0, 0.35);
 }
 
+.challenge-word-counter {
+  font-size: 0.8rem;
+  color: rgba(180, 60, 60, 0.7);
+  margin-top: -0.5rem;
+  margin-bottom: var(--space-sm);
+  transition: color 0.2s ease;
+}
+
+.challenge-word-counter.is-met {
+  color: rgba(40, 140, 70, 0.8);
+}
+
 .challenge-response-label {
   display: block;
   font-size: 0.85rem;

@@ -675,3 +675,28 @@ css/landscape.css   – Mobile @media komplett umgeschrieben: Map statt Cards, s
 js/landscape.js     – Scroll-Check für Mobile entfernt, Partikel auf Mobile reduziert statt deaktiviert
 index.html          – srcset/sizes auf allen 12 map-station__img für responsive Bildladung
 ```
+
+---
+
+## Session 8 – 2026-03-20
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 1 | `init` / `resume` | Session gestartet, Aktivitätsprotokoll aktualisiert | Bereit für neue Aufgaben |
+| 2 | Station-Abschluss → Karte mit animierter Progressbar | station.js: Redirect nach 1.8s, progress.js: vorherigen Stand in sessionStorage, landscape.js: animiert XP/Welt-Bars von alt→neu | 3 Dateien geändert |
+
+---
+
+## Session 9 – 2026-03-20
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 1 | `init` | Session gestartet, Aktivitätsprotokoll aktualisiert | Bereit für neue Aufgaben |
+| 2 | Challenge textarea word counter | Word Counter (min 10 Wörter) unter Challenge-Textarea eingefügt, Button disabled bis Minimum erreicht | `js/station.js`, `css/station.css` |
+| 3 | Quiz penalty timer anpassen | Erste falsche Antwort: 45s→35s, weitere: 30s→20s | `js/station.js` |
+| 4 | Falsche Frage wiederholen | Nach Timer wird dieselbe Frage nochmals gestellt statt eine neue; Refactoring in `renderQuestion` extrahiert | `js/station.js` |
+| 5 | Abschluss-Feier Position anpassen | Finale-Marker von top 88.5% auf 91% verschoben (weiter unten, zentrierter im Panel) | `js/progress.js` |

@@ -52,7 +52,7 @@ var TOTAL_STATIONS = Object.values(WORLDS).reduce(function (sum, w) {
 var SOFA_POSITION = { top: 3.5, left: 28 };
 
 var STATION_POSITIONS = {
-  'abschluss-feier':     { top: 88.5, left: 50 },
+  'abschluss-feier':     { top: 91, left: 50 },
   // Panel 0 (0-20%): Jungle – sofa, door, Y-fork path
   'geraete-lichtung':    { top: 11, left: 50 },
   'cloud-quelle':        { top: 16.5, left: 32 },
@@ -315,6 +315,17 @@ function isStationComplete(stationId) {
 function markStationComplete(stationId) {
   var progress = getProgress();
   if (!progress.completedStations.includes(stationId)) {
+    // Save previous state so the map can animate from old → new
+    try {
+      sessionStorage.setItem('xp-before', progress.points);
+      sessionStorage.setItem('stations-before', progress.completedStations.length);
+      var worldId = getWorldForStation(stationId);
+      if (worldId) {
+        var wp = getWorldProgress(worldId);
+        sessionStorage.setItem('world-completed', worldId);
+        sessionStorage.setItem('world-before', wp.completed);
+      }
+    } catch (e) { /* ignore */ }
     progress.completedStations.push(stationId);
     progress.points += POINTS_PER_STATION;
     saveProgress(progress);
