@@ -10,8 +10,46 @@ document.addEventListener('DOMContentLoaded', function () {
   initChallengeButton();
   initTextareas();
   initQuiz();
+  initStationTracking();
   hidePageLoader();
 });
+
+/* ========================================
+   STATION TIME TRACKING – Enter/Leave hooks
+   ======================================== */
+
+function _getStationIdFromPage() {
+  var btn = document.getElementById('complete-btn');
+  if (btn && btn.dataset.station) return btn.dataset.station;
+  var quiz = document.getElementById('station-quiz');
+  if (quiz && quiz.dataset.station) return quiz.dataset.station;
+  return null;
+}
+
+function initStationTracking() {
+  var stationId = _getStationIdFromPage();
+  if (!stationId) return;
+  if (typeof trackStationEnter === 'function') {
+    trackStationEnter(stationId);
+  }
+
+  // Track leave on page unload
+  window.addEventListener('beforeunload', function () {
+    if (typeof trackStationLeave === 'function') {
+      trackStationLeave(stationId);
+    }
+  });
+
+  // Track leave on back-button click
+  var backBtn = document.querySelector('.station-back-btn, .back-btn, a[href="../index.html"]');
+  if (backBtn) {
+    backBtn.addEventListener('click', function () {
+      if (typeof trackStationLeave === 'function') {
+        trackStationLeave(stationId);
+      }
+    });
+  }
+}
 
 function hidePageLoader() {
   var loader = document.getElementById('page-loader');
@@ -146,6 +184,10 @@ function initCompleteButton() {
     var progress = markStationComplete(stationId);
     setLastAvatarPosition(stationId);
 
+    if (typeof syncStationStatus === 'function') {
+      syncStationStatus(stationId, true, isChallengeComplete(stationId), isQuizPassed(stationId));
+    }
+
     btn.classList.add('is-celebrating');
     spawnConfetti(btn);
 
@@ -276,6 +318,11 @@ function initChallengeButton() {
     }
 
     markChallengeComplete(stationId);
+
+    if (typeof syncStationStatus === 'function') {
+      syncStationStatus(stationId, isStationComplete(stationId), true, isQuizPassed(stationId));
+    }
+
     btn.classList.add('is-accepted');
     btn.textContent = I18N.t('ui.challenge_submitted', 'Challenge abgegeben \u2714');
 
@@ -432,6 +479,10 @@ function renderQuestion(container, stationId, questions, usedIndexes, quizState,
         } else {
           // First attempt correct OR bonus question correct → pass
           markQuizPassed(stationId);
+
+          if (typeof syncStationStatus === 'function') {
+            syncStationStatus(stationId, isStationComplete(stationId), isChallengeComplete(stationId), true);
+          }
 
           var completeBtn = document.getElementById('complete-btn');
           if (completeBtn && !isStationComplete(stationId)) {

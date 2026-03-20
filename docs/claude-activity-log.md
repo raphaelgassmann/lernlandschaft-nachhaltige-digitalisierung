@@ -4,6 +4,31 @@ Dieses Dokument protokolliert alle Aktivitäten, Prompts und Entscheidungen aus 
 
 ---
 
+## Session – 2026-03-20
+
+### Prompts & Aktionen
+
+| # | Prompt | Aktion | Ergebnis |
+|---|--------|--------|----------|
+| 1 | Supabase-Tracking implementieren (Plan) | `syncPlayerInfo()`, `trackStationEnter/Leave()`, `syncStationStatus()` in highscore.js; Enter/Leave-Hooks in station.js; `syncPlayerInfo()` in progress.js | Player-Infos und Bearbeitungszeiten werden in Supabase getrackt |
+
+### Entscheidungen
+
+- **Browser/OS-Parsing:** Einfache Regex-basierte Erkennung aus `navigator.userAgent` (Chrome, Firefox, Safari, Edge, Other / Windows, macOS, iOS, Android, Linux, Other)
+- **Zeitmessung:** `sessionStorage` für Enter-Timestamp, Dauer-Berechnung bei `beforeunload` + Back-Button-Klick
+- **Upsert-Strategie:** `merge-duplicates` für players und station_times (unique constraint auf player_name + station_id)
+- **Fehlerbehandlung:** Alle Supabase-Calls silent catch, damit UI nicht blockiert wird
+
+### Geänderte Dateien
+
+```
+js/highscore.js   – syncPlayerInfo(), trackStationEnter/Leave(), syncStationStatus(), _parseBrowser(), _parseOS(), _updateLastSeen()
+js/station.js     – initStationTracking(), syncStationStatus-Aufrufe bei Complete/Challenge/Quiz
+js/progress.js    – syncPlayerInfo() bei Expedition-Start
+```
+
+---
+
 ## Session 1 – 2026-03-16
 
 ### Prompts & Aktionen

@@ -84,7 +84,133 @@ function syncCurrentPlayer() {
   var xp = getPoints();
   var avatar = getAvatarChoice() || 'explorer';
   var stations = getCompletionCount();
-  return submitHighscore(name, xp, avatar, stations);
+  return submitHighscore(name, xp, avatar, stations).then(function (result) {
+    // Update last_seen_at in players table
+    _updateLastSeen(name);
+    return result;
+  });
+}
+
+/* ========================================
+   PLAYER INFO TRACKING (Supabase)
+   ======================================== */
+
+function _parseBrowser(ua) {
+  if (/Edg\//i.test(ua)) return 'Edge';
+  if (/Chrome\//i.test(ua) && !/Edg\//i.test(ua)) return 'Chrome';
+  if (/Firefox\//i.test(ua)) return 'Firefox';
+  if (/Safari\//i.test(ua) && !/Chrome\//i.test(ua)) return 'Safari';
+  return 'Other';
+}
+
+function _parseOS(ua) {
+  if (/Windows/i.test(ua)) return 'Windows';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'iOS';
+  if (/Macintosh|Mac OS/i.test(ua)) return 'macOS';
+  if (/Android/i.test(ua)) return 'Android';
+  if (/Linux/i.test(ua)) return 'Linux';
+  return 'Other';
+}
+
+/**
+ * Upserts player info (browser, OS, screen size, language) to the players table.
+ */
+function syncPlayerInfo() {
+  var name = getPlayerName();
+  if (!name) return Promise.resolve();
+
+  var ua = navigator.userAgent || '';
+  var entry = {
+    name: name,
+    avatar: getAvatarChoice() || 'explorer',
+    browser: _parseBrowser(ua),
+    os: _parseOS(ua),
+    screen_width: screen.width,
+    screen_height: screen.height,
+    language: navigator.language || 'unknown',
+    last_seen_at: new Date().toISOString()
+  };
+
+  return supabaseFetch('/players', {
+    method: 'POST',
+    headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
+    body: JSON.stringify(entry)
+  }).then(function (res) { return res.json(); })
+    .catch(function () { /* silent */ });
+}
+
+function _updateLastSeen(name) {
+  if (!name) return;
+  supabaseFetch('/players?name=eq.' + encodeURIComponent(name), {
+    method: 'PATCH',
+    body: JSON.stringify({ last_seen_at: new Date().toISOString() })
+  }).catch(function () { /* silent */ });
+}
+
+/* ========================================
+   STATION TIME TRACKING (Supabase)
+   ======================================== */
+
+/**
+ * Records station enter time in sessionStorage.
+ */
+function trackStationEnter(stationId) {
+  try {
+    sessionStorage.setItem('station-enter-' + stationId, String(Date.now()));
+  } catch (e) { /* silent */ }
+}
+
+/**
+ * Calculates duration since enter and upserts to station_times.
+ */
+function trackStationLeave(stationId) {
+  var name = getPlayerName();
+  if (!name) return;
+
+  var enterKey = 'station-enter-' + stationId;
+  var enterTime;
+  try {
+    enterTime = parseInt(sessionStorage.getItem(enterKey));
+  } catch (e) { return; }
+  if (!enterTime || isNaN(enterTime)) return;
+
+  var durationSeconds = Math.round((Date.now() - enterTime) / 1000);
+  if (durationSeconds < 1) return;
+
+  var entry = {
+    player_name: name,
+    station_id: stationId,
+    duration_seconds: durationSeconds,
+    completed: isStationComplete(stationId),
+    challenge_done: isChallengeComplete(stationId),
+    quiz_passed: typeof isQuizPassed === 'function' && isQuizPassed(stationId)
+  };
+
+  supabaseFetch('/station_times', {
+    method: 'POST',
+    headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
+    body: JSON.stringify(entry)
+  }).catch(function () { /* silent */ });
+}
+
+/**
+ * Updates status fields for a station_times entry.
+ */
+function syncStationStatus(stationId, completed, challengeDone, quizPassed) {
+  var name = getPlayerName();
+  if (!name) return;
+
+  var params = 'player_name=eq.' + encodeURIComponent(name) +
+    '&station_id=eq.' + encodeURIComponent(stationId);
+
+  supabaseFetch('/station_times?' + params, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      completed: !!completed,
+      challenge_done: !!challengeDone,
+      quiz_passed: !!quizPassed
+    })
+  }).catch(function () { /* silent */ });
 }
 
 /**

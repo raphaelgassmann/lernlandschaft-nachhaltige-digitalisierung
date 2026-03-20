@@ -245,6 +245,7 @@ function startExpedition() {
     progress.onboardingSeen = true;
     saveProgress(progress);
     if (typeof syncCurrentPlayer === 'function') syncCurrentPlayer();
+    if (typeof syncPlayerInfo === 'function') syncPlayerInfo();
   }
 }
 
