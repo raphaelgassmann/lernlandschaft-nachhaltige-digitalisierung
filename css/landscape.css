@@ -1718,23 +1718,24 @@
   }
 
   #map-panel-0 {
-    background: linear-gradient(180deg, rgba(26,46,26,0.7), rgba(10,10,10,0.85)),
-                url('../assets/mobile/bg-jungle-world-new.webp') center/cover no-repeat !important;
+    background: linear-gradient(180deg, rgba(26,46,26,0.35), rgba(10,10,10,0.55)),
+                url('../assets/mobile/map-panel-0.webp') center/cover no-repeat !important;
   }
   #map-panel-1 {
-    background: linear-gradient(180deg, rgba(10,30,46,0.7), rgba(10,10,10,0.85)),
-                url('../assets/mobile/bg-ocean-world-new.webp') center/cover no-repeat !important;
+    background: linear-gradient(180deg, rgba(10,30,46,0.35), rgba(10,10,10,0.55)),
+                url('../assets/mobile/map-panel-1.webp') center/cover no-repeat !important;
   }
   #map-panel-2 {
-    background: linear-gradient(180deg, rgba(26,10,46,0.7), rgba(10,10,10,0.85)),
-                url('../assets/mobile/bg-cosmos-world-new.webp') center/cover no-repeat !important;
+    background: linear-gradient(180deg, rgba(26,10,46,0.35), rgba(10,10,10,0.55)),
+                url('../assets/mobile/map-panel-2.webp') center/cover no-repeat !important;
   }
   #map-panel-3 {
-    background: linear-gradient(180deg, rgba(10,26,10,0.7), rgba(10,10,10,0.85)),
-                url('../assets/mobile/bg-metro-world-new.webp') center/cover no-repeat !important;
+    background: linear-gradient(180deg, rgba(10,26,10,0.35), rgba(10,10,10,0.55)),
+                url('../assets/mobile/map-panel-3.webp') center/cover no-repeat !important;
   }
   #map-panel-4 {
-    background: linear-gradient(180deg, rgba(10,26,10,0.8), rgba(10,10,10,0.95)) !important;
+    background: linear-gradient(180deg, rgba(10,26,10,0.35), rgba(10,10,10,0.55)),
+                url('../assets/mobile/map-panel-4.webp') center/cover no-repeat !important;
   }
 
   /* Slightly taller panels on mobile for more vertical space */

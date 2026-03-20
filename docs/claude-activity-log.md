@@ -722,3 +722,4 @@ index.html          – srcset/sizes auf allen 12 map-station__img für responsi
 | # | Prompt | Aktion | Ergebnis |
 |---|--------|--------|----------|
 | 1 | `init` | Session gestartet, Aktivitätsprotokoll aktualisiert | Bereit für neue Aufgaben |
+| 2 | Mobile Hintergründe + Couch-Fix | Desktop-Panels (map-panel-0..4.png) zu mobilen WebP konvertiert (768×768, q78), CSS-Gradients reduziert (35–55% statt 70–85%), Sofa+Avatar als `<picture>` mit WebP-Source für Mobile | `assets/mobile/map-panel-0..4.webp`, `css/landscape.css`, `index.html` |

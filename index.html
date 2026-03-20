@@ -92,8 +92,14 @@
     <section class="start-zone is-hidden" id="start-zone" aria-label="Startpunkt">
       <div class="start-zone__content" id="start-content">
         <div class="start-sparkles" id="start-sparkles" aria-hidden="true"></div>
-        <img class="start-zone__sofa" src="assets/start-sofa.png" alt="Gemütliches Sofa" />
-        <img class="start-zone__avatar" id="start-avatar" src="assets/avatar-explorer.png" alt="Dein Avatar" />
+        <picture>
+          <source media="(max-width: 600px)" srcset="assets/mobile/start-sofa.webp" type="image/webp">
+          <img class="start-zone__sofa" src="assets/start-sofa.png" alt="Gemütliches Sofa" />
+        </picture>
+        <picture>
+          <source media="(max-width: 600px)" srcset="assets/mobile/avatar-explorer.webp" type="image/webp">
+          <img class="start-zone__avatar" id="start-avatar" src="assets/avatar-explorer.png" alt="Dein Avatar" />
+        </picture>
         <div class="start-zone__text">
           <h1 class="start-zone__title" data-i18n="start.ready">Bereit, <span id="start-player-name"></span>?</h1>
           <p class="start-zone__subtitle" data-i18n="start.subtitle">Du sitzt gemütlich auf dem Sofa. Aber da draussen wartet eine ganze Welt voller Entdeckungen...</p>
