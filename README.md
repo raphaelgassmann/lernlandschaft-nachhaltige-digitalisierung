@@ -1,58 +1,122 @@
 # Lernlandschaft Nachhaltige Digitalisierung
 
-Eine **interaktive Lernlandschaft als Webseite** für Lernende Informatiker:innen EFZ an der TBZ. Die Lernenden entdecken selbstgesteuert Stationen rund um nachhaltige Digitalisierung und setzen kleine, wirkungsvolle Massnahmen in ihrem Alltag um.
+Eine **interaktive Lernlandschaft als Webseite** für Lernende Informatiker:innen EFZ an der TBZ. Die Lernenden reisen als Entdecker:innen durch einen digitalen Dschungel und entdecken selbstgesteuert Stationen rund um nachhaltige Digitalisierung.
+
+## Live-Demo
+
+Deployed via **Vercel** als statische Webseite.
 
 ## Übersicht
 
-Die Lernlandschaft besteht aus **6–9 Lernstationen**, die jeweils enthalten:
+Die Lernlandschaft umfasst **4 Welten mit 13 Lernstationen**. Pro Welt gibt es eine Pflichtstation und zwei Wahlstationen (Fork), von denen eine absolviert werden muss. Am Ende wartet die **Abschluss-Feier**.
+
+### Welten & Stationen
+
+| Welt | Pflichtstation | Wahlstationen (1 von 2) |
+|------|---------------|------------------------|
+| **Daten-Dschungel** | Geräte-Lichtung | Cloud-Quelle, Code-Camp |
+| **Daten-Ozean** | Server-Riff | Streaming-Strom, Backup-Bucht |
+| **Code-Kosmos** | IDE-Asteroid | Deploy-Stern, Workflow-Nebel |
+| **Zukunfts-Metropole** | KI-Kraftwerk | Open-Source-Platz, Digital-Ethics-Turm |
+
+### Aufbau pro Station
+
+Jede Station enthält:
 
 - **Microlearning** (5–10 Min.) mit Input und Praxisbeispielen
 - **Handlungsorientierte Aufgabe** – eine konkrete Tat oder Einstellung (z. B. in IDE, OS, Browser)
+- **Quiz** – 4 Fragen zum Gelernten
 - **Reflexionsfrage** – kurz und zielgerichtet
-- **Challenge** (optional) – spielerisches Element wie Punkte, Badges oder Quests
+- **Challenge** (optional) – spielerisches Element mit Bonuspunkten
 
-Die Lernenden wählen Stationen nach Interesse und Relevanz:
-*„Was bringt mir in meinem Alltag oder im Lehrbetrieb am meisten?"*
+## Features
+
+### Gamification & Fortschritt
+
+- **XP-System**: 10 XP pro Station, 5 XP pro Challenge (max. 180 XP)
+- **8 Level**: Sofa-Surfer → Digitale:r Pionier:in
+- **Badges**: 7 Abzeichen (Welt-Abschluss, Speedrunner, Sustainability Hero etc.)
+- **Rangliste**: Globales Leaderboard via Supabase (ab 10 XP sichtbar)
+
+### Personalisierung
+
+- **Spielername** und **Avatar-Wahl** (Explorer, Scientist, Hacker)
+- Avatar-abhängige Szenenbilder in den Stationen
+- **Notizbuch**: Reflexionen und Notizen pro Station
+
+### Navigation
+
+- **Scrollbare Landschaftskarte** mit 4 Welten und SVG-Pfaden
+- **Fork-basierte Progression**: Welten schalten sich nacheinander frei
+- **Avatar-Bewegung** auf der Karte bei Fortschritt
+- **Mobile-optimiert**: Kartenansicht als Cards auf kleinen Bildschirmen
+
+### Weitere Features
+
+- **Zweisprachig**: Deutsch (Standard) und Englisch via Sprachumschalter
+- **Cookie-/localStorage-Consent-Banner**
+- **Profanity-Filter** für Spielernamen
+
+## Techstack
+
+| Komponente | Technologie |
+|-----------|-------------|
+| Frontend | HTML5, CSS3, Vanilla JavaScript |
+| Persistenz (lokal) | localStorage / sessionStorage |
+| Backend | Supabase (PostgreSQL) |
+| Deployment | Vercel (statische Seite) |
+| Build-Prozess | Keiner – pure statische Dateien |
+
+## Projektstruktur
+
+```
+├── index.html              # Startseite mit Avatar-Wahl und Landschaftskarte
+├── stations/               # 13 Lernstationen + Abschluss-Feier
+├── css/
+│   ├── main.css            # Globale Styles und Theme
+│   ├── landscape.css       # Karte, Avatar, Welten-Layout
+│   └── station.css         # Stationsseiten, Quiz, Formulare
+├── js/
+│   ├── progress.js         # Fortschritt, Level, Badges, localStorage
+│   ├── highscore.js        # Supabase-API, Leaderboard, Tracking
+│   ├── landscape.js        # Karten-Initialisierung, Avatar-Auswahl
+│   ├── station.js          # Quiz, Station-Tracking, Szenenbilder
+│   ├── i18n.js             # Übersetzungen, Sprachwechsel
+│   └── profanity-filter.js # Inhaltsfilter für Spielernamen
+├── assets/                 # Bilder, Icons (PNG, WebP, SVG)
+├── i18n/                   # Übersetzungsdateien (en.json)
+└── docs/                   # Dokumentation, SQL-Schema
+```
+
+## Supabase-Datenbank
+
+Drei Tabellen für Analytics und Rangliste:
+
+- **highscores** – Name, XP, Avatar, Stationen
+- **players** – Browser, OS, Bildschirmgrösse, Sprache, letzter Besuch
+- **station_times** – Bearbeitungszeit pro Station und Spieler
+
+Setup-SQL: `docs/supabase-setup.sql`
+
+## Zielgruppe
+
+**Lernende Informatiker:innen EFZ** (Applikations-/Plattformentwicklung) mit Grundkenntnissen in IDEs, Git, Browsern und OS-Einstellungen.
 
 ## Thematische Säulen
 
 | Säule | Beispiele |
-|---|---|
+|-------|-----------|
 | **Geräte & Lebenszyklus** | Nutzung verlängern, ressourcenschonend konfigurieren |
 | **Daten & Infrastruktur** | Datenmengen, Cloud, Meetings, Storage, Build/Deploy |
-| **Nutzungsverhalten & Software-Praxis** | Effiziente Workflows, Einstellungen, Tool-Entscheidungen inkl. Zielkonflikte |
-
-## Produkte
-
-- **Webseite** – grafische Lernlandschaft (Startseite + Stationen)
-- **Lernstationen** – jeweils mit Microlearning, Tat/Einstellung und Reflexion
-- **Praxisnachweis** – *„Mein nachhaltiger IT-Move"* als kurze Dokumentation der Lernenden
-
-## Zielgruppe
-
-- **Lernende Informatiker:innen EFZ** (Applikations-/Plattformentwicklung)
-- Grundlegende Erfahrung mit IDEs, Git, Browsern, OS-Einstellungen und Kollaborationstools
-- Unterschiedliches Vorwissen zu Nachhaltigkeit – viele Effekte (Energieverbrauch, Datenmengen, Hardware-Lebenszyklus) sind im Alltag nicht direkt sichtbar
-
-## Rahmenbedingungen
-
-- **Geräte:** Schulgeräte oder BYOD (Windows/macOS/Linux)
-- **Tools:** Tool-agnostisch (GitHub/GitLab, Teams/Meet, verschiedene IDEs)
-- **Einsatz:** Im Unterricht (45–90 Min.) und/oder als begleitetes Selbststudium
-- **Technik:** HTML/CSS/JS, CMS, Moodle oder GitHub Pages
-- **Abgabe:** LMS, Teams, Forms oder Markdown-Repository
+| **Nutzungsverhalten & Software-Praxis** | Effiziente Workflows, Einstellungen, Tool-Entscheidungen |
 
 ## Didaktischer Hintergrund
 
-Die Gestaltung stützt sich auf mehrere didaktische Ansätze:
-
 - **Constructive Alignment (Biggs)** – Lernziele, Aktivitäten und Überprüfung aufeinander abgestimmt
-- **Selbstbestimmungstheorie (Deci & Ryan)** – Autonomie, Kompetenzerleben, soziale Einbindung durch Wahlmöglichkeiten und klare Struktur
+- **Selbstbestimmungstheorie (Deci & Ryan)** – Autonomie, Kompetenzerleben, soziale Einbindung
 - **Microlearning** – Kleine, fokussierte Einheiten zur Reduktion kognitiver Belastung
 - **Gamification** – Spielerische Elemente für Motivation, Aktivierung und Rückmeldung
 
-## Lernziele der Lehrperson
+## Autor
 
-1. **Selbststeuerung wirksam gestalten** – Offene Lernlandschaft mit verbindlichen Lernzielen
-2. **Gamification didaktisch sinnvoll einsetzen** – Motivation und Reflexion fördern, ohne vom Inhalt abzulenken
-3. **Transfer sichtbar machen** – Kleine Taten dokumentieren, sodass Lernende ihre Wirkung erkennen
+**Raphael Gassmann** – Lehrperson an der TBZ (Technische Berufsschule Zürich)
