@@ -12,12 +12,17 @@ Dieses Dokument protokolliert alle Aktivitäten, Prompts und Entscheidungen aus 
 |---|--------|--------|----------|
 | 1 | `init` | Session gestartet, Aktivitätsprotokoll aktualisiert | Bereit für Aufgaben |
 | 2 | `nimm spieler erst ins ranking ab 10 XP` | Supabase-Query in `loadHighscores()` um `xp=gte.10` Filter ergänzt | Nur Spieler mit ≥10 XP im Ranking sichtbar |
+| 3 | `update das Readme file` | README.md komplett überarbeitet mit aktuellem Projektstand | Vollständige Projektdoku |
+| 4 | `reproduktions-prompts + architektur-dokument` | `docs/architecture.md` (Endzustand-Referenz) und `docs/reproduction-prompts.md` (3 Tage, max 5 Prompts/Tag) erstellt | Projekt via Vibe-Coding reproduzierbar |
 
 ### Geänderte Dateien
 
 ```
-docs/claude-activity-log.md – Neue Session dokumentiert
-js/highscore.js            – loadHighscores() filtert jetzt auf xp >= 10
+docs/claude-activity-log.md    – Neue Session dokumentiert
+js/highscore.js                – loadHighscores() filtert jetzt auf xp >= 10
+README.md                      – Komplett überarbeitet
+docs/architecture.md           – NEU: Architektur-Referenz (Endzustand)
+docs/reproduction-prompts.md   – NEU: Reproduktions-Prompts (3 Tage, 12 Prompts)
 ```
 
 ---
