@@ -1929,6 +1929,22 @@
   font-size: 0.85rem;
 }
 
+.site-footer__credit {
+  font-size: 0.7rem;
+  opacity: 0.4;
+  margin-top: var(--space-xs);
+}
+
+.site-footer__credit a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-footer__credit a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 /* ========================================
    RESPONSIVE: Desktop shows map, mobile shows cards
    ======================================== */
