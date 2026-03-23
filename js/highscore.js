@@ -369,13 +369,12 @@ function _renderHighscoreModal(scores) {
     });
     displayList.sort(function (a, b) { return b.xp - a.xp; });
 
-    // Update rank in highlight
+    // Update rank in highlight – find position by XP in sorted list
     if (rankEl) {
-      var filteredRank = 0;
+      var filteredRank = displayList.length + 1;
       for (var r = 0; r < displayList.length; r++) {
-        if (displayList[r].isSelf) { filteredRank = r + 1; break; }
+        if (playerXp >= displayList[r].xp) { filteredRank = r + 1; break; }
       }
-      if (!filteredRank) filteredRank = displayList.length + 1;
       rankEl.textContent = '#' + filteredRank;
     }
 
