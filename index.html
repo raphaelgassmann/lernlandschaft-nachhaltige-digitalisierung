@@ -47,19 +47,24 @@
          AVATAR SELECTION (before expedition)
          ========================================== -->
     <section class="avatar-select" id="avatar-select" aria-label="Avatar-Auswahl">
+      <div class="landing-hero">
+        <h1 class="landing-hero__title">Lernlandschaft<br>Nachhaltige Digitalisierung</h1>
+        <p class="landing-hero__tagline">Reise durch vier Welten und entdecke, wie du als Informatiker:in oder ICT-Fachmann/Fachfrau nachhaltiger arbeiten kannst.</p>
+        <p class="landing-hero__explorers" id="explorer-count"></p>
+      </div>
       <div class="avatar-select__content">
-        <h1 class="avatar-select__title" data-i18n="avatar.title">Erstelle deinen Charakter</h1>
-        <p class="avatar-select__subtitle" data-i18n="avatar.subtitle">Gib deinen Namen ein und wähle deine:n Begleiter:in für die Expedition.</p>
+        <h2 class="avatar-select__title" data-i18n="avatar.title">Erstelle deinen Charakter</h2>
 
-        <div class="avatar-select__name-field">
-          <label for="player-name-input" class="avatar-select__label" data-i18n="avatar.name_label">Dein Name</label>
-          <input type="text" id="player-name-input" class="avatar-select__input" placeholder="z.B. Alex, Sam, Jordan..." maxlength="20" autocomplete="off" data-i18n="avatar.name_placeholder" />
-        </div>
-
-        <div class="avatar-select__name-field">
-          <label for="player-group-input" class="avatar-select__label" data-i18n="avatar.group_label">Deine Gruppe / Klasse</label>
-          <input type="text" id="player-group-input" class="avatar-select__input" list="group-suggestions" placeholder="z.B. ICT23a" maxlength="20" autocomplete="off" />
-          <datalist id="group-suggestions"></datalist>
+        <div class="avatar-select__fields">
+          <div class="avatar-select__name-field">
+            <label for="player-name-input" class="avatar-select__label" data-i18n="avatar.name_label">Dein Name <span class="avatar-select__required">*</span></label>
+            <input type="text" id="player-name-input" class="avatar-select__input" placeholder="z.B. Alex, Sam, Jordan..." maxlength="20" autocomplete="off" required data-i18n="avatar.name_placeholder" />
+          </div>
+          <div class="avatar-select__name-field">
+            <label for="player-group-input" class="avatar-select__label" data-i18n="avatar.group_label">Gruppe / Klasse <span class="avatar-select__optional">(optional)</span></label>
+            <input type="text" id="player-group-input" class="avatar-select__input" list="group-suggestions" placeholder="z.B. ICT23a" maxlength="20" autocomplete="off" />
+            <datalist id="group-suggestions"></datalist>
+          </div>
         </div>
 
         <div class="avatar-select__options">
@@ -89,7 +94,6 @@
         <button class="avatar-select__confirm" id="avatar-confirm-btn" disabled data-i18n="avatar.confirm">
           Expedition vorbereiten
         </button>
-        <button class="reset-link" id="reset-link-avatar" title="Fortschritt zurücksetzen" data-i18n="ui.reset_progress">&#x21BB; Zurücksetzen</button>
       </div>
     </section>
 
@@ -429,7 +433,7 @@
   </main>
 
   <footer class="site-footer">
-    <p data-i18n="site.footer">Lernlandschaft Nachhaltige Digitalisierung</p>
+    <p data-i18n="site.footer">Lernlandschaft Nachhaltige Digitalisierung · <a href="admin.html" class="site-footer__admin-link">Admin Dashboard</a></p>
     <p class="site-footer__credit">designed by <a href="mailto:raphael_gassmann@stud.phzh.ch">Raphael</a></p>
   </footer>
 

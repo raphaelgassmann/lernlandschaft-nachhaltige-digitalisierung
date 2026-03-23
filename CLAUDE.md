@@ -13,9 +13,10 @@ Interaktive Lernlandschaft (Webseite) für nachhaltige Digitalisierung, entwicke
 
 ## Techstack
 
-- HTML, CSS, JavaScript (vanilla oder leichtgewichtiges Framework)
-- Statische Webseite, deploybar via GitHub Pages
-- Kein Backend erforderlich – alle Inhalte clientseitig
+- HTML, CSS, JavaScript (vanilla, keine Frameworks)
+- Supabase (PostgreSQL) für Rangliste, Spieler-Tracking und Stationszeiten
+- Deployment via Vercel als statische Webseite
+- Zweisprachig: Deutsch (Standard) + Englisch via `i18n/en.json`
 
 ## Struktur
 
@@ -23,12 +24,23 @@ Interaktive Lernlandschaft (Webseite) für nachhaltige Digitalisierung, entwicke
 /                       # Projektwurzel
 ├── CLAUDE.md           # Diese Datei
 ├── README.md           # Projektbeschreibung
-├── index.html          # Startseite / Lernlandschaft-Übersicht
-├── stations/           # Einzelne Lernstationen
+├── index.html          # Startseite mit Avatar-Wahl und Landschaftskarte
+├── stations/           # 13 Lernstationen + Abschluss-Feier
 │   └── *.html
-├── css/                # Stylesheets
-├── js/                 # Scripts
-└── assets/             # Bilder, Icons, etc.
+├── css/
+│   ├── main.css        # Globale Styles und Theme
+│   ├── landscape.css   # Karte, Avatar, Welten-Layout, Modals
+│   └── station.css     # Stationsseiten, Quiz, Formulare
+├── js/
+│   ├── progress.js     # Fortschritt, Level, Badges, localStorage
+│   ├── highscore.js    # Supabase-API, Leaderboard, Tracking
+│   ├── landscape.js    # Karten-Initialisierung, Avatar, Notizbuch
+│   ├── station.js      # Quiz, Challenges, Szenenbilder
+│   ├── i18n.js         # Übersetzungssystem, Sprachwechsel
+│   └── profanity-filter.js # Inhaltsfilter für Spielernamen
+├── assets/             # Bilder, Icons (PNG, WebP, SVG)
+├── i18n/               # Übersetzungsdateien (en.json)
+└── docs/               # Dokumentation, SQL-Schema, Prompts
 ```
 
 ## Konventionen
@@ -37,15 +49,25 @@ Interaktive Lernlandschaft (Webseite) für nachhaltige Digitalisierung, entwicke
 - Mobile-first, responsive Design
 - Einfache, wartbare CSS-Struktur (kein Utility-Framework nötig)
 - Keine unnötigen Dependencies – so leichtgewichtig wie möglich
-- Dateinamen: kebab-case (`station-cloud-daten.html`)
+- Dateinamen: kebab-case (`cloud-quelle.html`)
 
 ## Inhaltsstruktur pro Station
 
 Jede Station enthält:
 1. **Microlearning** (5–10 Min.) – kurzer Input mit Praxisbeispielen
 2. **Tat / Einstellung** – konkrete Handlung (z. B. IDE-Setting ändern)
-3. **Reflexionsfrage** – zum Nachdenken und Verknüpfen
-4. **Challenge** (optional) – spielerisches Element (Punkte, Badge, Quest)
+3. **Quiz** – 4 Multiple-Choice-Fragen mit Strafzeit bei Fehlern
+4. **Reflexionsfrage** – zum Nachdenken und Verknüpfen
+5. **Challenge** (optional) – spielerisches Element mit 5 Bonus-XP
+
+## Vier Welten
+
+| Welt | Pflichtstation | Wahlstationen (1 von 2) |
+|------|---------------|------------------------|
+| Daten-Dschungel | Geräte-Lichtung | Cloud-Quelle, Code-Camp |
+| Daten-Ozean | Server-Riff | Streaming-Strom, Backup-Bucht |
+| Code-Kosmos | IDE-Asteroid | Deploy-Stern, Workflow-Nebel |
+| Zukunfts-Metropole | KI-Kraftwerk | Open-Source-Platz, Digital-Ethics-Turm |
 
 ## Drei thematische Säulen
 
@@ -64,6 +86,12 @@ Lernende Informatiker:innen EFZ mit Grundkenntnissen in IDEs, Git, Browsern und 
 - SVG-Grafiken inline im HTML für die Dschungelkarte und Dekorelemente
 - Stationen als Orte: Lichtungen, Quellen, Camps
 
-## Zwingende Tasks bei jeder Session
+## Supabase-Datenbank
 
-1. **Aktivitätsprotokoll pflegen:** Zu Beginn und Ende jeder Session `docs/claude-activity-log.md` aktualisieren mit: Datum, Prompts, durchgeführte Aktionen, Entscheidungen und erstellte/geänderte Dateien.
+Drei Tabellen mit `player_id` (UUID) als Primary Key:
+
+- **highscores** – player_id, Name, XP, Avatar, Stationen, Gruppe, cert_uuid
+- **players** – player_id, Name, Browser, OS, Bildschirmgrösse, Sprache, last_seen
+- **station_times** – player_id, Station, Dauer, Abschluss-Status
+
+Setup-SQL: `docs/supabase-setup.sql`

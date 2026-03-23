@@ -96,14 +96,27 @@ function containsProfanity(text) {
   var noSpacesWithUmlauts = noSpaces.replace(/oe/g, 'ö').replace(/ae/g, 'ä').replace(/ue/g, 'ü');
 
   // Alle Varianten prüfen
-  var variants = [cleaned, noSpaces, withUmlauts, noSpacesWithUmlauts];
+  // Short words (<=3 chars) only match as whole words to avoid false positives
+  // (e.g. "ass" matching in "etwasstunden" from leetspeak 5→s)
+  var substringVariants = [cleaned, noSpaces, withUmlauts, noSpacesWithUmlauts];
+  var wordBoundaryVariants = [cleaned, withUmlauts];
 
   for (var j = 0; j < PROFANITY_LIST.length; j++) {
-    // Auch die Wortliste mit reduzierten Wiederholungen prüfen
     var word = PROFANITY_LIST[j];
-    for (var v = 0; v < variants.length; v++) {
-      if (variants[v].indexOf(word) !== -1) {
-        return true;
+    if (word.length <= 3) {
+      // Short words: whole-word match only (with space-separated variants)
+      var wordRegex = new RegExp('\\b' + word + '\\b');
+      for (var v = 0; v < wordBoundaryVariants.length; v++) {
+        if (wordRegex.test(wordBoundaryVariants[v])) {
+          return true;
+        }
+      }
+    } else {
+      // Longer words: substring match across all variants
+      for (var v = 0; v < substringVariants.length; v++) {
+        if (substringVariants[v].indexOf(word) !== -1) {
+          return true;
+        }
       }
     }
   }

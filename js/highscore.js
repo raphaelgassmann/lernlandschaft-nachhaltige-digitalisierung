@@ -328,10 +328,11 @@ function _renderHighscoreModal(scores) {
   card.appendChild(filterWrap);
 
   // Player highlight card
+  var highlight = null;
+  var rankEl = null;
   if (playerName) {
-    var highlight = document.createElement('div');
+    highlight = document.createElement('div');
     highlight.className = 'highscore-player-highlight';
-    var rank = getPlayerRank(playerXp, scores);
     highlight.innerHTML =
       '<div class="highscore-player-highlight__avatar">' +
         '<img src="' + getAvatarImage() + '" alt="" />' +
@@ -343,7 +344,8 @@ function _renderHighscoreModal(scores) {
           getCompletionCount() + '/' + getTotalStations() + ' ' + I18N.t('highscore.stations', 'Stationen') +
         '</span>' +
       '</div>' +
-      '<div class="highscore-player-highlight__rank">#' + rank + '</div>';
+      '<div class="highscore-player-highlight__rank" id="hs-player-rank"></div>';
+    rankEl = highlight.querySelector('#hs-player-rank');
     card.appendChild(highlight);
   }
 
@@ -353,6 +355,11 @@ function _renderHighscoreModal(scores) {
 
   function _fillList(filtered) {
     list.innerHTML = '';
+    // Update rank in highlight based on filtered list
+    if (rankEl) {
+      var filteredRank = getPlayerRank(playerXp, filtered);
+      rankEl.textContent = '#' + filteredRank;
+    }
     if (filtered.length === 0) {
       list.innerHTML = '<p class="highscore-empty">' +
         I18N.t('highscore.empty', 'Noch keine Einträge. Starte die Expedition!') + '</p>';

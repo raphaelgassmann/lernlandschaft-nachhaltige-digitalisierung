@@ -36,13 +36,14 @@ Jede Station enthält:
 - **XP-System**: 10 XP pro Station, 5 XP pro Challenge (max. 180 XP)
 - **8 Level**: Sofa-Surfer → Digitale:r Pionier:in
 - **Badges**: 7 Abzeichen (Welt-Abschluss, Speedrunner, Sustainability Hero etc.)
-- **Rangliste**: Globales Leaderboard via Supabase (ab 10 XP sichtbar)
+- **Rangliste**: Globales Leaderboard via Supabase, filterbar nach Gruppe/Klasse
 
 ### Personalisierung
 
-- **Spielername** und **Avatar-Wahl** (Explorer, Scientist, Hacker)
+- **Spielername**, **Gruppe/Klasse** und **Avatar-Wahl** (Explorer, Scientist, Hacker)
 - Avatar-abhängige Szenenbilder in den Stationen
-- **Notizbuch**: Reflexionen und Notizen pro Station
+- **Notizbuch**: Reflexionen, Notizen und Challenge-Abgaben pro Station
+- **Lernjournal-Export**: Alle Einträge als kopierbarer Text oder druckbar
 
 ### Navigation
 
@@ -90,11 +91,11 @@ Jede Station enthält:
 
 ## Supabase-Datenbank
 
-Drei Tabellen für Analytics und Rangliste:
+Drei Tabellen mit `player_id` (UUID) als Primary Key:
 
-- **highscores** – Name, XP, Avatar, Stationen
-- **players** – Browser, OS, Bildschirmgrösse, Sprache, letzter Besuch
-- **station_times** – Bearbeitungszeit pro Station und Spieler
+- **highscores** – Name, XP, Avatar, Stationen, Gruppe, Zertifikats-UUID
+- **players** – Name, Browser, OS, Bildschirmgrösse, Sprache, letzter Besuch
+- **station_times** – Station, Bearbeitungszeit, Abschluss-/Quiz-/Challenge-Status
 
 Setup-SQL: `docs/supabase-setup.sql`
 

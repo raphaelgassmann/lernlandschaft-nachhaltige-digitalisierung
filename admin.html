@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard – Lernlandschaft</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="page-admin">
+
+  <header class="admin-header">
+    <h1 class="admin-header__title">Lehrpersonen-Dashboard</h1>
+  </header>
+
+  <div class="admin-container">
+    <!-- Filter Bar -->
+    <div class="admin-filter-bar">
+      <div class="admin-filter-bar__group">
+        <label for="group-filter" class="admin-filter-bar__label">Gruppe</label>
+        <select id="group-filter" class="admin-filter-bar__select">
+          <option value="">Alle Gruppen</option>
+        </select>
+      </div>
+      <div class="admin-filter-bar__search">
+        <label for="search-input" class="admin-filter-bar__label">Suche</label>
+        <input type="text" id="search-input" class="admin-filter-bar__input" placeholder="Name eingeben..." />
+      </div>
+    </div>
+    <!-- Stat Cards -->
+    <div class="admin-stats" id="admin-stats">
+      <div class="stat-card">
+        <span class="stat-card__value" id="stat-players">&ndash;</span>
+        <span class="stat-card__label">Lernende</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__value" id="stat-avg-xp">&ndash;</span>
+        <span class="stat-card__label">Durchschnitt XP</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__value" id="stat-completion">&ndash;</span>
+        <span class="stat-card__label">Abschlussquote</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__value" id="stat-active">&ndash;</span>
+        <span class="stat-card__label">Aktiv (7 Tage)</span>
+      </div>
+    </div>
+
+    <!-- KPI Charts -->
+    <div class="admin-charts">
+      <div class="chart-card">
+        <h3 class="chart-card__title">Level-Verteilung</h3>
+        <canvas id="chart-levels" width="400" height="200"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-card__title">Stationsabschluss</h3>
+        <canvas id="chart-stations" width="400" height="200"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-card__title">Aktivit&auml;t</h3>
+        <canvas id="chart-activity" width="200" height="200"></canvas>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="admin-table">
+        <thead>
+          <tr>
+            <th data-sort="name">Name <span class="sort-arrow">&#x25B2;&#x25BC;</span></th>
+            <th data-sort="group_name">Gruppe <span class="sort-arrow">&#x25B2;&#x25BC;</span></th>
+            <th data-sort="xp">XP <span class="sort-arrow active">&#x25BC;</span></th>
+            <th data-sort="level">Level <span class="sort-arrow">&#x25B2;&#x25BC;</span></th>
+            <th data-sort="stations">Stationen <span class="sort-arrow">&#x25B2;&#x25BC;</span></th>
+            <th data-sort="last_seen_at">Letzter Besuch <span class="sort-arrow">&#x25B2;&#x25BC;</span></th>
+            <th data-sort="browser">Browser <span class="sort-arrow">&#x25B2;&#x25BC;</span></th>
+            <th class="admin-table__actions"></th>
+          </tr>
+        </thead>
+        <tbody id="admin-tbody">
+          <tr><td colspan="8" class="admin-loading">Daten werden geladen...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Dialog -->
+  <div class="admin-dialog-overlay" id="delete-dialog" hidden>
+    <div class="admin-dialog">
+      <h3 class="admin-dialog__title">Spieler:in l&ouml;schen</h3>
+      <p class="admin-dialog__text" id="delete-dialog-text"></p>
+      <label class="admin-dialog__label" for="delete-password">Admin-Passwort:</label>
+      <input type="password" id="delete-password" class="admin-dialog__input" placeholder="Passwort eingeben" />
+      <p class="admin-dialog__error" id="delete-error" hidden>Falsches Passwort.</p>
+      <div class="admin-dialog__buttons">
+        <button class="admin-dialog__btn admin-dialog__btn--cancel" id="delete-cancel">Abbrechen</button>
+        <button class="admin-dialog__btn admin-dialog__btn--confirm" id="delete-confirm">L&ouml;schen</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/highscore.js"></script>
+  <script>
+  (function () {
+    /* ========================================
+       CONFIG
+       ======================================== */
+
+    var ADMIN_PASSWORD = 'dnA%';
+
+    var LEVELS = [
+      { level: 1, name: 'Sofa-Surfer', min: 0 },
+      { level: 2, name: 'Neugierige:r', min: 15 },
+      { level: 3, name: 'Dschungel-Kenner:in', min: 30 },
+      { level: 4, name: 'Daten-Taucher:in', min: 50 },
+      { level: 5, name: 'Code-Pilot:in', min: 75 },
+      { level: 6, name: 'Zukunfts-Architekt:in', min: 100 },
+      { level: 7, name: 'Nachhaltigkeits-Held:in', min: 130 },
+      { level: 8, name: 'Digitale:r Pionier:in', min: 180 }
+    ];
+
+    var STATIONS = {
+      'geraete-lichtung': 'Geräte-Lichtung',
+      'cloud-quelle': 'Cloud-Quelle',
+      'code-camp': 'Code-Camp',
+      'server-riff': 'Server-Riff',
+      'streaming-strom': 'Streaming-Strom',
+      'backup-bucht': 'Backup-Bucht',
+      'ide-asteroid': 'IDE-Asteroid',
+      'deploy-stern': 'Deploy-Stern',
+      'workflow-nebel': 'Workflow-Nebel',
+      'ki-kraftwerk': 'KI-Kraftwerk',
+      'open-source-platz': 'Open-Source-Platz',
+      'digital-ethics-turm': 'Digital-Ethics-Turm'
+    };
+
+    var MAX_XP = 180;
+    var TOTAL_STATIONS = 12;
+
+    var _allPlayers = [];
+    var _allTimes = {};
+    var _sortKey = 'xp';
+    var _sortAsc = false;
+    var _expandedId = null;
+    var _deletePlayerId = null;
+
+    /* ========================================
+       HELPERS
+       ======================================== */
+
+    function _getLevel(xp) {
+      var lv = LEVELS[0];
+      for (var i = LEVELS.length - 1; i >= 0; i--) {
+        if (xp >= LEVELS[i].min) { lv = LEVELS[i]; break; }
+      }
+      return lv;
+    }
+
+    function _formatDate(iso) {
+      if (!iso) return '\u2013';
+      var d = new Date(iso);
+      return d.toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' });
+    }
+
+    function _formatDuration(seconds) {
+      if (!seconds) return '\u2013';
+      var m = Math.floor(seconds / 60);
+      var s = seconds % 60;
+      return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function _esc(str) {
+      var d = document.createElement('div');
+      d.textContent = str || '';
+      return d.innerHTML;
+    }
+
+    /* ========================================
+       DATA LOADING
+       ======================================== */
+
+    function _loadData() {
+      Promise.all([
+        supabaseFetch('/highscores?order=xp.desc').then(function (r) { return r.json(); }),
+        supabaseFetch('/players?order=last_seen_at.desc').then(function (r) { return r.json(); }),
+        supabaseFetch('/station_times?order=visited_at.desc').then(function (r) { return r.json(); })
+      ]).then(function (results) {
+        var highscores = results[0] || [];
+        var players = results[1] || [];
+        var times = results[2] || [];
+
+        var playerMap = {};
+        players.forEach(function (p) { playerMap[p.player_id] = p; });
+
+        _allPlayers = highscores.map(function (h) {
+          var info = playerMap[h.player_id] || {};
+          return {
+            player_id: h.player_id,
+            name: h.name,
+            group_name: h.group_name || '',
+            avatar: h.avatar || 'explorer',
+            xp: h.xp || 0,
+            stations: h.stations || 0,
+            level: _getLevel(h.xp || 0),
+            last_seen_at: info.last_seen_at || h.updated_at,
+            browser: info.browser || '\u2013',
+            os: info.os || '\u2013'
+          };
+        });
+
+        _allTimes = {};
+        times.forEach(function (t) {
+          if (!_allTimes[t.player_id]) _allTimes[t.player_id] = [];
+          _allTimes[t.player_id].push(t);
+        });
+
+        _populateGroupFilter();
+        _render();
+        _renderCharts(_allPlayers);
+      }).catch(function (err) {
+        console.error('[Admin] Load failed:', err);
+        document.getElementById('admin-tbody').innerHTML =
+          '<tr><td colspan="8" class="admin-empty">Fehler beim Laden der Daten.</td></tr>';
+      });
+    }
+
+    /* ========================================
+       FILTERING
+       ======================================== */
+
+    function _populateGroupFilter() {
+      var sel = document.getElementById('group-filter');
+      var seen = {};
+      var groups = [];
+      _allPlayers.forEach(function (p) {
+        if (p.group_name && !seen[p.group_name]) {
+          seen[p.group_name] = true;
+          groups.push(p.group_name);
+        }
+      });
+      groups.sort();
+      groups.forEach(function (g) {
+        var opt = document.createElement('option');
+        opt.value = g;
+        opt.textContent = g;
+        sel.appendChild(opt);
+      });
+    }
+
+    function _getFiltered() {
+      var group = document.getElementById('group-filter').value;
+      var search = (document.getElementById('search-input').value || '').toLowerCase().trim();
+
+      var list = _allPlayers;
+      if (group) {
+        list = list.filter(function (p) { return p.group_name === group; });
+      }
+      if (search) {
+        list = list.filter(function (p) { return p.name.toLowerCase().indexOf(search) !== -1; });
+      }
+
+      list.sort(function (a, b) {
+        var va = a[_sortKey], vb = b[_sortKey];
+        if (_sortKey === 'level') { va = a.level.level; vb = b.level.level; }
+        if (typeof va === 'string') va = va.toLowerCase();
+        if (typeof vb === 'string') vb = vb.toLowerCase();
+        if (va < vb) return _sortAsc ? -1 : 1;
+        if (va > vb) return _sortAsc ? 1 : -1;
+        return 0;
+      });
+
+      return list;
+    }
+
+    /* ========================================
+       RENDERING
+       ======================================== */
+
+    function _render() {
+      var filtered = _getFiltered();
+      _updateStats(filtered);
+      _renderTable(filtered);
+      _renderCharts(filtered);
+    }
+
+    function _updateStats(list) {
+      document.getElementById('stat-players').textContent = list.length;
+      var totalXp = 0, completed = 0, active7d = 0;
+      var now = Date.now();
+      var sevenDays = 7 * 24 * 60 * 60 * 1000;
+
+      list.forEach(function (p) {
+        totalXp += p.xp;
+        if (p.stations >= TOTAL_STATIONS) completed++;
+        if (p.last_seen_at && (now - new Date(p.last_seen_at).getTime()) < sevenDays) active7d++;
+      });
+
+      document.getElementById('stat-avg-xp').textContent = list.length ? Math.round(totalXp / list.length) : '\u2013';
+      document.getElementById('stat-completion').textContent = list.length
+        ? Math.round((completed / list.length) * 100) + '%' : '\u2013';
+      document.getElementById('stat-active').textContent = active7d;
+    }
+
+    function _renderTable(list) {
+      var tbody = document.getElementById('admin-tbody');
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="admin-empty">Keine Lernenden gefunden.</td></tr>';
+        return;
+      }
+
+      var html = '';
+      list.forEach(function (p) {
+        var lv = p.level;
+        var pct = Math.round((p.xp / MAX_XP) * 100);
+        var isExpanded = _expandedId === p.player_id;
+
+        html += '<tr class="' + (isExpanded ? 'expanded' : '') + '" data-id="' + p.player_id + '">';
+        html += '<td><img class="admin-avatar" src="assets/avatar-' + p.avatar + '.png" alt="" /> ' + _esc(p.name) + '</td>';
+        html += '<td>' + _esc(p.group_name || '\u2013') + '</td>';
+        html += '<td><div class="admin-xp-bar"><div class="admin-xp-bar__track"><div class="admin-xp-bar__fill" style="width:' + pct + '%"></div></div>' + p.xp + '</div></td>';
+        html += '<td>Lv. ' + lv.level + '</td>';
+        html += '<td>' + p.stations + '/' + TOTAL_STATIONS + '</td>';
+        html += '<td>' + _formatDate(p.last_seen_at) + '</td>';
+        html += '<td>' + _esc(p.browser) + '</td>';
+        html += '<td class="admin-table__actions"><button class="admin-delete-btn" data-delete-id="' + p.player_id + '" data-delete-name="' + _esc(p.name) + '" title="L\u00f6schen">\u2715</button></td>';
+        html += '</tr>';
+
+        if (isExpanded) {
+          html += '<tr class="station-detail-row"><td colspan="8">';
+          html += _renderStationDetail(p.player_id);
+          html += '</td></tr>';
+        }
+      });
+
+      tbody.innerHTML = html;
+
+      // Row click → expand
+      tbody.querySelectorAll('tr[data-id]').forEach(function (row) {
+        row.addEventListener('click', function (e) {
+          if (e.target.closest('.admin-delete-btn')) return;
+          var id = row.getAttribute('data-id');
+          _expandedId = (_expandedId === id) ? null : id;
+
+          if (_expandedId && !_allTimes[_expandedId]) {
+            supabaseFetch('/station_times?player_id=eq.' + encodeURIComponent(_expandedId))
+              .then(function (r) { return r.json(); })
+              .then(function (times) {
+                _allTimes[_expandedId] = times || [];
+                _renderTable(_getFiltered());
+              });
+            return;
+          }
+          _renderTable(_getFiltered());
+        });
+      });
+
+      // Delete buttons
+      tbody.querySelectorAll('.admin-delete-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          _deletePlayerId = btn.getAttribute('data-delete-id');
+          var name = btn.getAttribute('data-delete-name');
+          document.getElementById('delete-dialog-text').textContent =
+            'Spieler:in \u00ab' + name + '\u00bb wirklich l\u00f6schen? Alle Daten gehen verloren.';
+          document.getElementById('delete-password').value = '';
+          document.getElementById('delete-error').hidden = true;
+          document.getElementById('delete-dialog').hidden = false;
+        });
+      });
+    }
+
+    function _renderStationDetail(playerId) {
+      var times = _allTimes[playerId] || [];
+      var timeMap = {};
+      times.forEach(function (t) { timeMap[t.station_id] = t; });
+
+      var html = '<div class="station-detail"><div class="station-detail__grid">';
+      Object.keys(STATIONS).forEach(function (id) {
+        var t = timeMap[id];
+        var status = 'not-visited';
+        var meta = '';
+
+        if (t) {
+          if (t.completed) {
+            status = 'completed';
+            meta = _formatDuration(t.duration_seconds);
+            if (t.challenge_done) meta += ' \u00b7 Challenge \u2713';
+            if (t.quiz_passed) meta += ' \u00b7 Quiz \u2713';
+          } else {
+            status = 'visited';
+            meta = _formatDuration(t.duration_seconds);
+          }
+        }
+
+        html += '<div class="station-detail__item station-detail__item--' + status + '">';
+        html += '<span class="station-detail__dot station-detail__dot--' + status + '"></span>';
+        html += '<span class="station-detail__name">' + STATIONS[id] + '</span>';
+        if (meta) html += '<span class="station-detail__meta">' + meta + '</span>';
+        html += '</div>';
+      });
+      html += '</div></div>';
+      return html;
+    }
+
+    /* ========================================
+       CHARTS
+       ======================================== */
+
+    function _renderCharts(players) {
+      _drawLevelChart(players);
+      _drawStationChart(players);
+      _drawActivityChart(players);
+    }
+
+    function _drawLevelChart(players) {
+      var canvas = document.getElementById('chart-levels');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Count per level
+      var counts = [0, 0, 0, 0, 0, 0, 0, 0];
+      players.forEach(function (p) { counts[p.level.level - 1]++; });
+      var max = Math.max.apply(null, counts) || 1;
+
+      var barH = 18;
+      var gap = 6;
+      var labelW = 50;
+      var startY = 8;
+
+      var colors = ['#e8e4d8', '#c8a84e', '#e07b4c', '#4a9e6e', '#00b4d8', '#c77dff', '#39ff14', '#ff6b9d'];
+
+      for (var i = 0; i < 8; i++) {
+        var y = startY + i * (barH + gap);
+        var barW = ((w - labelW - 40) * counts[i]) / max;
+
+        // Label
+        ctx.fillStyle = '#555';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Lv. ' + (i + 1), labelW - 6, y + barH / 2);
+
+        // Bar
+        ctx.fillStyle = colors[i];
+        ctx.beginPath();
+        ctx.roundRect(labelW, y, Math.max(barW, 2), barH, 3);
+        ctx.fill();
+
+        // Count
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'left';
+        ctx.fillText(counts[i], labelW + barW + 6, y + barH / 2);
+      }
+    }
+
+    function _drawStationChart(players) {
+      var canvas = document.getElementById('chart-stations');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      var stationIds = Object.keys(STATIONS);
+      var total = players.length || 1;
+
+      // Count completions per station from _allTimes
+      var completions = {};
+      stationIds.forEach(function (id) { completions[id] = 0; });
+      Object.keys(_allTimes).forEach(function (pid) {
+        _allTimes[pid].forEach(function (t) {
+          if (t.completed && completions[t.station_id] !== undefined) {
+            completions[t.station_id]++;
+          }
+        });
+      });
+
+      var barW = Math.floor((w - 20) / stationIds.length) - 4;
+      var maxH = h - 40;
+      var colors = ['#5bba7a', '#5bba7a', '#5bba7a', '#00b4d8', '#00b4d8', '#00b4d8',
+                    '#c77dff', '#c77dff', '#c77dff', '#39ff14', '#39ff14', '#39ff14'];
+
+      stationIds.forEach(function (id, i) {
+        var pct = completions[id] / total;
+        var barHeight = Math.max(pct * maxH, 2);
+        var x = 10 + i * (barW + 4);
+        var y = h - 20 - barHeight;
+
+        ctx.fillStyle = colors[i];
+        ctx.beginPath();
+        ctx.roundRect(x, y, barW, barHeight, 2);
+        ctx.fill();
+
+        // Percentage label
+        ctx.fillStyle = '#555';
+        ctx.font = '9px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(Math.round(pct * 100) + '%', x + barW / 2, y - 4);
+
+        // Station label (abbreviated)
+        ctx.save();
+        ctx.translate(x + barW / 2, h - 4);
+        ctx.rotate(-Math.PI / 4);
+        ctx.font = '8px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#888';
+        var shortName = STATIONS[id].replace('Die ', '').replace('Der ', '').replace('Das ', '').substring(0, 8);
+        ctx.fillText(shortName, 0, 0);
+        ctx.restore();
+      });
+    }
+
+    function _drawActivityChart(players) {
+      var canvas = document.getElementById('chart-activity');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      var now = Date.now();
+      var sevenDays = 7 * 24 * 60 * 60 * 1000;
+      var active = 0, inactive = 0;
+
+      players.forEach(function (p) {
+        if (p.last_seen_at && (now - new Date(p.last_seen_at).getTime()) < sevenDays) active++;
+        else inactive++;
+      });
+
+      var total = active + inactive || 1;
+      var cx = w / 2, cy = h / 2 - 5;
+      var radius = Math.min(cx, cy) - 20;
+      var inner = radius * 0.6;
+
+      // Active arc
+      var activeAngle = (active / total) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + activeAngle);
+      ctx.arc(cx, cy, inner, -Math.PI / 2 + activeAngle, -Math.PI / 2, true);
+      ctx.closePath();
+      ctx.fillStyle = '#4a9e6e';
+      ctx.fill();
+
+      // Inactive arc
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, -Math.PI / 2 + activeAngle, -Math.PI / 2 + Math.PI * 2);
+      ctx.arc(cx, cy, inner, -Math.PI / 2 + Math.PI * 2, -Math.PI / 2 + activeAngle, true);
+      ctx.closePath();
+      ctx.fillStyle = '#e0ddd4';
+      ctx.fill();
+
+      // Center text
+      ctx.fillStyle = '#333';
+      ctx.font = 'bold 20px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(active, cx, cy - 6);
+      ctx.font = '10px sans-serif';
+      ctx.fillStyle = '#888';
+      ctx.fillText('aktiv', cx, cy + 10);
+
+      // Legend
+      ctx.font = '10px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#4a9e6e';
+      ctx.fillRect(cx - 40, h - 16, 8, 8);
+      ctx.fillStyle = '#555';
+      ctx.fillText('Aktiv (' + active + ')', cx - 28, h - 9);
+      ctx.fillStyle = '#e0ddd4';
+      ctx.fillRect(cx + 30, h - 16, 8, 8);
+      ctx.fillStyle = '#555';
+      ctx.fillText('Inaktiv (' + inactive + ')', cx + 42, h - 9);
+    }
+
+    /* ========================================
+       DELETE PLAYER
+       ======================================== */
+
+    function _deletePlayer(playerId) {
+      var id = encodeURIComponent(playerId);
+      return Promise.all([
+        supabaseFetch('/highscores?player_id=eq.' + id, { method: 'DELETE' }),
+        supabaseFetch('/players?player_id=eq.' + id, { method: 'DELETE' }),
+        supabaseFetch('/station_times?player_id=eq.' + id, { method: 'DELETE' })
+      ]);
+    }
+
+    function _initDeleteDialog() {
+      var dialog = document.getElementById('delete-dialog');
+      var cancelBtn = document.getElementById('delete-cancel');
+      var confirmBtn = document.getElementById('delete-confirm');
+      var pwInput = document.getElementById('delete-password');
+      var errorEl = document.getElementById('delete-error');
+
+      cancelBtn.addEventListener('click', function () {
+        dialog.hidden = true;
+        _deletePlayerId = null;
+      });
+
+      dialog.addEventListener('click', function (e) {
+        if (e.target === dialog) {
+          dialog.hidden = true;
+          _deletePlayerId = null;
+        }
+      });
+
+      confirmBtn.addEventListener('click', function () {
+        if (pwInput.value !== ADMIN_PASSWORD) {
+          errorEl.hidden = false;
+          pwInput.focus();
+          return;
+        }
+
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'L\u00f6schen...';
+
+        _deletePlayer(_deletePlayerId).then(function () {
+          // Remove from local data
+          _allPlayers = _allPlayers.filter(function (p) { return p.player_id !== _deletePlayerId; });
+          delete _allTimes[_deletePlayerId];
+          _deletePlayerId = null;
+          dialog.hidden = true;
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'L\u00f6schen';
+          _render();
+          _renderCharts(_allPlayers);
+        }).catch(function () {
+          errorEl.textContent = 'Fehler beim L\u00f6schen.';
+          errorEl.hidden = false;
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'L\u00f6schen';
+        });
+      });
+    }
+
+    /* ========================================
+       SORTING
+       ======================================== */
+
+    function _initSort() {
+      var headers = document.querySelectorAll('.admin-table th[data-sort]');
+      headers.forEach(function (th) {
+        th.addEventListener('click', function () {
+          var key = th.getAttribute('data-sort');
+          if (_sortKey === key) {
+            _sortAsc = !_sortAsc;
+          } else {
+            _sortKey = key;
+            _sortAsc = key === 'name' || key === 'group_name';
+          }
+
+          headers.forEach(function (h) {
+            var arrow = h.querySelector('.sort-arrow');
+            arrow.className = 'sort-arrow';
+            arrow.textContent = '\u25B2\u25BC';
+          });
+          var activeArrow = th.querySelector('.sort-arrow');
+          activeArrow.className = 'sort-arrow active';
+          activeArrow.textContent = _sortAsc ? '\u25B2' : '\u25BC';
+
+          _render();
+        });
+      });
+    }
+
+    /* ========================================
+       INIT
+       ======================================== */
+
+    document.addEventListener('DOMContentLoaded', function () {
+      _initSort();
+      _initDeleteDialog();
+      _loadData();
+
+      document.getElementById('group-filter').addEventListener('change', function () {
+        _expandedId = null;
+        _render();
+      });
+
+      document.getElementById('search-input').addEventListener('input', function () {
+        _expandedId = null;
+        _render();
+      });
+    });
+  })();
+  </script>
+
+</body>
+</html>
