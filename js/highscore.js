@@ -54,7 +54,7 @@ function submitHighscore(name, xp, avatar, stations, groupName) {
     updated_at: new Date().toISOString().split('T')[0]
   };
 
-  return supabaseFetch('/highscores', {
+  return supabaseFetch('/highscores?on_conflict=name', {
     method: 'POST',
     headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
     body: JSON.stringify(entry)
@@ -139,7 +139,7 @@ function syncPlayerInfo() {
     last_seen_at: new Date().toISOString()
   };
 
-  return supabaseFetch('/players', {
+  return supabaseFetch('/players?on_conflict=name', {
     method: 'POST',
     headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
     body: JSON.stringify(entry)
@@ -194,7 +194,7 @@ function trackStationLeave(stationId) {
     quiz_passed: typeof isQuizPassed === 'function' && isQuizPassed(stationId)
   };
 
-  supabaseFetch('/station_times', {
+  supabaseFetch('/station_times?on_conflict=player_name,station_id', {
     method: 'POST',
     headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
     body: JSON.stringify(entry)
