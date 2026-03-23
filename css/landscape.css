@@ -1931,7 +1931,7 @@
 
 .site-footer__credit {
   font-size: 0.7rem;
-  opacity: 0.4;
+  color: var(--color-text-muted);
   margin-top: var(--space-xs);
 }
 
