@@ -10,6 +10,20 @@
 </head>
 <body class="page-admin">
 
+  <!-- Login Overlay -->
+  <div class="admin-login-overlay" id="admin-login">
+    <div class="admin-dialog">
+      <h3 class="admin-dialog__title" style="color: var(--color-secondary);">Lehrpersonen-Dashboard</h3>
+      <p class="admin-dialog__text">Bitte Admin-Passwort eingeben.</p>
+      <input type="password" id="login-password" class="admin-dialog__input" placeholder="Passwort" autofocus />
+      <p class="admin-dialog__error" id="login-error" hidden>Falsches Passwort.</p>
+      <div class="admin-dialog__buttons">
+        <button class="admin-dialog__btn admin-dialog__btn--confirm" id="login-submit">Anmelden</button>
+      </div>
+      <p class="admin-dialog__hint">Passwort nicht bekannt? <a href="mailto:raphael_gassmann@stud.phzh.ch">Raphael Gassmann kontaktieren</a></p>
+    </div>
+  </div>
+
   <header class="admin-header">
     <h1 class="admin-header__title">Lehrpersonen-Dashboard</h1>
   </header>
@@ -669,10 +683,32 @@
        INIT
        ======================================== */
 
+    function _initLogin() {
+      var overlay = document.getElementById('admin-login');
+      var pwInput = document.getElementById('login-password');
+      var errorEl = document.getElementById('login-error');
+      var submitBtn = document.getElementById('login-submit');
+
+      function _tryLogin() {
+        if (pwInput.value !== ADMIN_PASSWORD) {
+          errorEl.hidden = false;
+          pwInput.focus();
+          return;
+        }
+        overlay.hidden = true;
+        _initSort();
+        _initDeleteDialog();
+        _loadData();
+      }
+
+      submitBtn.addEventListener('click', _tryLogin);
+      pwInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') _tryLogin();
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
-      _initSort();
-      _initDeleteDialog();
-      _loadData();
+      _initLogin();
 
       document.getElementById('group-filter').addEventListener('change', function () {
         _expandedId = null;
