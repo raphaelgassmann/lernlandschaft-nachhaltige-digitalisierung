@@ -44,8 +44,9 @@ function loadHighscores() {
 /**
  * Upserts a highscore entry to Supabase (insert or update on name conflict).
  */
-function submitHighscore(name, xp, avatar, stations, groupName) {
+function submitHighscore(playerId, name, xp, avatar, stations, groupName) {
   var entry = {
+    player_id: playerId,
     name: name,
     xp: xp,
     avatar: avatar || 'explorer',
@@ -54,7 +55,7 @@ function submitHighscore(name, xp, avatar, stations, groupName) {
     updated_at: new Date().toISOString().split('T')[0]
   };
 
-  return supabaseFetch('/highscores?on_conflict=name', {
+  return supabaseFetch('/highscores?on_conflict=player_id', {
     method: 'POST',
     headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
     body: JSON.stringify(entry)
@@ -87,13 +88,13 @@ function getPlayerRank(xp, allScores) {
 function syncCurrentPlayer() {
   var name = getPlayerName();
   if (!name) return Promise.resolve();
+  var playerId = getPlayerId();
   var xp = getPoints();
   var avatar = getAvatarChoice() || 'explorer';
   var stations = getCompletionCount();
   var groupName = typeof getPlayerGroup === 'function' ? getPlayerGroup() : '';
-  return submitHighscore(name, xp, avatar, stations, groupName).then(function (result) {
-    // Update last_seen_at in players table
-    _updateLastSeen(name);
+  return submitHighscore(playerId, name, xp, avatar, stations, groupName).then(function (result) {
+    _updateLastSeen(playerId);
     return result;
   });
 }
@@ -126,8 +127,10 @@ function syncPlayerInfo() {
   var name = getPlayerName();
   if (!name) return Promise.resolve();
 
+  var playerId = getPlayerId();
   var ua = navigator.userAgent || '';
   var entry = {
+    player_id: playerId,
     name: name,
     avatar: getAvatarChoice() || 'explorer',
     group_name: typeof getPlayerGroup === 'function' ? getPlayerGroup() : '',
@@ -139,7 +142,7 @@ function syncPlayerInfo() {
     last_seen_at: new Date().toISOString()
   };
 
-  return supabaseFetch('/players?on_conflict=name', {
+  return supabaseFetch('/players?on_conflict=player_id', {
     method: 'POST',
     headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
     body: JSON.stringify(entry)
@@ -147,9 +150,9 @@ function syncPlayerInfo() {
     .catch(function () { /* silent */ });
 }
 
-function _updateLastSeen(name) {
-  if (!name) return;
-  supabaseFetch('/players?name=eq.' + encodeURIComponent(name), {
+function _updateLastSeen(playerId) {
+  if (!playerId) return;
+  supabaseFetch('/players?player_id=eq.' + encodeURIComponent(playerId), {
     method: 'PATCH',
     body: JSON.stringify({ last_seen_at: new Date().toISOString() })
   }).catch(function () { /* silent */ });
@@ -175,6 +178,7 @@ function trackStationLeave(stationId) {
   var name = getPlayerName();
   if (!name) return;
 
+  var playerId = getPlayerId();
   var enterKey = 'station-enter-' + stationId;
   var enterTime;
   try {
@@ -186,7 +190,7 @@ function trackStationLeave(stationId) {
   if (durationSeconds < 1) return;
 
   var entry = {
-    player_name: name,
+    player_id: playerId,
     station_id: stationId,
     duration_seconds: durationSeconds,
     completed: isStationComplete(stationId),
@@ -194,7 +198,7 @@ function trackStationLeave(stationId) {
     quiz_passed: typeof isQuizPassed === 'function' && isQuizPassed(stationId)
   };
 
-  supabaseFetch('/station_times?on_conflict=player_name,station_id', {
+  supabaseFetch('/station_times?on_conflict=player_id,station_id', {
     method: 'POST',
     headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
     body: JSON.stringify(entry)
@@ -205,10 +209,10 @@ function trackStationLeave(stationId) {
  * Updates status fields for a station_times entry.
  */
 function syncStationStatus(stationId, completed, challengeDone, quizPassed) {
-  var name = getPlayerName();
-  if (!name) return;
+  var playerId = getPlayerId();
+  if (!playerId) return;
 
-  var params = 'player_name=eq.' + encodeURIComponent(name) +
+  var params = 'player_id=eq.' + encodeURIComponent(playerId) +
     '&station_id=eq.' + encodeURIComponent(stationId);
 
   supabaseFetch('/station_times?' + params, {
@@ -269,6 +273,7 @@ function openHighscoreModal() {
 
 function _renderHighscoreModal(scores) {
   var playerName = getPlayerName();
+  var playerId = getPlayerId();
   var playerXp = getPoints();
   var playerLevel = getLevel(playerXp);
 
@@ -353,7 +358,7 @@ function _renderHighscoreModal(scores) {
         I18N.t('highscore.empty', 'Noch keine Einträge. Starte die Expedition!') + '</p>';
     } else {
       filtered.forEach(function (score, index) {
-        var isSelf = score.name === playerName;
+        var isSelf = score.player_id === playerId;
         var displayXp = isSelf ? playerXp : score.xp;
         var displayStations = isSelf ? getCompletionCount() : (score.stations || 0);
         var row = document.createElement('div');
@@ -446,6 +451,7 @@ function renderRankingInline(container) {
 
 function _renderRankingContent(container, scores) {
   var playerName = getPlayerName();
+  var playerId = getPlayerId();
   var playerXp = getPoints();
   var playerGroup = typeof getPlayerGroup === 'function' ? getPlayerGroup() : '';
 
@@ -463,7 +469,7 @@ function _renderRankingContent(container, scores) {
   function _buildRows(filtered) {
     var rows = '';
     filtered.forEach(function (score, index) {
-      var isSelf = score.name === playerName;
+      var isSelf = score.player_id === playerId;
       var displayXp = isSelf ? playerXp : score.xp;
       var displayStations = isSelf ? getCompletionCount() : (score.stations || 0);
       rows += '<div class="highscore-row' + (isSelf ? ' highscore-row--self' : '') + '">';

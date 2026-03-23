@@ -7,7 +7,8 @@
 -- ========================================
 
 create table if not exists highscores (
-  name text primary key,
+  player_id uuid primary key default gen_random_uuid(),
+  name text not null,
   xp integer not null default 0,
   avatar text not null default 'explorer',
   stations integer not null default 0,
@@ -26,7 +27,8 @@ create policy "Anyone can update highscores" on highscores for update using (tru
 -- ========================================
 
 create table if not exists players (
-  name text primary key,
+  player_id uuid primary key default gen_random_uuid(),
+  name text not null,
   avatar text not null default 'explorer',
   group_name text not null default '',
   browser text,
@@ -49,14 +51,14 @@ create policy "Anyone can update players" on players for update using (true);
 
 create table if not exists station_times (
   id bigint generated always as identity primary key,
-  player_name text not null,
+  player_id uuid not null,
   station_id text not null,
   duration_seconds integer not null default 0,
   completed boolean not null default false,
   challenge_done boolean not null default false,
   quiz_passed boolean not null default false,
   visited_at timestamptz default now(),
-  unique (player_name, station_id)
+  unique (player_id, station_id)
 );
 
 alter table station_times enable row level security;
@@ -65,28 +67,41 @@ create policy "Anyone can insert station_times" on station_times for insert with
 create policy "Anyone can update station_times" on station_times for update using (true);
 
 -- ========================================
--- 4. SEED: Fiktive Bestenlisten-Einträge
+-- 4. MIGRATION: name → player_id (UUID)
 -- ========================================
 
--- Migration für bestehende Tabellen:
--- ALTER TABLE highscores ADD COLUMN IF NOT EXISTS group_name text NOT NULL DEFAULT '';
--- ALTER TABLE players ADD COLUMN IF NOT EXISTS group_name text NOT NULL DEFAULT '';
--- ALTER TABLE highscores ADD COLUMN IF NOT EXISTS cert_uuid uuid DEFAULT gen_random_uuid();
+-- Für bestehende Installationen mit name als PK:
+--
+-- ALTER TABLE highscores DROP CONSTRAINT highscores_pkey;
+-- ALTER TABLE highscores ADD COLUMN player_id uuid DEFAULT gen_random_uuid();
+-- UPDATE highscores SET player_id = gen_random_uuid() WHERE player_id IS NULL;
+-- ALTER TABLE highscores ALTER COLUMN player_id SET NOT NULL;
+-- ALTER TABLE highscores ADD PRIMARY KEY (player_id);
+--
+-- ALTER TABLE players DROP CONSTRAINT players_pkey;
+-- ALTER TABLE players ADD COLUMN player_id uuid DEFAULT gen_random_uuid();
+-- UPDATE players SET player_id = gen_random_uuid() WHERE player_id IS NULL;
+-- ALTER TABLE players ALTER COLUMN player_id SET NOT NULL;
+-- ALTER TABLE players ADD PRIMARY KEY (player_id);
+--
+-- ALTER TABLE station_times DROP CONSTRAINT station_times_player_name_station_id_key;
+-- ALTER TABLE station_times RENAME COLUMN player_name TO player_id;
+-- ALTER TABLE station_times ALTER COLUMN player_id TYPE uuid USING gen_random_uuid();
+-- ALTER TABLE station_times ADD UNIQUE (player_id, station_id);
 
-insert into highscores (name, xp, avatar, stations, updated_at) values
-  ('Luca',     172, 'explorer',  12, '2026-03-18'),
-  ('Noemi',    158, 'scientist', 11, '2026-03-17'),
-  ('Levin',    145, 'hacker',    10, '2026-03-19'),
-  ('Mila',     163, 'explorer',  11, '2026-03-16'),
-  ('Yanick',   131, 'hacker',     9, '2026-03-18'),
-  ('Seraina',  120, 'scientist',  8, '2026-03-15'),
-  ('Flurin',   149, 'explorer',  10, '2026-03-20'),
-  ('Alina',    175, 'scientist', 12, '2026-03-19'),
-  ('Nico',     138, 'hacker',     9, '2026-03-17'),
-  ('Ladina',   155, 'explorer',  11, '2026-03-16'),
-  ('Matteo',   127, 'scientist',  8, '2026-03-20')
-on conflict (name) do update set
-  xp = excluded.xp,
-  avatar = excluded.avatar,
-  stations = excluded.stations,
-  updated_at = excluded.updated_at;
+-- ========================================
+-- 5. SEED: Fiktive Bestenlisten-Einträge
+-- ========================================
+
+insert into highscores (player_id, name, xp, avatar, stations, updated_at) values
+  (gen_random_uuid(), 'Luca',     172, 'explorer',  12, '2026-03-18'),
+  (gen_random_uuid(), 'Noemi',    158, 'scientist', 11, '2026-03-17'),
+  (gen_random_uuid(), 'Levin',    145, 'hacker',    10, '2026-03-19'),
+  (gen_random_uuid(), 'Mila',     163, 'explorer',  11, '2026-03-16'),
+  (gen_random_uuid(), 'Yanick',   131, 'hacker',     9, '2026-03-18'),
+  (gen_random_uuid(), 'Seraina',  120, 'scientist',  8, '2026-03-15'),
+  (gen_random_uuid(), 'Flurin',   149, 'explorer',  10, '2026-03-20'),
+  (gen_random_uuid(), 'Alina',    175, 'scientist', 12, '2026-03-19'),
+  (gen_random_uuid(), 'Nico',     138, 'hacker',     9, '2026-03-17'),
+  (gen_random_uuid(), 'Ladina',   155, 'explorer',  11, '2026-03-16'),
+  (gen_random_uuid(), 'Matteo',   127, 'scientist',  8, '2026-03-20');
