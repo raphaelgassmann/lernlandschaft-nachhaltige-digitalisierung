@@ -59,9 +59,14 @@ function submitHighscore(name, xp, avatar, stations, groupName) {
     headers: { 'Prefer': 'return=representation,resolution=merge-duplicates' },
     body: JSON.stringify(entry)
   })
-    .then(function (res) { return res.json(); })
-    .then(function () { return loadHighscores(); })
-    .catch(function () { return _highscoreCache; });
+    .then(function (res) {
+      if (!res.ok) {
+        console.warn('[Highscore] Sync failed:', res.status, res.statusText);
+        return res.text().then(function (t) { console.warn('[Highscore]', t); return _highscoreCache; });
+      }
+      return res.json().then(function () { return loadHighscores(); });
+    })
+    .catch(function (err) { console.warn('[Highscore] Network error:', err); return _highscoreCache; });
 }
 
 /**
