@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
   initResetButton();
   initHighscoreButton();
   initNotebookButton();
+
+  // Auto-sync XP to Supabase when returning to map
+  if (isExpeditionStarted() && typeof syncCurrentPlayer === 'function') {
+    syncCurrentPlayer();
+  }
 });
 
 /* ========================================
