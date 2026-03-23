@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', function () {
   initHighscoreButton();
   initNotebookButton();
 
+  // Populate group suggestions dropdown
+  if (typeof populateGroupDatalist === 'function') {
+    populateGroupDatalist('group-suggestions');
+  }
+
   // Auto-sync XP to Supabase when returning to map
   if (isExpeditionStarted() && typeof syncCurrentPlayer === 'function') {
     syncCurrentPlayer();
@@ -103,6 +108,8 @@ function initAvatarSelect() {
   if (confirmBtn) {
     confirmBtn.addEventListener('click', function () {
       var name = nameInput ? nameInput.value.trim() : '';
+      var groupInput = document.getElementById('player-group-input');
+      var group = groupInput ? groupInput.value.trim() : '';
       if (!name || !getAvatarChoice()) return;
 
       // Profanity check
@@ -110,8 +117,13 @@ function initAvatarSelect() {
         showToast('Bitte wähle einen anderen Namen.', 'success');
         return;
       }
+      if (group && typeof containsProfanity === 'function' && containsProfanity(group)) {
+        showToast('Bitte wähle einen anderen Gruppennamen.', 'success');
+        return;
+      }
 
       setPlayerName(name);
+      if (typeof setPlayerGroup === 'function') setPlayerGroup(group);
       document.getElementById('avatar-select').classList.add('is-hidden');
 
       // Skip start-zone (sofa), go directly to expedition

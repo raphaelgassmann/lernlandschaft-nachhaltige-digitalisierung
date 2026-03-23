@@ -151,6 +151,16 @@ function getPlayerName() {
   return getProgress().playerName || '';
 }
 
+function setPlayerGroup(group) {
+  var progress = getProgress();
+  progress.playerGroup = group;
+  saveProgress(progress);
+}
+
+function getPlayerGroup() {
+  return getProgress().playerGroup || '';
+}
+
 /* ========================================
    BADGES
    ======================================== */
@@ -297,6 +307,7 @@ function getProgress() {
     sessionStart: null,
     avatarChoice: null,
     playerName: '',
+    playerGroup: '',
     lastAvatarPosition: 'sofa'
   };
 }

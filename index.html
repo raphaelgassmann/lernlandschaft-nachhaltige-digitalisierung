@@ -56,6 +56,12 @@
           <input type="text" id="player-name-input" class="avatar-select__input" placeholder="z.B. Alex, Sam, Jordan..." maxlength="20" autocomplete="off" data-i18n="avatar.name_placeholder" />
         </div>
 
+        <div class="avatar-select__name-field">
+          <label for="player-group-input" class="avatar-select__label" data-i18n="avatar.group_label">Deine Gruppe / Klasse</label>
+          <input type="text" id="player-group-input" class="avatar-select__input" list="group-suggestions" placeholder="z.B. INF23a" maxlength="20" autocomplete="off" />
+          <datalist id="group-suggestions"></datalist>
+        </div>
+
         <div class="avatar-select__options">
           <button class="avatar-option" data-avatar="explorer">
             <img src="assets/avatar-explorer.png"

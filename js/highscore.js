@@ -44,12 +44,13 @@ function loadHighscores() {
 /**
  * Upserts a highscore entry to Supabase (insert or update on name conflict).
  */
-function submitHighscore(name, xp, avatar, stations) {
+function submitHighscore(name, xp, avatar, stations, groupName) {
   var entry = {
     name: name,
     xp: xp,
     avatar: avatar || 'explorer',
     stations: stations || 0,
+    group_name: groupName || '',
     updated_at: new Date().toISOString().split('T')[0]
   };
 
@@ -84,7 +85,8 @@ function syncCurrentPlayer() {
   var xp = getPoints();
   var avatar = getAvatarChoice() || 'explorer';
   var stations = getCompletionCount();
-  return submitHighscore(name, xp, avatar, stations).then(function (result) {
+  var groupName = typeof getPlayerGroup === 'function' ? getPlayerGroup() : '';
+  return submitHighscore(name, xp, avatar, stations, groupName).then(function (result) {
     // Update last_seen_at in players table
     _updateLastSeen(name);
     return result;
@@ -123,6 +125,7 @@ function syncPlayerInfo() {
   var entry = {
     name: name,
     avatar: getAvatarChoice() || 'explorer',
+    group_name: typeof getPlayerGroup === 'function' ? getPlayerGroup() : '',
     browser: _parseBrowser(ua),
     os: _parseOS(ua),
     screen_width: screen.width,
@@ -214,6 +217,40 @@ function syncStationStatus(stationId, completed, challengeDone, quizPassed) {
 }
 
 /**
+ * Loads distinct group names from Supabase for the datalist dropdown.
+ */
+function loadGroups() {
+  return supabaseFetch('/highscores?group_name=neq.&select=group_name&order=group_name.asc')
+    .then(function (res) { return res.json(); })
+    .then(function (rows) {
+      var seen = {};
+      var groups = [];
+      (rows || []).forEach(function (r) {
+        var g = r.group_name;
+        if (g && !seen[g]) { seen[g] = true; groups.push(g); }
+      });
+      return groups;
+    })
+    .catch(function () { return []; });
+}
+
+/**
+ * Populates a datalist element with group options.
+ */
+function populateGroupDatalist(datalistId) {
+  var datalist = document.getElementById(datalistId);
+  if (!datalist) return;
+  loadGroups().then(function (groups) {
+    datalist.innerHTML = '';
+    groups.forEach(function (g) {
+      var opt = document.createElement('option');
+      opt.value = g;
+      datalist.appendChild(opt);
+    });
+  });
+}
+
+/**
  * Opens the highscore modal popup.
  */
 function openHighscoreModal() {
@@ -247,6 +284,39 @@ function _renderHighscoreModal(scores) {
     '<h2 class="highscore-card__title">' + I18N.t('highscore.title', 'Expeditions-Rangliste') + '</h2>';
   card.appendChild(header);
 
+  // Group filter
+  var groups = [];
+  var seen = {};
+  scores.forEach(function (s) {
+    if (s.group_name && !seen[s.group_name]) {
+      seen[s.group_name] = true;
+      groups.push(s.group_name);
+    }
+  });
+  groups.sort();
+
+  var filterWrap = document.createElement('div');
+  filterWrap.className = 'highscore-filter';
+  var filterSelect = document.createElement('select');
+  filterSelect.className = 'highscore-filter__select';
+  var allOpt = document.createElement('option');
+  allOpt.value = '';
+  allOpt.textContent = I18N.t('highscore.filter_all', 'Alle Gruppen');
+  filterSelect.appendChild(allOpt);
+  groups.forEach(function (g) {
+    var opt = document.createElement('option');
+    opt.value = g;
+    opt.textContent = g;
+    filterSelect.appendChild(opt);
+  });
+  // Pre-select player's own group
+  var playerGroup = typeof getPlayerGroup === 'function' ? getPlayerGroup() : '';
+  if (playerGroup && seen[playerGroup]) {
+    filterSelect.value = playerGroup;
+  }
+  filterWrap.appendChild(filterSelect);
+  card.appendChild(filterWrap);
+
   // Player highlight card
   if (playerName) {
     var highlight = document.createElement('div');
@@ -271,41 +341,62 @@ function _renderHighscoreModal(scores) {
   var list = document.createElement('div');
   list.className = 'highscore-list';
 
-  if (scores.length === 0) {
-    list.innerHTML = '<p class="highscore-empty">' +
-      I18N.t('highscore.empty', 'Noch keine Einträge. Starte die Expedition!') + '</p>';
-  } else {
-    scores.forEach(function (score, index) {
-      var isSelf = score.name === playerName;
-      var row = document.createElement('div');
-      row.className = 'highscore-row' + (isSelf ? ' highscore-row--self' : '');
+  function _fillList(filtered) {
+    list.innerHTML = '';
+    if (filtered.length === 0) {
+      list.innerHTML = '<p class="highscore-empty">' +
+        I18N.t('highscore.empty', 'Noch keine Einträge. Starte die Expedition!') + '</p>';
+    } else {
+      filtered.forEach(function (score, index) {
+        var isSelf = score.name === playerName;
+        var displayXp = isSelf ? playerXp : score.xp;
+        var displayStations = isSelf ? getCompletionCount() : (score.stations || 0);
+        var row = document.createElement('div');
+        row.className = 'highscore-row' + (isSelf ? ' highscore-row--self' : '');
 
-      var rankSpan = document.createElement('span');
-      rankSpan.className = 'highscore-row__rank';
-      if (index === 0) rankSpan.innerHTML = '&#x1F947;';
-      else if (index === 1) rankSpan.innerHTML = '&#x1F948;';
-      else if (index === 2) rankSpan.innerHTML = '&#x1F949;';
-      else rankSpan.textContent = (index + 1) + '.';
+        var rankSpan = document.createElement('span');
+        rankSpan.className = 'highscore-row__rank';
+        if (index === 0) rankSpan.innerHTML = '&#x1F947;';
+        else if (index === 1) rankSpan.innerHTML = '&#x1F948;';
+        else if (index === 2) rankSpan.innerHTML = '&#x1F949;';
+        else rankSpan.textContent = (index + 1) + '.';
 
-      var nameSpan = document.createElement('span');
-      nameSpan.className = 'highscore-row__name';
-      nameSpan.textContent = score.name;
+        var nameSpan = document.createElement('span');
+        nameSpan.className = 'highscore-row__name';
+        nameSpan.textContent = score.name;
 
-      var xpSpan = document.createElement('span');
-      xpSpan.className = 'highscore-row__xp';
-      xpSpan.textContent = score.xp + ' XP';
+        var xpSpan = document.createElement('span');
+        xpSpan.className = 'highscore-row__xp';
+        xpSpan.textContent = displayXp + ' XP';
 
-      var stationsSpan = document.createElement('span');
-      stationsSpan.className = 'highscore-row__stations';
-      stationsSpan.textContent = (score.stations || 0) + '/' + getTotalStations();
+        var stationsSpan = document.createElement('span');
+        stationsSpan.className = 'highscore-row__stations';
+        stationsSpan.textContent = displayStations + '/' + getTotalStations();
 
-      row.appendChild(rankSpan);
-      row.appendChild(nameSpan);
-      row.appendChild(stationsSpan);
-      row.appendChild(xpSpan);
-      list.appendChild(row);
-    });
+        row.appendChild(rankSpan);
+        row.appendChild(nameSpan);
+        row.appendChild(stationsSpan);
+        row.appendChild(xpSpan);
+        list.appendChild(row);
+      });
+    }
   }
+
+  // Apply initial filter
+  var activeFilter = filterSelect.value;
+  var initialFiltered = activeFilter
+    ? scores.filter(function (s) { return s.group_name === activeFilter; })
+    : scores;
+  _fillList(initialFiltered);
+
+  // Re-render on filter change
+  filterSelect.addEventListener('change', function () {
+    var val = filterSelect.value;
+    var filtered = val
+      ? scores.filter(function (s) { return s.group_name === val; })
+      : scores;
+    _fillList(filtered);
+  });
 
   card.appendChild(list);
 
@@ -351,32 +442,76 @@ function renderRankingInline(container) {
 function _renderRankingContent(container, scores) {
   var playerName = getPlayerName();
   var playerXp = getPoints();
-  var html = '';
+  var playerGroup = typeof getPlayerGroup === 'function' ? getPlayerGroup() : '';
 
-  if (scores.length === 0) {
-    html = '<p style="color: var(--color-text-muted); font-style: italic;">' +
-      I18N.t('highscore.empty', 'Noch keine Einträge.') + '</p>';
-  } else {
-    var playerRank = getPlayerRank(playerXp, scores);
-    html += '<p class="ranking-your-rank">' + I18N.t('highscore.your_rank', 'Dein Rang') +
-      ': <strong>#' + playerRank + '</strong> ' + I18N.t('highscore.with', 'mit') +
-      ' <strong>' + playerXp + ' XP</strong></p>';
-    html += '<div class="highscore-list highscore-list--inline">';
+  // Build group filter options
+  var groupsSeen = {};
+  var groupList = [];
+  scores.forEach(function (s) {
+    if (s.group_name && !groupsSeen[s.group_name]) {
+      groupsSeen[s.group_name] = true;
+      groupList.push(s.group_name);
+    }
+  });
+  groupList.sort();
 
-    scores.forEach(function (score, index) {
+  function _buildRows(filtered) {
+    var rows = '';
+    filtered.forEach(function (score, index) {
       var isSelf = score.name === playerName;
-      html += '<div class="highscore-row' + (isSelf ? ' highscore-row--self' : '') + '">';
-      if (index === 0) html += '<span class="highscore-row__rank">&#x1F947;</span>';
-      else if (index === 1) html += '<span class="highscore-row__rank">&#x1F948;</span>';
-      else if (index === 2) html += '<span class="highscore-row__rank">&#x1F949;</span>';
-      else html += '<span class="highscore-row__rank">' + (index + 1) + '.</span>';
-      html += '<span class="highscore-row__name">' + score.name + '</span>';
-      html += '<span class="highscore-row__stations">' + (score.stations || 0) + '/' + getTotalStations() + '</span>';
-      html += '<span class="highscore-row__xp">' + score.xp + ' XP</span>';
-      html += '</div>';
+      var displayXp = isSelf ? playerXp : score.xp;
+      var displayStations = isSelf ? getCompletionCount() : (score.stations || 0);
+      rows += '<div class="highscore-row' + (isSelf ? ' highscore-row--self' : '') + '">';
+      if (index === 0) rows += '<span class="highscore-row__rank">&#x1F947;</span>';
+      else if (index === 1) rows += '<span class="highscore-row__rank">&#x1F948;</span>';
+      else if (index === 2) rows += '<span class="highscore-row__rank">&#x1F949;</span>';
+      else rows += '<span class="highscore-row__rank">' + (index + 1) + '.</span>';
+      rows += '<span class="highscore-row__name">' + score.name + '</span>';
+      rows += '<span class="highscore-row__stations">' + displayStations + '/' + getTotalStations() + '</span>';
+      rows += '<span class="highscore-row__xp">' + displayXp + ' XP</span>';
+      rows += '</div>';
     });
-    html += '</div>';
+    return rows;
   }
 
-  container.innerHTML = html;
+  function _render(filterValue) {
+    var filtered = filterValue
+      ? scores.filter(function (s) { return s.group_name === filterValue; })
+      : scores;
+    var html = '';
+
+    // Group filter
+    html += '<div class="highscore-filter">';
+    html += '<select class="highscore-filter__select" id="inline-group-filter">';
+    html += '<option value="">' + I18N.t('highscore.filter_all', 'Alle Gruppen') + '</option>';
+    groupList.forEach(function (g) {
+      html += '<option value="' + g + '"' + (g === filterValue ? ' selected' : '') + '>' + g + '</option>';
+    });
+    html += '</select></div>';
+
+    if (filtered.length === 0) {
+      html += '<p style="color: var(--color-text-muted); font-style: italic;">' +
+        I18N.t('highscore.empty', 'Noch keine Einträge.') + '</p>';
+    } else {
+      var playerRank = getPlayerRank(playerXp, filtered);
+      html += '<p class="ranking-your-rank">' + I18N.t('highscore.your_rank', 'Dein Rang') +
+        ': <strong>#' + playerRank + '</strong> ' + I18N.t('highscore.with', 'mit') +
+        ' <strong>' + playerXp + ' XP</strong></p>';
+      html += '<div class="highscore-list highscore-list--inline">';
+      html += _buildRows(filtered);
+      html += '</div>';
+    }
+
+    container.innerHTML = html;
+
+    // Attach filter listener
+    var sel = document.getElementById('inline-group-filter');
+    if (sel) {
+      sel.addEventListener('change', function () { _render(sel.value); });
+    }
+  }
+
+  // Initial render with player's group pre-selected if available
+  var initialFilter = (playerGroup && groupsSeen[playerGroup]) ? playerGroup : '';
+  _render(initialFilter);
 }

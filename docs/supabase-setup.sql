@@ -11,6 +11,7 @@ create table if not exists highscores (
   xp integer not null default 0,
   avatar text not null default 'explorer',
   stations integer not null default 0,
+  group_name text not null default '',
   updated_at date default current_date
 );
 
@@ -26,6 +27,7 @@ create policy "Anyone can update highscores" on highscores for update using (tru
 create table if not exists players (
   name text primary key,
   avatar text not null default 'explorer',
+  group_name text not null default '',
   browser text,
   os text,
   screen_width integer,
@@ -64,6 +66,10 @@ create policy "Anyone can update station_times" on station_times for update usin
 -- ========================================
 -- 4. SEED: Fiktive Bestenlisten-Einträge
 -- ========================================
+
+-- Migration für bestehende Tabellen:
+-- ALTER TABLE highscores ADD COLUMN IF NOT EXISTS group_name text NOT NULL DEFAULT '';
+-- ALTER TABLE players ADD COLUMN IF NOT EXISTS group_name text NOT NULL DEFAULT '';
 
 insert into highscores (name, xp, avatar, stations, updated_at) values
   ('Luca',     172, 'explorer',  12, '2026-03-18'),
