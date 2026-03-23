@@ -355,25 +355,37 @@ function _renderHighscoreModal(scores) {
 
   function _fillList(filtered) {
     list.innerHTML = '';
-    // Update rank in highlight based on position in filtered list
+
+    // Build display list with local XP for own player, then re-sort
+    var displayList = filtered.map(function (score) {
+      var isSelf = score.player_id === playerId;
+      return {
+        player_id: score.player_id,
+        name: score.name,
+        xp: isSelf ? playerXp : score.xp,
+        stations: isSelf ? getCompletionCount() : (score.stations || 0),
+        isSelf: isSelf
+      };
+    });
+    displayList.sort(function (a, b) { return b.xp - a.xp; });
+
+    // Update rank in highlight
     if (rankEl) {
       var filteredRank = 0;
-      for (var r = 0; r < filtered.length; r++) {
-        if (filtered[r].player_id === playerId) { filteredRank = r + 1; break; }
+      for (var r = 0; r < displayList.length; r++) {
+        if (displayList[r].isSelf) { filteredRank = r + 1; break; }
       }
-      if (!filteredRank) filteredRank = getPlayerRank(playerXp, filtered);
+      if (!filteredRank) filteredRank = displayList.length + 1;
       rankEl.textContent = '#' + filteredRank;
     }
-    if (filtered.length === 0) {
+
+    if (displayList.length === 0) {
       list.innerHTML = '<p class="highscore-empty">' +
         I18N.t('highscore.empty', 'Noch keine Einträge. Starte die Expedition!') + '</p>';
     } else {
-      filtered.forEach(function (score, index) {
-        var isSelf = score.player_id === playerId;
-        var displayXp = isSelf ? playerXp : score.xp;
-        var displayStations = isSelf ? getCompletionCount() : (score.stations || 0);
+      displayList.forEach(function (score, index) {
         var row = document.createElement('div');
-        row.className = 'highscore-row' + (isSelf ? ' highscore-row--self' : '');
+        row.className = 'highscore-row' + (score.isSelf ? ' highscore-row--self' : '');
 
         var rankSpan = document.createElement('span');
         rankSpan.className = 'highscore-row__rank';
@@ -388,11 +400,11 @@ function _renderHighscoreModal(scores) {
 
         var xpSpan = document.createElement('span');
         xpSpan.className = 'highscore-row__xp';
-        xpSpan.textContent = displayXp + ' XP';
+        xpSpan.textContent = score.xp + ' XP';
 
         var stationsSpan = document.createElement('span');
         stationsSpan.className = 'highscore-row__stations';
-        stationsSpan.textContent = displayStations + '/' + getTotalStations();
+        stationsSpan.textContent = score.stations + '/' + getTotalStations();
 
         row.appendChild(rankSpan);
         row.appendChild(nameSpan);
