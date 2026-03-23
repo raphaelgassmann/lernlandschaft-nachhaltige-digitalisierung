@@ -804,6 +804,15 @@
   margin-top: var(--space-lg);
 }
 
+.cert-uuid {
+  margin-top: var(--space-sm);
+  font-size: 0.7rem;
+  font-family: monospace;
+  color: var(--color-text-muted);
+  opacity: 0.7;
+  word-break: break-all;
+}
+
 .cert-footer {
   margin-top: var(--space-md);
   font-size: 0.8rem;

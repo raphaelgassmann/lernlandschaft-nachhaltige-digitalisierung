@@ -927,6 +927,13 @@ function initNotebookButton() {
       renderNotebookContent(tab.dataset.tab);
     });
   });
+
+  var exportBtn = document.getElementById('notebook-export');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', function () {
+      openNotebookExport();
+    });
+  }
 }
 
 function renderNotebookContent(tabName) {
@@ -973,6 +980,158 @@ function escapeHtml(str) {
   var div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
+}
+
+/* ========================================
+   NOTEBOOK EXPORT – Lernjournal
+   ======================================== */
+
+function _buildExportText() {
+  var challenges = getAllChallengeResponses();
+  var reflections = getAllReflections();
+  var notes = getAllNotes();
+
+  // Collect all station IDs that have any entry
+  var seen = {};
+  var stationIds = [];
+  [challenges, reflections, notes].forEach(function (obj) {
+    Object.keys(obj).forEach(function (id) {
+      if (obj[id] && obj[id].trim() && !seen[id]) {
+        seen[id] = true;
+        stationIds.push(id);
+      }
+    });
+  });
+
+  if (stationIds.length === 0) return '';
+
+  // Sort by STATION_LABELS order
+  var labelKeys = Object.keys(STATION_LABELS);
+  stationIds.sort(function (a, b) {
+    return labelKeys.indexOf(a) - labelKeys.indexOf(b);
+  });
+
+  var playerName = getPlayerName() || 'Unbekannt';
+  var today = new Date().toLocaleDateString('de-CH');
+
+  var lines = [];
+  lines.push('LERNJOURNAL-EXPORT \u2013 Lernlandschaft Nachhaltige Digitalisierung');
+  lines.push('Name: ' + playerName + ' | Datum: ' + today);
+  lines.push('\u2550'.repeat(50));
+
+  stationIds.forEach(function (id) {
+    lines.push('');
+    lines.push('\uD83D\uDCCD ' + (getStationLabel(id) || id));
+    lines.push('\u2500'.repeat(40));
+
+    if (challenges[id] && challenges[id].trim()) {
+      var ctx = getNotebookContext(id, 'challenges');
+      lines.push('\uD83C\uDFC6 Challenge: ' + (ctx || 'Challenge'));
+      lines.push(challenges[id].trim());
+      lines.push('');
+    }
+    if (reflections[id] && reflections[id].trim()) {
+      var ctx = getNotebookContext(id, 'reflections');
+      lines.push('\uD83D\uDCAD Reflexion: ' + (ctx || 'Reflexion'));
+      lines.push(reflections[id].trim());
+      lines.push('');
+    }
+    if (notes[id] && notes[id].trim()) {
+      var ctx = getNotebookContext(id, 'notes');
+      lines.push('\uD83D\uDCDD Notiz: ' + (ctx || 'Notiz'));
+      lines.push(notes[id].trim());
+      lines.push('');
+    }
+  });
+
+  return lines.join('\n');
+}
+
+function openNotebookExport() {
+  var text = _buildExportText();
+
+  var existing = document.getElementById('notebook-export-modal');
+  if (existing) existing.remove();
+
+  var modal = document.createElement('div');
+  modal.id = 'notebook-export-modal';
+  modal.className = 'notebook-export-modal';
+
+  var card = document.createElement('div');
+  card.className = 'notebook-export-card';
+
+  // Header
+  var header = document.createElement('div');
+  header.className = 'notebook-export-card__header';
+  header.innerHTML = '<h2 class="notebook-export-card__title">\uD83D\uDCCB Lernjournal-Export</h2>' +
+    '<p class="notebook-export-card__subtitle">Kopiere den Text und f\u00fcge ihn in dein Lernjournal ein.</p>';
+  card.appendChild(header);
+
+  // Content
+  var content = document.createElement('div');
+  content.className = 'notebook-export-card__content';
+
+  if (!text) {
+    content.innerHTML = '<p class="notebook-empty">Noch keine Eintr\u00e4ge vorhanden. Bearbeite zuerst einige Stationen!</p>';
+  } else {
+    var pre = document.createElement('pre');
+    pre.className = 'notebook-export-card__text';
+    pre.textContent = text;
+    content.appendChild(pre);
+  }
+  card.appendChild(content);
+
+  // Actions
+  var actions = document.createElement('div');
+  actions.className = 'notebook-export-card__actions';
+
+  if (text) {
+    var copyBtn = document.createElement('button');
+    copyBtn.className = 'notebook-export-card__btn notebook-export-card__btn--copy';
+    copyBtn.textContent = 'Alles kopieren';
+    copyBtn.addEventListener('click', function () {
+      navigator.clipboard.writeText(text).then(function () {
+        copyBtn.textContent = 'Kopiert \u2713';
+        setTimeout(function () { copyBtn.textContent = 'Alles kopieren'; }, 2000);
+      });
+    });
+    actions.appendChild(copyBtn);
+
+    var printBtn = document.createElement('button');
+    printBtn.className = 'notebook-export-card__btn notebook-export-card__btn--print';
+    printBtn.textContent = 'Drucken';
+    printBtn.addEventListener('click', function () {
+      document.body.classList.add('is-printing-export');
+      window.print();
+      document.body.classList.remove('is-printing-export');
+    });
+    actions.appendChild(printBtn);
+  }
+
+  var closeBtn = document.createElement('button');
+  closeBtn.className = 'notebook-export-card__btn notebook-export-card__btn--close';
+  closeBtn.textContent = 'Schliessen';
+  closeBtn.addEventListener('click', function () {
+    modal.classList.remove('is-visible');
+    setTimeout(function () { modal.remove(); }, 300);
+  });
+  actions.appendChild(closeBtn);
+
+  card.appendChild(actions);
+  modal.appendChild(card);
+  document.body.appendChild(modal);
+
+  // Backdrop close
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) {
+      modal.classList.remove('is-visible');
+      setTimeout(function () { modal.remove(); }, 300);
+    }
+  });
+
+  requestAnimationFrame(function () {
+    modal.classList.add('is-visible');
+  });
 }
 
 /* ========================================

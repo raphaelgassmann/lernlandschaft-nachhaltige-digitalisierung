@@ -12,6 +12,7 @@ create table if not exists highscores (
   avatar text not null default 'explorer',
   stations integer not null default 0,
   group_name text not null default '',
+  cert_uuid uuid default gen_random_uuid(),
   updated_at date default current_date
 );
 
@@ -70,6 +71,7 @@ create policy "Anyone can update station_times" on station_times for update usin
 -- Migration für bestehende Tabellen:
 -- ALTER TABLE highscores ADD COLUMN IF NOT EXISTS group_name text NOT NULL DEFAULT '';
 -- ALTER TABLE players ADD COLUMN IF NOT EXISTS group_name text NOT NULL DEFAULT '';
+-- ALTER TABLE highscores ADD COLUMN IF NOT EXISTS cert_uuid uuid DEFAULT gen_random_uuid();
 
 insert into highscores (name, xp, avatar, stations, updated_at) values
   ('Luca',     172, 'explorer',  12, '2026-03-18'),

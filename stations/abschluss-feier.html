@@ -38,7 +38,7 @@
         <div class="cert-header">
           <span class="cert-header__icon" aria-hidden="true">&#x1F30D;</span>
           <h2 class="cert-header__title" data-i18n="station.abschluss-feier.cert_title">Expeditions-Zertifikat</h2>
-          <p class="cert-header__subtitle" data-i18n="station.abschluss-feier.cert_subtitle">Lernlandschaft Nachhaltige Digitalisierung &ndash; TBZ Z&uuml;rich</p>
+          <p class="cert-header__subtitle" data-i18n="station.abschluss-feier.cert_subtitle">Lernlandschaft Nachhaltige Digitalisierung</p>
         </div>
 
         <img class="cert-avatar" id="cert-avatar" src="../assets/avatar-explorer.png" alt="Dein Avatar" />
@@ -63,7 +63,8 @@
         <div class="cert-badges" id="cert-badges"></div>
 
         <p class="cert-date" id="cert-date"></p>
-        <p class="cert-footer" data-i18n="station.abschluss-feier.cert_footer">Nachhaltige Digitalisierung &ndash; Technische Berufsschule Z&uuml;rich</p>
+        <p class="cert-uuid" id="cert-uuid"></p>
+        <p class="cert-footer" data-i18n="station.abschluss-feier.cert_footer">Nachhaltige Digitalisierung</p>
       </div>
     </section>
 
@@ -75,9 +76,6 @@
       <a class="btn btn--email" id="btn-email" href="#" data-i18n="station.abschluss-feier.btn_email">
         &#x2709; Per E-Mail senden
       </a>
-      <button class="btn btn--ics" id="btn-ics" data-i18n="station.abschluss-feier.btn_ics">
-        &#x1F4C5; Kalender-Erinnerung
-      </button>
     </div>
 
     <!-- Challenge-Abgaben -->
@@ -199,54 +197,36 @@
         });
       }
 
-      // Email button
+      // Load cert UUID from Supabase, display it, and set up email link
       var btnEmail = document.getElementById('btn-email');
-      if (btnEmail) {
-        var subject = encodeURIComponent('Mein Expeditions-Zertifikat – Nachhaltige Digitalisierung');
-        var body = encodeURIComponent(
-          'Expeditions-Zertifikat\n' +
-          '=====================\n\n' +
-          'Name: ' + name + '\n' +
-          'Level: Lv. ' + levelInfo.level + ' – ' + levelInfo.name + '\n' +
-          'Punkte: ' + points + ' XP\n' +
-          'Stationen: ' + count + '/' + total + '\n' +
-          'Badges: ' + badges.map(function (b) { return b.icon + ' ' + b.name; }).join(', ') + '\n' +
-          'Datum: ' + dateStr + '\n\n' +
-          'Lernlandschaft Nachhaltige Digitalisierung'
-        );
-        btnEmail.href = 'mailto:?subject=' + subject + '&body=' + body;
-      }
+      var certUuidEl = document.getElementById('cert-uuid');
 
-      // ICS download
-      var btnIcs = document.getElementById('btn-ics');
-      if (btnIcs) {
-        btnIcs.addEventListener('click', function () {
-          var now = today.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-          var endTime = new Date(today.getTime() + 3600000).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-
-          var icsContent = [
-            'BEGIN:VCALENDAR',
-            'VERSION:2.0',
-            'PRODID:-//Lernlandschaft//TBZ//DE',
-            'BEGIN:VEVENT',
-            'DTSTART:' + now,
-            'DTEND:' + endTime,
-            'SUMMARY:Lernlandschaft Nachhaltige Digitalisierung abgeschlossen!',
-            'DESCRIPTION:Name: ' + name + '\\nLevel: Lv. ' + levelInfo.level + ' – ' + levelInfo.name + '\\nPunkte: ' + points + ' XP\\nStationen: ' + count + '/' + total,
-            'END:VEVENT',
-            'END:VCALENDAR'
-          ].join('\r\n');
-
-          var blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-          var url = URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = url;
-          a.download = 'zertifikat.ics';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-        });
+      if (typeof supabaseFetch === 'function' && name) {
+        supabaseFetch('/highscores?name=eq.' + encodeURIComponent(name) + '&select=cert_uuid')
+          .then(function (res) { return res.json(); })
+          .then(function (rows) {
+            var uuid = (rows && rows[0] && rows[0].cert_uuid) || '';
+            if (certUuidEl && uuid) {
+              certUuidEl.textContent = 'Verifizierung: ' + uuid;
+            }
+            if (btnEmail) {
+              var subject = encodeURIComponent('Mein Expeditions-Zertifikat – Nachhaltige Digitalisierung');
+              var body = encodeURIComponent(
+                'Expeditions-Zertifikat\n' +
+                '=====================\n\n' +
+                'Name: ' + name + '\n' +
+                'Level: Lv. ' + levelInfo.level + ' – ' + levelInfo.name + '\n' +
+                'Punkte: ' + points + ' XP\n' +
+                'Stationen: ' + count + '/' + total + '\n' +
+                'Badges: ' + badges.map(function (b) { return b.icon + ' ' + b.name; }).join(', ') + '\n' +
+                'Datum: ' + dateStr + '\n' +
+                (uuid ? 'Verifizierung: ' + uuid + '\n' : '') + '\n' +
+                'Lernlandschaft Nachhaltige Digitalisierung'
+              );
+              btnEmail.href = 'mailto:?subject=' + subject + '&body=' + body;
+            }
+          })
+          .catch(function () { /* silent */ });
       }
       // Ranking anzeigen (Spieler wird bereits laufend via syncCurrentPlayer gesynct)
       var rankContainer = document.getElementById('ranking-container');
