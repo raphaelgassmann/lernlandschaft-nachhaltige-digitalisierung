@@ -355,10 +355,13 @@ function _renderHighscoreModal(scores) {
 
   function _fillList(filtered) {
     list.innerHTML = '';
-    // Update rank in highlight based on filtered list
+    // Update rank in highlight based on position in filtered list
     if (rankEl) {
-      var filteredRank = getPlayerRank(playerXp, filtered);
-      rankEl.textContent = '#' + filteredRank;
+      var filteredRank = 0;
+      for (var r = 0; r < filtered.length; r++) {
+        if (filtered[r].player_id === playerId) { filteredRank = r + 1; break; }
+      }
+      rankEl.textContent = filteredRank ? '#' + filteredRank : '';
     }
     if (filtered.length === 0) {
       list.innerHTML = '<p class="highscore-empty">' +
@@ -511,7 +514,11 @@ function _renderRankingContent(container, scores) {
       html += '<p style="color: var(--color-text-muted); font-style: italic;">' +
         I18N.t('highscore.empty', 'Noch keine Einträge.') + '</p>';
     } else {
-      var playerRank = getPlayerRank(playerXp, filtered);
+      var playerRank = 0;
+      for (var r = 0; r < filtered.length; r++) {
+        if (filtered[r].player_id === playerId) { playerRank = r + 1; break; }
+      }
+      if (!playerRank) playerRank = filtered.length + 1;
       html += '<p class="ranking-your-rank">' + I18N.t('highscore.your_rank', 'Dein Rang') +
         ': <strong>#' + playerRank + '</strong> ' + I18N.t('highscore.with', 'mit') +
         ' <strong>' + playerXp + ' XP</strong></p>';
