@@ -21,6 +21,7 @@ alter table highscores enable row level security;
 create policy "Anyone can read highscores" on highscores for select using (true);
 create policy "Anyone can insert highscores" on highscores for insert with check (true);
 create policy "Anyone can update highscores" on highscores for update using (true);
+create policy "Anyone can delete highscores" on highscores for delete using (true);
 
 -- ========================================
 -- 2. PLAYERS – Spieler-Info (Browser, OS, etc.)
@@ -44,6 +45,7 @@ alter table players enable row level security;
 create policy "Anyone can read players" on players for select using (true);
 create policy "Anyone can insert players" on players for insert with check (true);
 create policy "Anyone can update players" on players for update using (true);
+create policy "Anyone can delete players" on players for delete using (true);
 
 -- ========================================
 -- 3. STATION_TIMES – Verweilzeit pro Station
