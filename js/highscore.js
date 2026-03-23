@@ -361,7 +361,8 @@ function _renderHighscoreModal(scores) {
       for (var r = 0; r < filtered.length; r++) {
         if (filtered[r].player_id === playerId) { filteredRank = r + 1; break; }
       }
-      rankEl.textContent = filteredRank ? '#' + filteredRank : '';
+      if (!filteredRank) filteredRank = getPlayerRank(playerXp, filtered);
+      rankEl.textContent = '#' + filteredRank;
     }
     if (filtered.length === 0) {
       list.innerHTML = '<p class="highscore-empty">' +
