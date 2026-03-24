@@ -594,11 +594,16 @@
 
     function _deletePlayer(playerId) {
       var id = encodeURIComponent(playerId);
+      var opts = { method: 'DELETE', headers: { 'Prefer': '' } };
       return Promise.all([
-        supabaseFetch('/highscores?player_id=eq.' + id, { method: 'DELETE' }),
-        supabaseFetch('/players?player_id=eq.' + id, { method: 'DELETE' }),
-        supabaseFetch('/station_times?player_id=eq.' + id, { method: 'DELETE' })
-      ]);
+        supabaseFetch('/highscores?player_id=eq.' + id, opts),
+        supabaseFetch('/players?player_id=eq.' + id, opts),
+        supabaseFetch('/station_times?player_id=eq.' + id, opts)
+      ]).then(function (responses) {
+        responses.forEach(function (res) {
+          if (!res.ok) console.warn('[Admin] Delete failed:', res.status);
+        });
+      });
     }
 
     function _initDeleteDialog() {
