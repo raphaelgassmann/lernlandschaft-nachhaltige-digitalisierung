@@ -797,7 +797,7 @@
 }
 
 .map-minigame.is-locked {
-  opacity: 0.4;
+  opacity: var(--locked-opacity, 0.25);
   pointer-events: none;
   filter: grayscale(0.6);
   animation: none;
