@@ -36,7 +36,7 @@
 
   "avatar.title": "Create your Character",
   "avatar.subtitle": "Enter your name and choose your companion for the expedition.",
-  "avatar.name_label": "Your Name",
+  "avatar.name_label": "Your First Name",
   "avatar.name_placeholder": "e.g. Alex, Sam, Jordan...",
   "avatar.explorer": "Explorer",
   "avatar.scientist": "Scientist",
