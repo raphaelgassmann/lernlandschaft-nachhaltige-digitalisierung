@@ -357,8 +357,10 @@ function _renderHighscoreModal(scores) {
     list.innerHTML = '';
 
     // Build display list with local XP for own player, then re-sort
+    var selfFound = false;
     var displayList = filtered.map(function (score) {
       var isSelf = score.player_id === playerId;
+      if (isSelf) selfFound = true;
       return {
         player_id: score.player_id,
         name: score.name,
@@ -367,13 +369,23 @@ function _renderHighscoreModal(scores) {
         isSelf: isSelf
       };
     });
+    // Inject current player if not yet in Supabase data
+    if (!selfFound && playerName && playerXp > 0) {
+      displayList.push({
+        player_id: playerId,
+        name: playerName,
+        xp: playerXp,
+        stations: getCompletionCount(),
+        isSelf: true
+      });
+    }
     displayList.sort(function (a, b) { return b.xp - a.xp; });
 
-    // Update rank in highlight – find position by XP in sorted list
+    // Update rank in highlight – find own position in sorted list
     if (rankEl) {
-      var filteredRank = displayList.length + 1;
+      var filteredRank = displayList.length;
       for (var r = 0; r < displayList.length; r++) {
-        if (playerXp >= displayList[r].xp) { filteredRank = r + 1; break; }
+        if (displayList[r].player_id === playerId) { filteredRank = r + 1; break; }
       }
       rankEl.textContent = '#' + filteredRank;
     }
@@ -488,20 +500,43 @@ function _renderRankingContent(container, scores) {
   });
   groupList.sort();
 
-  function _buildRows(filtered) {
-    var rows = '';
-    filtered.forEach(function (score, index) {
+  function _buildDisplayList(filtered) {
+    var selfFound = false;
+    var list = filtered.map(function (score) {
       var isSelf = score.player_id === playerId;
-      var displayXp = isSelf ? playerXp : score.xp;
-      var displayStations = isSelf ? getCompletionCount() : (score.stations || 0);
-      rows += '<div class="highscore-row' + (isSelf ? ' highscore-row--self' : '') + '">';
+      if (isSelf) selfFound = true;
+      return {
+        player_id: score.player_id,
+        name: score.name,
+        xp: isSelf ? playerXp : score.xp,
+        stations: isSelf ? getCompletionCount() : (score.stations || 0),
+        isSelf: isSelf
+      };
+    });
+    if (!selfFound && playerName && playerXp > 0) {
+      list.push({
+        player_id: playerId,
+        name: playerName,
+        xp: playerXp,
+        stations: getCompletionCount(),
+        isSelf: true
+      });
+    }
+    list.sort(function (a, b) { return b.xp - a.xp; });
+    return list;
+  }
+
+  function _buildRows(displayList) {
+    var rows = '';
+    displayList.forEach(function (score, index) {
+      rows += '<div class="highscore-row' + (score.isSelf ? ' highscore-row--self' : '') + '">';
       if (index === 0) rows += '<span class="highscore-row__rank">&#x1F947;</span>';
       else if (index === 1) rows += '<span class="highscore-row__rank">&#x1F948;</span>';
       else if (index === 2) rows += '<span class="highscore-row__rank">&#x1F949;</span>';
       else rows += '<span class="highscore-row__rank">' + (index + 1) + '.</span>';
       rows += '<span class="highscore-row__name">' + score.name + '</span>';
-      rows += '<span class="highscore-row__stations">' + displayStations + '/' + getTotalStations() + '</span>';
-      rows += '<span class="highscore-row__xp">' + displayXp + ' XP</span>';
+      rows += '<span class="highscore-row__stations">' + score.stations + '/' + getTotalStations() + '</span>';
+      rows += '<span class="highscore-row__xp">' + score.xp + ' XP</span>';
       rows += '</div>';
     });
     return rows;
@@ -522,20 +557,21 @@ function _renderRankingContent(container, scores) {
     });
     html += '</select></div>';
 
-    if (filtered.length === 0) {
+    var displayList = _buildDisplayList(filtered);
+
+    if (displayList.length === 0) {
       html += '<p style="color: var(--color-text-muted); font-style: italic;">' +
         I18N.t('highscore.empty', 'Noch keine Einträge.') + '</p>';
     } else {
-      var playerRank = 0;
-      for (var r = 0; r < filtered.length; r++) {
-        if (filtered[r].player_id === playerId) { playerRank = r + 1; break; }
+      var playerRank = displayList.length;
+      for (var r = 0; r < displayList.length; r++) {
+        if (displayList[r].player_id === playerId) { playerRank = r + 1; break; }
       }
-      if (!playerRank) playerRank = filtered.length + 1;
       html += '<p class="ranking-your-rank">' + I18N.t('highscore.your_rank', 'Dein Rang') +
         ': <strong>#' + playerRank + '</strong> ' + I18N.t('highscore.with', 'mit') +
         ' <strong>' + playerXp + ' XP</strong></p>';
       html += '<div class="highscore-list highscore-list--inline">';
-      html += _buildRows(filtered);
+      html += _buildRows(displayList);
       html += '</div>';
     }
 
