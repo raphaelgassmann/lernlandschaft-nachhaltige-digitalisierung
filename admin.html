@@ -455,6 +455,56 @@
        CHARTS
        ======================================== */
 
+    // Shared tooltip
+    var _tooltip = document.createElement('div');
+    _tooltip.className = 'chart-tooltip';
+    _tooltip.hidden = true;
+    document.body.appendChild(_tooltip);
+
+    function _showTooltip(canvas, e, text) {
+      var rect = canvas.getBoundingClientRect();
+      _tooltip.textContent = text;
+      _tooltip.hidden = false;
+      _tooltip.style.left = (e.clientX + 10) + 'px';
+      _tooltip.style.top = (e.clientY - 28) + 'px';
+    }
+
+    function _hideTooltip() { _tooltip.hidden = true; }
+
+    // Stores hit regions for each chart
+    var _chartHitAreas = { levels: [], stations: [], activity: [] };
+
+    function _getMousePos(canvas, e) {
+      var rect = canvas.getBoundingClientRect();
+      return {
+        x: (e.clientX - rect.left) * (canvas.width / rect.width),
+        y: (e.clientY - rect.top) * (canvas.height / rect.height)
+      };
+    }
+
+    function _initChartHover(canvas, key) {
+      canvas.addEventListener('mousemove', function (e) {
+        var pos = _getMousePos(canvas, e);
+        var hit = null;
+        _chartHitAreas[key].forEach(function (area) {
+          if (pos.x >= area.x && pos.x <= area.x + area.w && pos.y >= area.y && pos.y <= area.y + area.h) {
+            hit = area;
+          }
+        });
+        if (hit) {
+          canvas.style.cursor = 'pointer';
+          _showTooltip(canvas, e, hit.label);
+        } else {
+          canvas.style.cursor = 'default';
+          _hideTooltip();
+        }
+      });
+      canvas.addEventListener('mouseleave', function () {
+        canvas.style.cursor = 'default';
+        _hideTooltip();
+      });
+    }
+
     function _renderCharts(players) {
       _drawLevelChart(players);
       _drawStationChart(players);
@@ -467,8 +517,8 @@
       var ctx = canvas.getContext('2d');
       var w = canvas.width, h = canvas.height;
       ctx.clearRect(0, 0, w, h);
+      _chartHitAreas.levels = [];
 
-      // Count per level
       var counts = [0, 0, 0, 0, 0, 0, 0, 0];
       players.forEach(function (p) { counts[p.level.level - 1]++; });
       var max = Math.max.apply(null, counts) || 1;
@@ -477,31 +527,35 @@
       var gap = 6;
       var labelW = 50;
       var startY = 8;
-
+      var levelNames = LEVELS.map(function (l) { return l.name; });
       var colors = ['#e8e4d8', '#c8a84e', '#e07b4c', '#4a9e6e', '#00b4d8', '#c77dff', '#39ff14', '#ff6b9d'];
 
       for (var i = 0; i < 8; i++) {
         var y = startY + i * (barH + gap);
         var barW = ((w - labelW - 40) * counts[i]) / max;
 
-        // Label
         ctx.fillStyle = '#555';
         ctx.font = '11px sans-serif';
         ctx.textAlign = 'right';
         ctx.textBaseline = 'middle';
         ctx.fillText('Lv. ' + (i + 1), labelW - 6, y + barH / 2);
 
-        // Bar
         ctx.fillStyle = colors[i];
         ctx.beginPath();
         ctx.roundRect(labelW, y, Math.max(barW, 2), barH, 3);
         ctx.fill();
 
-        // Count
         ctx.fillStyle = '#333';
         ctx.textAlign = 'left';
         ctx.fillText(counts[i], labelW + barW + 6, y + barH / 2);
+
+        _chartHitAreas.levels.push({
+          x: labelW, y: y, w: Math.max(barW, 30), h: barH,
+          label: 'Lv. ' + (i + 1) + ' – ' + levelNames[i] + ': ' + counts[i] + ' Lernende'
+        });
       }
+
+      if (!canvas._hoverInit) { _initChartHover(canvas, 'levels'); canvas._hoverInit = true; }
     }
 
     function _drawStationChart(players) {
@@ -510,6 +564,7 @@
       var ctx = canvas.getContext('2d');
       var w = canvas.width, h = canvas.height;
       ctx.clearRect(0, 0, w, h);
+      _chartHitAreas.stations = [];
 
       var stationIds = Object.keys(STATIONS);
       var total = players.length || 1;
@@ -520,10 +575,8 @@
         'ki-kraftwerk': 'KI', 'open-source-platz': 'OSS', 'digital-ethics-turm': 'Ethics'
       };
 
-      // Count completions per station
       var completions = {};
       stationIds.forEach(function (id) { completions[id] = 0; });
-      // Filter times to only count players in current filtered list
       var playerIds = {};
       players.forEach(function (p) { playerIds[p.player_id] = true; });
       Object.keys(_allTimes).forEach(function (pid) {
@@ -546,20 +599,17 @@
         var x = 10 + i * (barW + 4);
         var y = h - 10 - barHeight;
 
-        // Bar
         ctx.fillStyle = colors[i];
         ctx.beginPath();
         ctx.roundRect(x, y, barW, barHeight, 2);
         ctx.fill();
 
-        // Percentage above bar
         ctx.fillStyle = '#555';
         ctx.font = '9px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
         ctx.fillText(Math.round(pct * 100) + '%', x + barW / 2, y - 2);
 
-        // Station name on bar (vertical)
         ctx.save();
         ctx.translate(x + barW / 2, h - 12);
         ctx.rotate(-Math.PI / 2);
@@ -569,7 +619,14 @@
         ctx.fillStyle = barHeight > 40 ? 'rgba(255,255,255,0.9)' : '#888';
         ctx.fillText(SHORT_NAMES[id] || id, 2, 0);
         ctx.restore();
+
+        _chartHitAreas.stations.push({
+          x: x, y: y, w: barW, h: barHeight,
+          label: STATIONS[id] + ': ' + completions[id] + '/' + total + ' (' + Math.round(pct * 100) + '%)'
+        });
       });
+
+      if (!canvas._hoverInit) { _initChartHover(canvas, 'stations'); canvas._hoverInit = true; }
     }
 
     function _drawActivityChart(players) {
@@ -578,8 +635,8 @@
       var ctx = canvas.getContext('2d');
       var w = canvas.width, h = canvas.height;
       ctx.clearRect(0, 0, w, h);
+      _chartHitAreas.activity = [];
 
-      // Count active players per day (last 14 days)
       var days = 14;
       var now = new Date();
       now.setHours(23, 59, 59, 999);
@@ -590,7 +647,7 @@
         var day = new Date(now);
         day.setDate(day.getDate() - d);
         var dayStr = day.toISOString().split('T')[0];
-        labels.push(day.getDate() + '.' + (day.getMonth() + 1));
+        labels.push(day.getDate() + '.' + (day.getMonth() + 1) + '.');
         var count = 0;
         players.forEach(function (p) {
           if (p.last_seen_at && p.last_seen_at.substring(0, 10) === dayStr) count++;
@@ -604,7 +661,6 @@
       var chartH = h - padT - padB;
       var stepX = chartW / (days - 1);
 
-      // Grid lines
       ctx.strokeStyle = '#eee';
       ctx.lineWidth = 1;
       for (var g = 0; g <= 4; g++) {
@@ -613,8 +669,6 @@
         ctx.moveTo(padL, gy);
         ctx.lineTo(w - padR, gy);
         ctx.stroke();
-
-        // Y-axis label
         ctx.fillStyle = '#aaa';
         ctx.font = '9px sans-serif';
         ctx.textAlign = 'right';
@@ -622,13 +676,11 @@
         ctx.fillText(Math.round((g / 4) * max), padL - 4, gy);
       }
 
-      // Line + area
+      // Area
       ctx.beginPath();
       ctx.moveTo(padL, padT + chartH);
       for (var i = 0; i < days; i++) {
-        var x = padL + i * stepX;
-        var y = padT + chartH - (counts[i] / max) * chartH;
-        ctx.lineTo(x, y);
+        ctx.lineTo(padL + i * stepX, padT + chartH - (counts[i] / max) * chartH);
       }
       ctx.lineTo(padL + (days - 1) * stepX, padT + chartH);
       ctx.closePath();
@@ -640,14 +692,13 @@
       for (var i = 0; i < days; i++) {
         var x = padL + i * stepX;
         var y = padT + chartH - (counts[i] / max) * chartH;
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
       }
       ctx.strokeStyle = '#4a9e6e';
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Dots
+      // Dots + hit areas
       for (var i = 0; i < days; i++) {
         var x = padL + i * stepX;
         var y = padT + chartH - (counts[i] / max) * chartH;
@@ -655,17 +706,22 @@
         ctx.arc(x, y, 3, 0, Math.PI * 2);
         ctx.fillStyle = '#4a9e6e';
         ctx.fill();
+        _chartHitAreas.activity.push({
+          x: x - 8, y: y - 8, w: 16, h: 16,
+          label: labels[i] + ' ' + counts[i] + ' aktiv'
+        });
       }
 
-      // X-axis labels (every other day)
+      // X-axis labels
       ctx.fillStyle = '#aaa';
       ctx.font = '8px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
       for (var i = 0; i < days; i += 2) {
-        var x = padL + i * stepX;
-        ctx.fillText(labels[i], x, padT + chartH + 6);
+        ctx.fillText(labels[i], padL + i * stepX, padT + chartH + 6);
       }
+
+      if (!canvas._hoverInit) { _initChartHover(canvas, 'activity'); canvas._hoverInit = true; }
     }
 
     /* ========================================

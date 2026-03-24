@@ -145,6 +145,23 @@ body.page-admin {
   max-width: 100%;
 }
 
+/* Chart Tooltip */
+.chart-tooltip {
+  position: fixed;
+  background: #1a1a2e;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 500;
+  white-space: nowrap;
+}
+
+.chart-tooltip[hidden] {
+  display: none;
+}
+
 /* Table */
 .admin-table-wrap {
   background: #fff;
