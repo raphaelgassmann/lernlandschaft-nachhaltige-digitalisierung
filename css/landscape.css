@@ -2286,6 +2286,16 @@
     line-height: 1.2;
   }
 
+  .map-minigame__img {
+    width: 38px;
+    height: 38px;
+    padding: 3px;
+  }
+
+  .map-minigame__label {
+    font-size: 0.5rem;
+  }
+
   .map-station__badge {
     font-size: 0.5rem;
     padding: 1px 5px;
@@ -2437,6 +2447,16 @@
   .map-station__label {
     font-size: 0.5rem;
     max-width: 72px;
+  }
+
+  .map-minigame__img {
+    width: 30px;
+    height: 30px;
+    padding: 2px;
+  }
+
+  .map-minigame__label {
+    font-size: 0.45rem;
   }
 
   .map-station__finale-icon {
