@@ -133,7 +133,13 @@
        CONFIG
        ======================================== */
 
-    var ADMIN_PASSWORD = 'dnA%';
+    var ADMIN_PASSWORD_HASH = 'e347297aa37c57f741ff463ca4ee10830e316f458a70569637e956d15ab2ddea';
+
+    function _hashPassword(pw) {
+      return crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw)).then(function (buf) {
+        return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+      });
+    }
 
     var LEVELS = [
       { level: 1, name: 'Sofa-Surfer', min: 0 },
@@ -801,16 +807,18 @@
       var submitBtn = document.getElementById('login-submit');
 
       function _tryLogin() {
-        if (pwInput.value !== ADMIN_PASSWORD) {
-          errorEl.hidden = false;
-          pwInput.focus();
-          return;
-        }
-        overlay.hidden = true;
-        _initSort();
-        _initDeleteDialog();
-        _initRenameDialog();
-        _loadData();
+        _hashPassword(pwInput.value).then(function (hash) {
+          if (hash !== ADMIN_PASSWORD_HASH) {
+            errorEl.hidden = false;
+            pwInput.focus();
+            return;
+          }
+          overlay.hidden = true;
+          _initSort();
+          _initDeleteDialog();
+          _initRenameDialog();
+          _loadData();
+        });
       }
 
       submitBtn.addEventListener('click', _tryLogin);
