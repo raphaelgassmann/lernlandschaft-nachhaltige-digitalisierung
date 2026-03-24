@@ -454,9 +454,85 @@ function renderQuestion(container, stationId, questions, usedIndexes, quizState,
     html += '<button class="quiz-option" data-index="' + k + '">' + I18N.t(oKey, q.o[k]) + '</button>';
   }
   html += '</div>';
+
+  // Ability buttons per character
+  var avatarChoice = typeof getAvatarChoice === 'function' ? getAvatarChoice() : null;
+  var abilityAvailable = typeof isAbilityUsed === 'function' && !isAbilityUsed();
+  if (abilityAvailable && avatarChoice === 'hacker') {
+    html += '<button class="quiz-ability-btn quiz-ability-btn--hacker" id="ability-btn">' +
+      '\u26A1 ' + I18N.t('ability.hacker_btn', 'Neutralisieren (1\u00D7)') + '</button>';
+  } else if (abilityAvailable && avatarChoice === 'scientist') {
+    html += '<button class="quiz-ability-btn quiz-ability-btn--scientist" id="ability-btn">' +
+      '\uD83D\uDD0D ' + I18N.t('ability.scientist_btn', 'Hinweis aufdecken (1\u00D7)') + '</button>';
+  } else if (abilityAvailable && avatarChoice === 'explorer') {
+    html += '<button class="quiz-ability-btn quiz-ability-btn--explorer" id="ability-btn">' +
+      '\u2B50 ' + I18N.t('ability.explorer_btn', 'Bonus aktivieren (+2 XP, 1\u00D7)') + '</button>';
+  }
+
   html += '<p class="quiz-feedback" id="quiz-feedback"></p>';
 
   container.innerHTML = html;
+
+  // Scientist hint: eliminate one wrong answer
+  if (abilityAvailable && avatarChoice === 'scientist') {
+    var hintBtn = document.getElementById('ability-btn');
+    if (hintBtn) {
+      hintBtn.addEventListener('click', function () {
+        markAbilityUsed();
+        hintBtn.remove();
+        // Find wrong options and disable two randomly
+        var wrongBtns = [];
+        container.querySelectorAll('.quiz-option').forEach(function (b) {
+          if (parseInt(b.dataset.index) !== q.a) wrongBtns.push(b);
+        });
+        // Shuffle and pick up to 2
+        for (var si = wrongBtns.length - 1; si > 0; si--) {
+          var sj = Math.floor(Math.random() * (si + 1));
+          var tmp = wrongBtns[si]; wrongBtns[si] = wrongBtns[sj]; wrongBtns[sj] = tmp;
+        }
+        var eliminateCount = Math.min(2, wrongBtns.length);
+        for (var ei = 0; ei < eliminateCount; ei++) {
+          wrongBtns[ei].classList.add('is-eliminated');
+          wrongBtns[ei].disabled = true;
+        }
+        showToast(I18N.t('toast.ability_hint', '\uD83D\uDD0D Hinweis: Zwei falsche Antworten wurden aufgedeckt!'), 'info');
+      });
+    }
+  }
+
+  // Hacker neutralize state
+  if (abilityAvailable && avatarChoice === 'hacker') {
+    var neutralizeBtn = document.getElementById('ability-btn');
+    if (neutralizeBtn) {
+      neutralizeBtn.addEventListener('click', function () {
+        if (!quizState.hackerShield) {
+          quizState.hackerShield = true;
+          markAbilityUsed();
+          neutralizeBtn.classList.add('is-active');
+          neutralizeBtn.disabled = true;
+          neutralizeBtn.textContent = '\u26A1 ' + I18N.t('ability.hacker_active', 'Schutz aktiv');
+          showToast(I18N.t('toast.ability_neutralize', '\u26A1 Schutz aktiviert! N\u00E4chste Fehlantwort ohne Strafe.'), 'info');
+        }
+      });
+    }
+  }
+
+  // Explorer bonus: activate before answering, +2 XP on correct answer
+  if (abilityAvailable && avatarChoice === 'explorer') {
+    var explorerBtn = document.getElementById('ability-btn');
+    if (explorerBtn) {
+      explorerBtn.addEventListener('click', function () {
+        if (!quizState.explorerBonus) {
+          quizState.explorerBonus = true;
+          markAbilityUsed();
+          explorerBtn.classList.add('is-active');
+          explorerBtn.disabled = true;
+          explorerBtn.textContent = '\u2B50 ' + I18N.t('ability.explorer_active', 'Bonus aktiv!');
+          showToast(I18N.t('toast.ability_bonus', '\u2B50 Bonus aktiviert! Bei richtiger Antwort +2 Extra-XP.'), 'info');
+        }
+      });
+    }
+  }
 
   var options = container.querySelectorAll('.quiz-option');
   options.forEach(function (btn) {
@@ -468,6 +544,15 @@ function renderQuestion(container, stationId, questions, usedIndexes, quizState,
         btn.classList.add('is-correct');
         feedback.textContent = I18N.t('ui.quiz_correct', 'Richtig!');
         feedback.className = 'quiz-feedback is-correct';
+
+        // Explorer bonus: award +2 XP on correct answer
+        if (quizState.explorerBonus) {
+          quizState.explorerBonus = false;
+          var progress = getProgress();
+          progress.points += 2;
+          saveProgress(progress);
+          showToast('\u2B50 +2 Bonus-XP!', 'success');
+        }
 
         if (quizState.needsBonus && !quizState.bonusShown) {
           // Correct after penalty – show bonus question
@@ -496,8 +581,24 @@ function renderQuestion(container, stationId, questions, usedIndexes, quizState,
           }, 1200);
         }
       } else {
-        // Wrong
+        // Wrong answer
         btn.classList.add('is-wrong');
+
+        // Hacker shield: absorb one wrong answer without penalty
+        if (quizState.hackerShield) {
+          quizState.hackerShield = false;
+          var shieldBtn = document.getElementById('ability-btn');
+          if (shieldBtn) shieldBtn.remove();
+          feedback.textContent = I18N.t('ui.quiz_neutralized', 'Neutralisiert! Keine Strafe.');
+          feedback.className = 'quiz-feedback is-neutralized';
+          showToast(I18N.t('toast.neutralized', '\u26A1 Falsche Antwort neutralisiert!'), 'info');
+          options.forEach(function (b) { b.disabled = true; });
+          setTimeout(function () {
+            showQuestionByIndex(container, stationId, questions, usedIndexes, quizState, idx);
+          }, 1500);
+          return;
+        }
+
         deductPoints(3);
         showToast(I18N.t('toast.wrong_answer', '-3 Punkte \u2013 falsche Antwort'), 'error');
         feedback.textContent = I18N.t('ui.quiz_wrong', 'Leider falsch \u2013 lies den Inhalt nochmals durch.');

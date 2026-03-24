@@ -667,5 +667,27 @@
   "cert.station.workflow-nebel": "The Workflow Nebula",
   "cert.station.ki-kraftwerk": "The AI Power Plant",
   "cert.station.open-source-platz": "The Open Source Square",
-  "cert.station.digital-ethics-turm": "The Digital Ethics Tower"
+  "cert.station.digital-ethics-turm": "The Digital Ethics Tower",
+
+  "ability.explorer_desc": "&#x2B50; 1&times; +2 extra XP on a challenge",
+  "ability.scientist_desc": "&#x1F50D; 1&times; reveal two wrong answers",
+  "ability.hacker_desc": "&#x26A1; 1&times; wrong answer without penalty",
+  "ability.hacker_btn": "Neutralize (1&times;)",
+  "ability.hacker_active": "Shield active",
+  "ability.scientist_btn": "Reveal hint (1&times;)",
+  "ability.explorer_btn": "Activate bonus (+2 XP, 1&times;)",
+  "ability.explorer_active": "Bonus active!",
+  "toast.ability_hint": "&#x1F50D; Hint: Two wrong answers have been revealed!",
+  "toast.ability_neutralize": "&#x26A1; Shield activated! Next wrong answer without penalty.",
+  "toast.neutralized": "&#x26A1; Wrong answer neutralized!",
+  "toast.ability_bonus": "&#x2B50; Bonus activated! +2 extra XP on correct answer.",
+  "ui.quiz_neutralized": "Neutralized! No penalty.",
+
+  "minigame.instruction": "Tap or press spacebar to jump!",
+  "minigame.start": "Go!",
+  "minigame.skip": "Skip",
+  "minigame.continue": "Continue",
+  "minigame.node_title": "Bonus Mini-Game",
+  "minigame.node_desc": "Collect up to 5 bonus XP in the runner!",
+  "minigame.lock_hint": "Complete all 3 stations to unlock"
 }

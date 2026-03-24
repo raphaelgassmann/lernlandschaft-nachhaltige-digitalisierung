@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initResetButton();
   initHighscoreButton();
   initNotebookButton();
+  initMiniGameNodes();
 
   // Populate group suggestions dropdown
   if (typeof populateGroupDatalist === 'function') {
@@ -288,6 +289,7 @@ function initMapView() {
   initStationClicks();
   initMapParticles();
   updateMobileWorld();
+  _refreshMiniGameNodes();
   initLazyPanels();
   initFinaleMarker();
 }
@@ -351,6 +353,61 @@ function positionStations() {
     if (!pos) return;
     el.style.setProperty('--pos-top', pos.top + '%');
     el.style.setProperty('--pos-left', pos.left + '%');
+  });
+
+  // Position minigame nodes on the path between the 3rd station and next world's 1st
+  _positionMiniGameNodes();
+}
+
+function _positionMiniGameNodes() {
+  var mgNodes = document.querySelectorAll('.map-minigame');
+  mgNodes.forEach(function (el) {
+    var transition = null;
+    for (var i = 0; i < WORLD_TRANSITIONS.length; i++) {
+      if (WORLD_TRANSITIONS[i].id === el.dataset.transition) { transition = WORLD_TRANSITIONS[i]; break; }
+    }
+    if (!transition) return;
+
+    var world = WORLDS[transition.from];
+    var nextWorld = WORLDS[transition.to];
+    if (!world || !nextWorld) return;
+
+    // Find the "3rd station" – the fork that was done last or not done yet
+    var progress = getProgress();
+    var fork0Done = progress.completedStations.includes(world.fork[0]);
+    var fork1Done = progress.completedStations.includes(world.fork[1]);
+    var thirdStation;
+    if (!fork0Done && !fork1Done) {
+      thirdStation = world.fork[0]; // default to first fork
+    } else if (fork0Done && !fork1Done) {
+      thirdStation = world.fork[1]; // the undone one
+    } else if (!fork0Done && fork1Done) {
+      thirdStation = world.fork[0]; // the undone one
+    } else {
+      // Both done – pick the one completed later (last in array)
+      var idx0 = progress.completedStations.indexOf(world.fork[0]);
+      var idx1 = progress.completedStations.indexOf(world.fork[1]);
+      thirdStation = idx1 > idx0 ? world.fork[1] : world.fork[0];
+    }
+
+    var fromPos = STATION_POSITIONS[thirdStation];
+    var toPos = STATION_POSITIONS[nextWorld.mandatory];
+    if (!fromPos || !toPos) return;
+
+    // Slightly above midpoint of the S-curve between the two stations
+    // Position on the S-curve at t=0.4 (slightly closer to fork station)
+    // S-curve: P0=(x1,y1) P1=(x1,midY) P2=(x2,midY) P3=(x2,y2)
+    var x1 = fromPos.left, y1 = fromPos.top;
+    var x2 = toPos.left, y2 = toPos.top;
+    var midY = (y1 + y2) / 2;
+    var t = 0.5;
+    var mt = 1 - t;
+    // Cubic bezier: B(t) = mt³·P0 + 3·mt²·t·P1 + 3·mt·t²·P2 + t³·P3
+    var bx = mt*mt*mt*x1 + 3*mt*mt*t*x1 + 3*mt*t*t*x2 + t*t*t*x2;
+    var by = mt*mt*mt*y1 + 3*mt*mt*t*midY + 3*mt*t*t*midY + t*t*t*y2;
+    el.style.top = by + '%';
+    el.style.left = bx + '%';
+    el.style.left = ((fromPos.left + toPos.left) / 2) + '%';
   });
 }
 
@@ -519,6 +576,175 @@ function initStationClicks() {
 }
 
 /* ========================================
+   MINI-GAME TRIGGER
+   ======================================== */
+
+var WORLD_TRANSITIONS = [
+  { from: 'jungle', to: 'ocean', id: 'jungle-to-ocean' },
+  { from: 'ocean', to: 'cosmos', id: 'ocean-to-cosmos' },
+  { from: 'cosmos', to: 'metro', id: 'cosmos-to-metro' }
+];
+
+function initMiniGameNodes() {
+  // Initialize both mobile-landscape nodes and map-container nodes
+  var allNodes = document.querySelectorAll('.mobile-minigame, .map-minigame');
+  allNodes.forEach(function (node) {
+    var transitionId = node.dataset.transition;
+    _applyMiniGameState(node, transitionId);
+  });
+}
+
+function _applyMiniGameState(node, transitionId) {
+  // Find matching transition
+  var transition = null;
+  for (var i = 0; i < WORLD_TRANSITIONS.length; i++) {
+    if (WORLD_TRANSITIONS[i].id === transitionId) { transition = WORLD_TRANSITIONS[i]; break; }
+  }
+  if (!transition) return;
+
+  var worldFullyDone = typeof isWorldComplete === 'function' && isWorldComplete(transition.from);
+  var completed = typeof isMiniGameComplete === 'function' && isMiniGameComplete(transitionId);
+
+  // For mobile-landscape nodes
+  var btn = node.querySelector('.mobile-minigame__btn');
+  var statusEl = node.querySelector('.mobile-minigame__status');
+  var hintEl = node.querySelector('.mobile-minigame__lock-hint');
+
+  // For map-container nodes (the node itself is the button)
+  var isMapNode = node.classList.contains('map-minigame');
+
+  if (completed) {
+    node.classList.remove('is-locked');
+    node.classList.add('is-completed');
+    if (statusEl) statusEl.textContent = '\u2714';
+    if (hintEl) hintEl.style.display = 'none';
+    if (btn) btn.disabled = true;
+    if (isMapNode) node.disabled = true;
+  } else if (!worldFullyDone) {
+    node.classList.add('is-locked');
+    if (btn) btn.disabled = true;
+    if (isMapNode) node.disabled = true;
+  } else {
+    // Playable
+    node.classList.remove('is-locked');
+    if (hintEl) hintEl.style.display = 'none';
+    var clickTarget = isMapNode ? node : btn;
+    if (clickTarget && !clickTarget.dataset.bound) {
+      clickTarget.dataset.bound = '1';
+      clickTarget.addEventListener('click', function () {
+        if (isMapNode) {
+          // Animate avatar to the minigame node position, then show game
+          var mgPos = { top: parseFloat(node.style.top), left: parseFloat(node.style.left) };
+          var avatar = document.getElementById('map-avatar');
+          if (avatar) {
+            avatar.style.transition = 'top 1.2s ease-in-out, left 1.2s ease-in-out';
+            avatar.style.top = mgPos.top + '%';
+            avatar.style.left = mgPos.left + '%';
+          }
+          setTimeout(function () {
+            _showMiniGame(transition);
+          }, 1300);
+        } else {
+          _showMiniGame(transition);
+        }
+      });
+    }
+  }
+}
+
+function _showMiniGame(transition) {
+  var overlay = document.getElementById('minigame-overlay');
+  var titleEl = document.getElementById('minigame-title');
+  var startScreen = document.getElementById('minigame-start');
+  var endScreen = document.getElementById('minigame-end');
+  var startBtn = document.getElementById('minigame-start-btn');
+  var skipBtn = document.getElementById('minigame-skip-btn');
+  var continueBtn = document.getElementById('minigame-continue-btn');
+  var resultEl = document.getElementById('minigame-result');
+
+  if (!overlay) return;
+
+  var themeData = MiniGame.THEMES[transition.id];
+  if (titleEl) titleEl.textContent = themeData ? themeData.name : 'Bonus-Minispiel';
+
+  // Reset visibility
+  startScreen.style.display = '';
+  endScreen.style.display = 'none';
+  overlay.style.display = '';
+
+  var avatarSrc = typeof getAvatarImage === 'function' ? getAvatarImage() : 'assets/avatar-explorer.png';
+  MiniGame.init('minigame-canvas', transition.id, avatarSrc, function (collected) {
+    // Game finished
+    startScreen.style.display = 'none';
+    endScreen.style.display = '';
+    if (resultEl) {
+      resultEl.textContent = '+' + collected + ' Bonus-XP!';
+    }
+    markMiniGameComplete(transition.id, collected);
+  });
+
+  requestAnimationFrame(function () {
+    overlay.classList.add('is-visible');
+  });
+
+  // Start button + spacebar
+  var _started = false;
+  var _startHandler = function () {
+    if (_started) return;
+    _started = true;
+    startScreen.style.display = 'none';
+    MiniGame.start();
+    startBtn.removeEventListener('click', _startHandler);
+    document.removeEventListener('keydown', _spaceStartHandler);
+  };
+  var _spaceStartHandler = function (e) {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      _startHandler();
+    }
+  };
+  startBtn.addEventListener('click', _startHandler);
+  document.addEventListener('keydown', _spaceStartHandler);
+
+  // Skip button
+  var _skipHandler = function () {
+    MiniGame.cleanup();
+    markMiniGameComplete(transition.id, 0);
+    _closeMiniGame();
+    skipBtn.removeEventListener('click', _skipHandler);
+  };
+  skipBtn.addEventListener('click', _skipHandler);
+
+  // Continue button (after game ends)
+  var _continueHandler = function () {
+    MiniGame.cleanup();
+    _closeMiniGame();
+    continueBtn.removeEventListener('click', _continueHandler);
+  };
+  continueBtn.addEventListener('click', _continueHandler);
+}
+
+function _closeMiniGame() {
+  var overlay = document.getElementById('minigame-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('is-visible');
+  setTimeout(function () {
+    overlay.style.display = 'none';
+  }, 400);
+  // Refresh header and minigame nodes
+  updateGameHeader();
+  _refreshMiniGameNodes();
+}
+
+function _refreshMiniGameNodes() {
+  _positionMiniGameNodes(); // Recalculate position (animates via CSS transition)
+  var allNodes = document.querySelectorAll('.mobile-minigame, .map-minigame');
+  allNodes.forEach(function (node) {
+    _applyMiniGameState(node, node.dataset.transition);
+  });
+}
+
+/* ========================================
    GAME HEADER (Level, XP, Avatar, Name)
    ======================================== */
 
@@ -578,6 +804,18 @@ function updateGameHeader() {
 
   var avatarImg = document.getElementById('header-avatar');
   if (avatarImg) avatarImg.src = getAvatarImage();
+
+  // Update ability indicator
+  var abilityEl = document.getElementById('ability-indicator');
+  if (abilityEl && typeof getAbility === 'function') {
+    var ability = getAbility();
+    if (ability) {
+      var used = typeof isAbilityUsed === 'function' && isAbilityUsed();
+      abilityEl.textContent = ability.icon;
+      abilityEl.title = ability.name + (used ? ' (verbraucht)' : '');
+      abilityEl.classList.toggle('is-used', used);
+    }
+  }
 
   if (_previousLevel !== null && levelInfo.level > _previousLevel) {
     triggerLevelUp(levelInfo);

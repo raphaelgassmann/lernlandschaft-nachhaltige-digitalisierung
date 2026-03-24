@@ -57,17 +57,17 @@ var STATION_POSITIONS = {
   // Panel 0 (0-20%): Jungle – sofa, door, Y-fork path
   'geraete-lichtung':    { top: 11, left: 50 },
   'cloud-quelle':        { top: 16.5, left: 32 },
-  'code-camp':           { top: 16.5, left: 68 },
+  'code-camp':           { top: 15, left: 70.5 },
 
   // Panel 1 (20-40%): Beach -> Ocean – sand path, coral reefs
-  'server-riff':         { top: 26, left: 42 },
+  'server-riff':         { top: 26, left: 44 },
   'streaming-strom':     { top: 33, left: 28 },
   'backup-bucht':        { top: 33, left: 70 },
 
   // Panel 2 (40-60%): Ocean -> Cosmos – blue stream, asteroids
   'ide-asteroid':        { top: 46, left: 50 },
-  'deploy-stern':        { top: 54, left: 28 },
-  'workflow-nebel':      { top: 54, left: 72 },
+  'deploy-stern':        { top: 51.5, left: 28 },
+  'workflow-nebel':      { top: 53.5, left: 73 },
 
   // Panel 3-4 (60-100%): Cosmos -> Metro – convergence, city grid
   'ki-kraftwerk':        { top: 69.5, left: 50 },
@@ -139,6 +139,12 @@ var AVATAR_CHOICES = {
   explorer: { name: 'Entdecker:in', image: 'assets/avatar-explorer.png', sprite: 'assets/sprites/sprite-explorer.png' },
   scientist: { name: 'Forscher:in', image: 'assets/avatar-scientist.png', sprite: 'assets/sprites/sprite-scientist.png' },
   hacker: { name: 'Hacker:in', image: 'assets/avatar-hacker.png', sprite: 'assets/sprites/sprite-hacker.png' }
+};
+
+var AVATAR_ABILITIES = {
+  hacker:   { id: 'neutralize', name: 'Neutralisieren', icon: '\u26A1', description: '1\u00D7 falsche Quiz-Antwort ohne Strafe' },
+  scientist: { id: 'hint', name: 'Hinweis', icon: '\uD83D\uDD0D', description: '1\u00D7 zwei falsche Antworten aufdecken' },
+  explorer:  { id: 'bonus-xp', name: 'Bonus-XP', icon: '\u2B50', description: '1\u00D7 +2 Extra-XP bei einer Challenge' }
 };
 
 function setPlayerName(name) {
@@ -283,6 +289,57 @@ function getAvatarChoice() {
 }
 
 /* ========================================
+   AVATAR ABILITIES
+   ======================================== */
+
+function getAbility() {
+  var choice = getAvatarChoice() || 'explorer';
+  return AVATAR_ABILITIES[choice] || null;
+}
+
+function isAbilityUsed() {
+  return getProgress().abilityUsed || false;
+}
+
+function markAbilityUsed() {
+  var progress = getProgress();
+  progress.abilityUsed = true;
+  saveProgress(progress);
+}
+
+function activateExplorerBonus() {
+  var progress = getProgress();
+  progress.abilityBonusActive = true;
+  progress.abilityUsed = true;
+  saveProgress(progress);
+}
+
+function isExplorerBonusActive() {
+  return getProgress().abilityBonusActive || false;
+}
+
+/* ========================================
+   MINI-GAME TRACKING
+   ======================================== */
+
+function isMiniGameComplete(transitionId) {
+  var progress = getProgress();
+  var completed = progress.miniGamesCompleted || [];
+  return completed.includes(transitionId);
+}
+
+function markMiniGameComplete(transitionId, xpEarned) {
+  var progress = getProgress();
+  if (!progress.miniGamesCompleted) progress.miniGamesCompleted = [];
+  if (!progress.miniGamesCompleted.includes(transitionId)) {
+    progress.miniGamesCompleted.push(transitionId);
+    progress.points += (xpEarned || 0);
+    saveProgress(progress);
+    if (typeof syncCurrentPlayer === 'function') syncCurrentPlayer();
+  }
+}
+
+/* ========================================
    CURRENT WORLD (where the avatar is)
    ======================================== */
 
@@ -318,7 +375,10 @@ function getProgress() {
     playerName: '',
     playerId: '',
     playerGroup: '',
-    lastAvatarPosition: 'sofa'
+    lastAvatarPosition: 'sofa',
+    abilityUsed: false,
+    abilityBonusActive: false,
+    miniGamesCompleted: []
   };
 }
 

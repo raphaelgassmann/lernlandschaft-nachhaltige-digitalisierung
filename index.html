@@ -7,6 +7,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/landscape.css">
+  <link rel="stylesheet" href="css/minigame.css">
 </head>
 <body class="page-landscape">
 
@@ -18,6 +19,7 @@
            sizes="(max-width: 600px) 32px, 42px"
            alt="Dein Avatar" />
     </div>
+    <span class="ability-indicator" id="ability-indicator" title="Spezialfähigkeit"></span>
     <div class="game-header__info">
       <div class="game-header__level">
         <span class="level-badge" id="level-badge">Lv. 1</span>
@@ -233,6 +235,20 @@
         <span class="map-station__check" aria-hidden="true"></span>
       </a>
 
+      <!-- Minigame Nodes (on world-transition paths) -->
+      <button class="map-minigame" data-transition="jungle-to-ocean">
+        <img class="map-minigame__img" src="assets/minigame-jungle-to-ocean.png" alt="" />
+        <span class="map-minigame__label" data-i18n="minigame.node_title">Bonus-Minispiel</span>
+      </button>
+      <button class="map-minigame" data-transition="ocean-to-cosmos">
+        <img class="map-minigame__img" src="assets/minigame-ocean-to-cosmos.png" alt="" />
+        <span class="map-minigame__label" data-i18n="minigame.node_title">Bonus-Minispiel</span>
+      </button>
+      <button class="map-minigame" data-transition="cosmos-to-metro">
+        <img class="map-minigame__img" src="assets/minigame-cosmos-to-metro.png" alt="" />
+        <span class="map-minigame__label" data-i18n="minigame.node_title">Bonus-Minispiel</span>
+      </button>
+
       <!-- Finale -->
       <a href="stations/abschluss-feier.html" class="map-station map-station--finale is-locked" id="finale-marker" data-station="abschluss-feier">
         <span class="map-station__finale-icon" aria-hidden="true">&#x1F3C6;</span>
@@ -286,6 +302,17 @@
             </a>
           </div>
         </nav>
+        <!-- Minigame: Jungle → Ocean -->
+        <div class="mobile-minigame" data-transition="jungle-to-ocean">
+          <button class="mobile-minigame__btn" data-transition="jungle-to-ocean">
+            <img class="mobile-minigame__img" src="assets/minigame-jungle-to-ocean.png" alt="" loading="lazy" />
+            <div class="mobile-minigame__content">
+              <h3 data-i18n="minigame.node_title">Bonus-Minispiel</h3>
+              <p class="mobile-minigame__lock-hint" data-i18n="minigame.lock_hint">Schliesse alle 3 Stationen ab</p>
+            </div>
+            <span class="mobile-minigame__status" aria-label="Status"></span>
+          </button>
+        </div>
       </section>
 
       <!-- Ocean -->
@@ -329,6 +356,17 @@
             </a>
           </div>
         </nav>
+        <!-- Minigame: Ocean → Cosmos -->
+        <div class="mobile-minigame" data-transition="ocean-to-cosmos">
+          <button class="mobile-minigame__btn" data-transition="ocean-to-cosmos">
+            <img class="mobile-minigame__img" src="assets/minigame-ocean-to-cosmos.png" alt="" loading="lazy" />
+            <div class="mobile-minigame__content">
+              <h3 data-i18n="minigame.node_title">Bonus-Minispiel</h3>
+              <p class="mobile-minigame__lock-hint" data-i18n="minigame.lock_hint">Schliesse alle 3 Stationen ab</p>
+            </div>
+            <span class="mobile-minigame__status" aria-label="Status"></span>
+          </button>
+        </div>
       </section>
 
       <!-- Cosmos -->
@@ -372,6 +410,17 @@
             </a>
           </div>
         </nav>
+        <!-- Minigame: Cosmos → Metro -->
+        <div class="mobile-minigame" data-transition="cosmos-to-metro">
+          <button class="mobile-minigame__btn" data-transition="cosmos-to-metro">
+            <img class="mobile-minigame__img" src="assets/minigame-cosmos-to-metro.png" alt="" loading="lazy" />
+            <div class="mobile-minigame__content">
+              <h3 data-i18n="minigame.node_title">Bonus-Minispiel</h3>
+              <p class="mobile-minigame__lock-hint" data-i18n="minigame.lock_hint">Schliesse alle 3 Stationen ab</p>
+            </div>
+            <span class="mobile-minigame__status" aria-label="Status"></span>
+          </button>
+        </div>
       </section>
 
       <!-- Metro -->
@@ -460,10 +509,32 @@
 
   <div class="level-up-flash" id="level-up-flash" aria-hidden="true"></div>
 
+  <!-- Mini-Game Overlay -->
+  <div class="minigame-overlay" id="minigame-overlay" style="display:none">
+    <div class="minigame-container">
+      <h2 class="minigame-title" id="minigame-title"></h2>
+      <canvas id="minigame-canvas" width="800" height="300"></canvas>
+      <div class="minigame-hud">
+        <span id="minigame-coins">0/5 XP</span>
+        <span id="minigame-timer">15s</span>
+      </div>
+      <div class="minigame-start" id="minigame-start">
+        <p data-i18n="minigame.instruction">Tippe oder dr&uuml;cke Leertaste zum Springen!</p>
+        <button id="minigame-start-btn" data-i18n="minigame.start">Los!</button>
+        <button id="minigame-skip-btn" data-i18n="minigame.skip">&Uuml;berspringen</button>
+      </div>
+      <div class="minigame-end" id="minigame-end" style="display:none">
+        <p class="minigame-result-xp" id="minigame-result"></p>
+        <button id="minigame-continue-btn" data-i18n="minigame.continue">Weiter</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/i18n.js"></script>
   <script src="js/profanity-filter.js"></script>
   <script src="js/progress.js"></script>
   <script src="js/highscore.js"></script>
+  <script src="js/minigame.js"></script>
   <script src="js/landscape.js"></script>
   <script>I18N.init();</script>
   <script defer src="/_vercel/insights/script.js"></script>
