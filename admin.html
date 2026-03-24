@@ -105,12 +105,23 @@
     <div class="admin-dialog">
       <h3 class="admin-dialog__title">Spieler:in l&ouml;schen</h3>
       <p class="admin-dialog__text" id="delete-dialog-text"></p>
-      <label class="admin-dialog__label" for="delete-password">Admin-Passwort:</label>
-      <input type="password" id="delete-password" class="admin-dialog__input" placeholder="Passwort eingeben" />
-      <p class="admin-dialog__error" id="delete-error" hidden>Falsches Passwort.</p>
       <div class="admin-dialog__buttons">
         <button class="admin-dialog__btn admin-dialog__btn--cancel" id="delete-cancel">Abbrechen</button>
         <button class="admin-dialog__btn admin-dialog__btn--confirm" id="delete-confirm">L&ouml;schen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rename Dialog -->
+  <div class="admin-dialog-overlay" id="rename-dialog" hidden>
+    <div class="admin-dialog">
+      <h3 class="admin-dialog__title" style="color: var(--color-secondary);">Name &auml;ndern</h3>
+      <p class="admin-dialog__text" id="rename-dialog-text"></p>
+      <input type="text" id="rename-input" class="admin-dialog__input" placeholder="Neuer Name" maxlength="20" />
+      <p class="admin-dialog__error" id="rename-error" hidden></p>
+      <div class="admin-dialog__buttons">
+        <button class="admin-dialog__btn admin-dialog__btn--cancel" id="rename-cancel">Abbrechen</button>
+        <button class="admin-dialog__btn admin-dialog__btn--confirm" style="background: var(--color-primary);" id="rename-confirm">Speichern</button>
       </div>
     </div>
   </div>
@@ -159,6 +170,7 @@
     var _sortAsc = false;
     var _expandedId = null;
     var _deletePlayerId = null;
+    var _renamePlayerId = null;
 
     /* ========================================
        HELPERS
@@ -338,7 +350,9 @@
         html += '<td>' + p.stations + '/' + TOTAL_STATIONS + '</td>';
         html += '<td>' + _formatDate(p.last_seen_at) + '</td>';
         html += '<td>' + _esc(p.browser) + '</td>';
-        html += '<td class="admin-table__actions"><button class="admin-delete-btn" data-delete-id="' + p.player_id + '" data-delete-name="' + _esc(p.name) + '" title="L\u00f6schen">\u2715</button></td>';
+        html += '<td class="admin-table__actions">' +
+          '<button class="admin-edit-btn" data-edit-id="' + p.player_id + '" data-edit-name="' + _esc(p.name) + '" title="Name \u00e4ndern">\u270E</button>' +
+          '<button class="admin-delete-btn" data-delete-id="' + p.player_id + '" data-delete-name="' + _esc(p.name) + '" title="L\u00f6schen">\u2715</button></td>';
         html += '</tr>';
 
         if (isExpanded) {
@@ -353,7 +367,7 @@
       // Row click → expand
       tbody.querySelectorAll('tr[data-id]').forEach(function (row) {
         row.addEventListener('click', function (e) {
-          if (e.target.closest('.admin-delete-btn')) return;
+          if (e.target.closest('.admin-delete-btn') || e.target.closest('.admin-edit-btn')) return;
           var id = row.getAttribute('data-id');
           _expandedId = (_expandedId === id) ? null : id;
 
@@ -378,9 +392,22 @@
           var name = btn.getAttribute('data-delete-name');
           document.getElementById('delete-dialog-text').textContent =
             'Spieler:in \u00ab' + name + '\u00bb wirklich l\u00f6schen? Alle Daten gehen verloren.';
-          document.getElementById('delete-password').value = '';
-          document.getElementById('delete-error').hidden = true;
           document.getElementById('delete-dialog').hidden = false;
+        });
+      });
+
+      // Edit buttons
+      tbody.querySelectorAll('.admin-edit-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          _renamePlayerId = btn.getAttribute('data-edit-id');
+          var name = btn.getAttribute('data-edit-name');
+          document.getElementById('rename-dialog-text').textContent =
+            'Name \u00e4ndern f\u00fcr \u00ab' + name + '\u00bb:';
+          document.getElementById('rename-input').value = name;
+          document.getElementById('rename-error').hidden = true;
+          document.getElementById('rename-dialog').hidden = false;
+          document.getElementById('rename-input').focus();
         });
       });
     }
@@ -610,47 +637,79 @@
       var dialog = document.getElementById('delete-dialog');
       var cancelBtn = document.getElementById('delete-cancel');
       var confirmBtn = document.getElementById('delete-confirm');
-      var pwInput = document.getElementById('delete-password');
-      var errorEl = document.getElementById('delete-error');
 
-      cancelBtn.addEventListener('click', function () {
-        dialog.hidden = true;
-        _deletePlayerId = null;
-      });
-
-      dialog.addEventListener('click', function (e) {
-        if (e.target === dialog) {
-          dialog.hidden = true;
-          _deletePlayerId = null;
-        }
-      });
+      function _close() { dialog.hidden = true; _deletePlayerId = null; }
+      cancelBtn.addEventListener('click', _close);
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) _close(); });
 
       confirmBtn.addEventListener('click', function () {
-        if (pwInput.value !== ADMIN_PASSWORD) {
-          errorEl.hidden = false;
-          pwInput.focus();
-          return;
-        }
-
         confirmBtn.disabled = true;
         confirmBtn.textContent = 'L\u00f6schen...';
 
         _deletePlayer(_deletePlayerId).then(function () {
-          // Remove from local data
           _allPlayers = _allPlayers.filter(function (p) { return p.player_id !== _deletePlayerId; });
           delete _allTimes[_deletePlayerId];
-          _deletePlayerId = null;
-          dialog.hidden = true;
+          _close();
           confirmBtn.disabled = false;
           confirmBtn.textContent = 'L\u00f6schen';
           _render();
-          _renderCharts(_allPlayers);
         }).catch(function () {
-          errorEl.textContent = 'Fehler beim L\u00f6schen.';
-          errorEl.hidden = false;
           confirmBtn.disabled = false;
           confirmBtn.textContent = 'L\u00f6schen';
         });
+      });
+    }
+
+    function _renamePlayer(playerId, newName) {
+      var id = encodeURIComponent(playerId);
+      var body = JSON.stringify({ name: newName });
+      return Promise.all([
+        supabaseFetch('/highscores?player_id=eq.' + id, { method: 'PATCH', body: body }),
+        supabaseFetch('/players?player_id=eq.' + id, { method: 'PATCH', body: body })
+      ]);
+    }
+
+    function _initRenameDialog() {
+      var dialog = document.getElementById('rename-dialog');
+      var cancelBtn = document.getElementById('rename-cancel');
+      var confirmBtn = document.getElementById('rename-confirm');
+      var input = document.getElementById('rename-input');
+      var errorEl = document.getElementById('rename-error');
+
+      function _close() { dialog.hidden = true; _renamePlayerId = null; }
+      cancelBtn.addEventListener('click', _close);
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) _close(); });
+
+      confirmBtn.addEventListener('click', function () {
+        var newName = input.value.trim();
+        if (!newName) {
+          errorEl.textContent = 'Name darf nicht leer sein.';
+          errorEl.hidden = false;
+          return;
+        }
+
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'Speichern...';
+
+        _renamePlayer(_renamePlayerId, newName).then(function () {
+          // Update local data
+          _allPlayers.forEach(function (p) {
+            if (p.player_id === _renamePlayerId) p.name = newName;
+          });
+          _close();
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Speichern';
+          _render();
+        }).catch(function () {
+          errorEl.textContent = 'Fehler beim Speichern.';
+          errorEl.hidden = false;
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Speichern';
+        });
+      });
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') confirmBtn.click();
       });
     }
 
@@ -703,6 +762,7 @@
         overlay.hidden = true;
         _initSort();
         _initDeleteDialog();
+        _initRenameDialog();
         _loadData();
       }
 

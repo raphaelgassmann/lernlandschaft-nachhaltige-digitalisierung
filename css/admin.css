@@ -244,6 +244,7 @@ body.page-admin {
 }
 
 /* Delete button */
+.admin-edit-btn,
 .admin-delete-btn {
   background: none;
   border: none;
@@ -252,6 +253,10 @@ body.page-admin {
   color: #999;
   padding: 4px 6px;
   transition: color 0.2s, font-weight 0.2s;
+}
+
+.admin-edit-btn:hover {
+  color: var(--color-primary);
 }
 
 .admin-delete-btn:hover {
