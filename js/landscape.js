@@ -22,30 +22,11 @@ document.addEventListener('DOMContentLoaded', function () {
     populateGroupDatalist('group-suggestions');
   }
 
-  // Show explorer count on landing page
-  _loadExplorerCount();
-
   // Auto-sync XP to Supabase when returning to map
   if (isExpeditionStarted() && typeof syncCurrentPlayer === 'function') {
     syncCurrentPlayer();
   }
 });
-
-function _loadExplorerCount() {
-  var el = document.getElementById('explorer-count');
-  if (!el || typeof supabaseFetch !== 'function') return;
-  supabaseFetch('/highscores?select=player_id', { method: 'HEAD', headers: { 'Prefer': 'count=exact' } })
-    .then(function (res) {
-      var range = res.headers.get('content-range');
-      if (range) {
-        var total = range.split('/')[1];
-        if (total && parseInt(total) > 0) {
-          el.innerHTML = '<svg class="landing-hero__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ' + total + ' Entdecker:innen haben die Welt bereits erkundet';
-        }
-      }
-    })
-    .catch(function () { /* silent */ });
-}
 
 /* ========================================
    INITIAL STATE – show correct section

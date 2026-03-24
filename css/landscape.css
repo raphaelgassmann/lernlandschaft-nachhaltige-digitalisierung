@@ -193,15 +193,6 @@
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
 
-.landing-hero__explorers {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: var(--space-xs);
-}
-
 .site-footer__admin-link {
   color: inherit;
   text-decoration: none;
