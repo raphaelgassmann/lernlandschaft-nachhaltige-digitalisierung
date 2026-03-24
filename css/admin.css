@@ -120,7 +120,7 @@ body.page-admin {
 /* Charts */
 .admin-charts {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-md);
   margin-bottom: var(--space-xl);
 }
