@@ -133,7 +133,7 @@
        CONFIG
        ======================================== */
 
-    var ADMIN_PASSWORD_HASH = 'e347297aa37c57f741ff463ca4ee10830e316f458a70569637e956d15ab2ddea';
+    var ADMIN_PASSWORD_HASH = '628fb061fb051bb2a129d7c329c41179d13619596feaa889ca50fafa25f95169';
 
     function _hashPassword(pw) {
       return crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw)).then(function (buf) {
