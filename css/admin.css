@@ -102,6 +102,38 @@ body.page-admin {
   border-color: #c0392b;
 }
 
+.admin-group-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius-sm);
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+
+.admin-group-toggle[hidden] {
+  display: none;
+}
+
+.admin-group-toggle:hover {
+  border-color: var(--color-primary);
+}
+
+.admin-group-toggle input {
+  cursor: pointer;
+}
+
+.admin-group-toggle__icon {
+  font-size: 1rem;
+}
+
+.admin-group-toggle:has(input:not(:checked)) {
+  opacity: 0.5;
+}
+
 .admin-filter-bar__select:focus,
 .admin-filter-bar__input:focus {
   outline: none;

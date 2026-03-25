@@ -215,12 +215,14 @@
 }
 
 .landing-hero__explorers {
-  display: flex;
-  align-items: center;
-  gap: 6px;
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.6);
   margin-top: var(--space-xs);
+}
+
+.landing-hero__icon {
+  vertical-align: -0.15em;
+  margin-right: 4px;
 }
 
 .site-footer__admin-link {

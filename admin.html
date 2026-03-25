@@ -39,6 +39,10 @@
           </select>
           <button class="admin-group-btn admin-group-btn--edit" id="group-rename-btn" hidden title="Gruppe umbenennen">&#x270E;</button>
           <button class="admin-group-btn admin-group-btn--delete" id="group-delete-btn" hidden title="Gruppe l&ouml;schen">&#x2715;</button>
+          <label class="admin-group-toggle" id="group-minigame-label" hidden title="Minispiele f&uuml;r diese Gruppe">
+            <input type="checkbox" id="group-minigame-toggle" checked />
+            <span class="admin-group-toggle__icon">&#x1F3AE;</span>
+          </label>
         </div>
       </div>
       <div class="admin-filter-bar__search">
@@ -759,21 +763,68 @@
        ======================================== */
 
     var _groupToEdit = '';
+    var _groupSettings = {};
 
     function _updateGroupBtnVisibility() {
       var sel = document.getElementById('group-filter');
       var hasGroup = sel.value !== '';
       document.getElementById('group-rename-btn').hidden = !hasGroup;
       document.getElementById('group-delete-btn').hidden = !hasGroup;
+      document.getElementById('group-minigame-label').hidden = !hasGroup;
+      if (hasGroup) {
+        var settings = _groupSettings[sel.value];
+        document.getElementById('group-minigame-toggle').checked =
+          settings ? settings.minigames_enabled !== false : true;
+      }
+    }
+
+    function _loadGroupSettings() {
+      return supabaseFetch('/group_settings').then(function (r) { return r.json(); }).then(function (rows) {
+        _groupSettings = {};
+        (rows || []).forEach(function (s) {
+          _groupSettings[s.group_name] = s;
+        });
+      }).catch(function () { _groupSettings = {}; });
+    }
+
+    function _upsertGroupSetting(groupName, minigamesEnabled) {
+      return supabaseFetch('/group_settings?on_conflict=group_name', {
+        method: 'POST',
+        headers: { 'Prefer': 'resolution=merge-duplicates,return=representation' },
+        body: JSON.stringify({ group_name: groupName, minigames_enabled: minigamesEnabled })
+      });
+    }
+
+    function _initGroupMinigameToggle() {
+      var toggle = document.getElementById('group-minigame-toggle');
+      toggle.addEventListener('change', function () {
+        var groupName = document.getElementById('group-filter').value;
+        if (!groupName) return;
+        var enabled = toggle.checked;
+        _upsertGroupSetting(groupName, enabled).then(function () {
+          if (!_groupSettings[groupName]) _groupSettings[groupName] = {};
+          _groupSettings[groupName].minigames_enabled = enabled;
+        });
+      });
     }
 
     function _renameGroup(oldName, newName) {
       var body = JSON.stringify({ group_name: newName });
       var encodedOld = encodeURIComponent(oldName);
-      return Promise.all([
+      var promises = [
         supabaseFetch('/highscores?group_name=eq.' + encodedOld, { method: 'PATCH', body: body }),
         supabaseFetch('/players?group_name=eq.' + encodedOld, { method: 'PATCH', body: body })
-      ]);
+      ];
+      if (_groupSettings[oldName]) {
+        promises.push(supabaseFetch('/group_settings?group_name=eq.' + encodedOld, { method: 'DELETE', headers: { 'Prefer': '' } }));
+        promises.push(_upsertGroupSetting(newName, _groupSettings[oldName].minigames_enabled));
+      }
+      return Promise.all(promises).then(function () {
+        if (_groupSettings[oldName]) {
+          _groupSettings[newName] = _groupSettings[oldName];
+          delete _groupSettings[oldName];
+        }
+      });
     }
 
     function _deleteGroup(groupName) {
@@ -781,7 +832,8 @@
       var encoded = encodeURIComponent(groupName);
       return Promise.all([
         supabaseFetch('/highscores?group_name=eq.' + encoded, { method: 'PATCH', body: body }),
-        supabaseFetch('/players?group_name=eq.' + encoded, { method: 'PATCH', body: body })
+        supabaseFetch('/players?group_name=eq.' + encoded, { method: 'PATCH', body: body }),
+        supabaseFetch('/group_settings?group_name=eq.' + encoded, { method: 'DELETE', headers: { 'Prefer': '' } })
       ]);
     }
 
@@ -874,6 +926,7 @@
           _allPlayers.forEach(function (p) {
             if (p.group_name === _groupToEdit) p.group_name = '';
           });
+          delete _groupSettings[_groupToEdit];
           // Remove option from dropdown and reset filter
           var sel = document.getElementById('group-filter');
           var opt = sel.querySelector('option[value="' + CSS.escape(_groupToEdit) + '"]');
@@ -1042,7 +1095,8 @@
           _initRenameDialog();
           _initGroupRenameDialog();
           _initGroupDeleteDialog();
-          _loadData();
+          _initGroupMinigameToggle();
+          _loadGroupSettings().then(function () { _loadData(); });
         });
       }
 

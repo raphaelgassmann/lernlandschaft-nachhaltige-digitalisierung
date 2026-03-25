@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initNotebookButton();
   initMiniGameNodes();
   initMiniGameToggle();
+  _checkGroupMinigameSetting();
 
   // Populate group suggestions dropdown
   if (typeof populateGroupDatalist === 'function') {
@@ -791,6 +792,18 @@ function _setMiniGamesVisible(visible) {
   var nodes = document.querySelectorAll('.map-minigame, .mobile-minigame');
   nodes.forEach(function (node) {
     node.classList.toggle('minigame-hidden', !visible);
+  });
+}
+
+function _checkGroupMinigameSetting() {
+  var group = typeof getPlayerGroup === 'function' ? getPlayerGroup() : '';
+  if (!group || typeof loadGroupSettings !== 'function') return;
+  loadGroupSettings(group).then(function (settings) {
+    if (settings && settings.minigames_enabled === false) {
+      var btn = document.getElementById('minigame-toggle');
+      if (btn) btn.style.display = 'none';
+      _setMiniGamesVisible(false);
+    }
   });
 }
 

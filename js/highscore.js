@@ -226,6 +226,20 @@ function syncStationStatus(stationId, completed, challengeDone, quizPassed) {
 }
 
 /**
+ * Loads group settings from Supabase for a specific group.
+ * Returns { minigames_enabled: bool } or null if no settings exist.
+ */
+function loadGroupSettings(groupName) {
+  if (!groupName) return Promise.resolve(null);
+  return supabaseFetch('/group_settings?group_name=eq.' + encodeURIComponent(groupName) + '&select=minigames_enabled')
+    .then(function (res) { return res.json(); })
+    .then(function (rows) {
+      return (rows && rows.length > 0) ? rows[0] : null;
+    })
+    .catch(function () { return null; });
+}
+
+/**
  * Loads distinct group names from Supabase for the datalist dropdown.
  */
 function loadGroups() {

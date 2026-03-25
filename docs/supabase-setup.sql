@@ -69,7 +69,22 @@ create policy "Anyone can insert station_times" on station_times for insert with
 create policy "Anyone can update station_times" on station_times for update using (true);
 
 -- ========================================
--- 4. MIGRATION: name → player_id (UUID)
+-- 4. GROUP_SETTINGS – Einstellungen pro Gruppe
+-- ========================================
+
+create table if not exists group_settings (
+  group_name text primary key,
+  minigames_enabled boolean not null default true
+);
+
+alter table group_settings enable row level security;
+create policy "Anyone can read group_settings" on group_settings for select using (true);
+create policy "Anyone can insert group_settings" on group_settings for insert with check (true);
+create policy "Anyone can update group_settings" on group_settings for update using (true);
+create policy "Anyone can delete group_settings" on group_settings for delete using (true);
+
+-- ========================================
+-- 5. MIGRATION: name → player_id (UUID)
 -- ========================================
 
 -- Für bestehende Installationen mit name als PK:
