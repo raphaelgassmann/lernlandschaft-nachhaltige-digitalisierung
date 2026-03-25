@@ -7,7 +7,6 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/landscape.css">
-  <link rel="stylesheet" href="css/minigame.css">
 </head>
 <body class="page-landscape">
 
@@ -35,11 +34,12 @@
       </div>
     </div>
     <div class="game-header__stats">
-      <span class="stat" id="stat-stations" title="Stationen">0/12</span>
-      <button class="notebook-btn" id="notebook-btn" title="Notizbuch" aria-label="Notizbuch öffnen">&#x1F4D3;</button>
-      <button class="highscore-btn" id="highscore-btn" title="Rangliste" aria-label="Rangliste öffnen">&#x1F3C6;</button>
+      <span class="stat" id="stat-stations" data-tooltip="Stationen">0/12</span>
+      <button class="minigame-toggle" id="minigame-toggle" data-tooltip="Minispiele" aria-label="Minispiele ein-/ausblenden" aria-pressed="true">&#x1F3AE;</button>
+      <button class="notebook-btn" id="notebook-btn" data-tooltip="Notizbuch" aria-label="Notizbuch öffnen">&#x1F4D3;</button>
+      <button class="highscore-btn" id="highscore-btn" data-tooltip="Rangliste" aria-label="Rangliste öffnen">&#x1F3C6;</button>
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
-      <button class="reset-btn reset-btn--header" id="reset-btn" title="Fortschritt zurücksetzen">&#x21BB;</button>
+      <button class="reset-btn reset-btn--header" id="reset-btn" data-tooltip="Fortschritt zurücksetzen">&#x21BB;</button>
     </div>
   </header>
 
@@ -238,15 +238,16 @@
       <!-- Minigame Nodes (on world-transition paths) -->
       <button class="map-minigame" data-transition="jungle-to-ocean" style="--locked-opacity: 0.4;">
         <img class="map-minigame__img" src="assets/minigame-jungle-to-ocean.png" alt="" />
-        <span class="map-minigame__label" data-i18n="minigame.node_title">Bonus-Minispiel</span>
       </button>
       <button class="map-minigame" data-transition="ocean-to-cosmos">
         <img class="map-minigame__img" src="assets/minigame-ocean-to-cosmos.png" alt="" />
-        <span class="map-minigame__label" data-i18n="minigame.node_title">Bonus-Minispiel</span>
       </button>
       <button class="map-minigame" data-transition="cosmos-to-metro">
         <img class="map-minigame__img" src="assets/minigame-cosmos-to-metro.png" alt="" />
-        <span class="map-minigame__label" data-i18n="minigame.node_title">Bonus-Minispiel</span>
+      </button>
+
+      <button class="map-minigame" data-transition="metro-to-finale">
+        <img class="map-minigame__img" src="assets/minigame-metro-to-finale.png" alt="" />
       </button>
 
       <!-- Finale -->
@@ -466,6 +467,17 @@
         </nav>
       </section>
 
+      <div class="mobile-minigame" data-transition="metro-to-finale">
+        <button class="mobile-minigame__btn" data-transition="metro-to-finale">
+          <img class="mobile-minigame__img" src="assets/minigame-metro-to-finale.png" alt="" loading="lazy" />
+          <div class="mobile-minigame__content">
+            <h3 data-i18n="minigame.node_title">Bonus-Minispiel</h3>
+            <p class="mobile-minigame__lock-hint" data-i18n="minigame.lock_hint">Schliesse alle 3 Stationen ab</p>
+          </div>
+          <span class="mobile-minigame__status" aria-label="Status"></span>
+        </button>
+      </div>
+
       <!-- Finale -->
       <section class="mobile-finale" id="mobile-finale" style="display:none;">
         <a href="stations/abschluss-feier.html" class="mobile-station-card mobile-station-card--finale" data-station="abschluss-feier">
@@ -530,13 +542,12 @@
     </div>
   </div>
 
-  <script src="js/i18n.js"></script>
-  <script src="js/profanity-filter.js"></script>
-  <script src="js/progress.js"></script>
-  <script src="js/highscore.js"></script>
-  <script src="js/minigame.js"></script>
-  <script src="js/landscape.js"></script>
-  <script>I18N.init();</script>
+  <script defer src="js/i18n.js"></script>
+  <script defer src="js/profanity-filter.js"></script>
+  <script defer src="js/progress.js"></script>
+  <script defer src="js/highscore.js"></script>
+  <script defer src="js/landscape.js"></script>
+  <script>document.addEventListener('DOMContentLoaded',function(){I18N.init();});</script>
   <script defer src="/_vercel/insights/script.js"></script>
 
   <!-- Cookie Banner (minimal) -->

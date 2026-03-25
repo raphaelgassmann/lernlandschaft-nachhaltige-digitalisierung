@@ -70,6 +70,38 @@ body.page-admin {
   color: #333;
 }
 
+.admin-filter-bar__group-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-group-btn {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #999;
+  padding: 6px 8px;
+  line-height: 1;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.admin-group-btn[hidden] {
+  display: none;
+}
+
+.admin-group-btn--edit:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.admin-group-btn--delete:hover {
+  color: #c0392b;
+  border-color: #c0392b;
+}
+
 .admin-filter-bar__select:focus,
 .admin-filter-bar__input:focus {
   outline: none;

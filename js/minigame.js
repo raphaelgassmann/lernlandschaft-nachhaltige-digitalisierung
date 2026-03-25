@@ -67,6 +67,15 @@ var MiniGame = (function () {
       obstacleColor: ['#8e44ad', '#7f8c8d'],
       coinColor: '#f1c40f',
       particleColor: ['#9b59b6', '#bdc3c7']
+    },
+    'metro-to-finale': {
+      name: 'Von der Metropole zur Feier',
+      groundColor: ['#3a3a4a', '#4a3520'],
+      bgColor: ['#1a1a2e', '#2c1a0e'],
+      skyGradient: [['#2c3e50', '#1a1a2e'], ['#2c1a0e', '#4a2810']],
+      obstacleColor: ['#7f8c8d', '#c8a84e'],
+      coinColor: '#f1c40f',
+      particleColor: ['#bdc3c7', '#f1c40f']
     }
   };
 

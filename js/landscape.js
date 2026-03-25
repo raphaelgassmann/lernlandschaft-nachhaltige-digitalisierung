@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initHighscoreButton();
   initNotebookButton();
   initMiniGameNodes();
+  initMiniGameToggle();
 
   // Populate group suggestions dropdown
   if (typeof populateGroupDatalist === 'function') {
@@ -369,8 +370,7 @@ function _positionMiniGameNodes() {
     if (!transition) return;
 
     var world = WORLDS[transition.from];
-    var nextWorld = WORLDS[transition.to];
-    if (!world || !nextWorld) return;
+    if (!world) return;
 
     // Find the "3rd station" – the fork that was done last or not done yet
     var progress = getProgress();
@@ -391,7 +391,8 @@ function _positionMiniGameNodes() {
     }
 
     var fromPos = STATION_POSITIONS[thirdStation];
-    var toPos = STATION_POSITIONS[nextWorld.mandatory];
+    var nextWorld = transition.to ? WORLDS[transition.to] : null;
+    var toPos = nextWorld ? STATION_POSITIONS[nextWorld.mandatory] : STATION_POSITIONS['abschluss-feier'];
     if (!fromPos || !toPos) return;
 
     // Slightly above midpoint of the S-curve between the two stations
@@ -582,7 +583,8 @@ function initStationClicks() {
 var WORLD_TRANSITIONS = [
   { from: 'jungle', to: 'ocean', id: 'jungle-to-ocean' },
   { from: 'ocean', to: 'cosmos', id: 'ocean-to-cosmos' },
-  { from: 'cosmos', to: 'metro', id: 'cosmos-to-metro' }
+  { from: 'cosmos', to: 'metro', id: 'cosmos-to-metro' },
+  { from: 'metro', to: null, id: 'metro-to-finale' }
 ];
 
 function initMiniGameNodes() {
@@ -652,7 +654,26 @@ function _applyMiniGameState(node, transitionId) {
   }
 }
 
+var _minigameLoaded = false;
+function _loadMiniGameAssets(callback) {
+  if (_minigameLoaded) { callback(); return; }
+  // Load CSS
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'css/minigame.css';
+  document.head.appendChild(link);
+  // Load JS
+  var script = document.createElement('script');
+  script.src = 'js/minigame.js';
+  script.onload = function () { _minigameLoaded = true; callback(); };
+  document.head.appendChild(script);
+}
+
 function _showMiniGame(transition) {
+  _loadMiniGameAssets(function () { _showMiniGameReady(transition); });
+}
+
+function _showMiniGameReady(transition) {
   var overlay = document.getElementById('minigame-overlay');
   var titleEl = document.getElementById('minigame-title');
   var startScreen = document.getElementById('minigame-start');
@@ -741,6 +762,34 @@ function _refreshMiniGameNodes() {
   var allNodes = document.querySelectorAll('.mobile-minigame, .map-minigame');
   allNodes.forEach(function (node) {
     _applyMiniGameState(node, node.dataset.transition);
+  });
+}
+
+/* ========================================
+   MINIGAME TOGGLE
+   ======================================== */
+
+function initMiniGameToggle() {
+  var btn = document.getElementById('minigame-toggle');
+  if (!btn) return;
+
+  var stored = localStorage.getItem('minigamesVisible');
+  var visible = stored === null ? true : stored === 'true';
+  btn.setAttribute('aria-pressed', String(visible));
+  _setMiniGamesVisible(visible);
+
+  btn.addEventListener('click', function () {
+    var next = btn.getAttribute('aria-pressed') !== 'true';
+    localStorage.setItem('minigamesVisible', String(next));
+    btn.setAttribute('aria-pressed', String(next));
+    _setMiniGamesVisible(next);
+  });
+}
+
+function _setMiniGamesVisible(visible) {
+  var nodes = document.querySelectorAll('.map-minigame, .mobile-minigame');
+  nodes.forEach(function (node) {
+    node.classList.toggle('minigame-hidden', !visible);
   });
 }
 

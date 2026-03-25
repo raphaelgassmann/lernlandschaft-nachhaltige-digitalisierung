@@ -747,6 +747,81 @@
 }
 
 /* ========================================
+   INSTANT TOOLTIPS (data-tooltip, no native delay)
+   ======================================== */
+
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  padding: 3px 8px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #f1c40f;
+  font-size: 0.65rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+}
+
+/* ========================================
+   MINIGAME TOGGLE BUTTON
+   ======================================== */
+
+.minigame-toggle {
+  margin-top: 0;
+  padding: 4px 8px;
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(200, 168, 78, 0.15);
+  border: 1px solid rgba(200, 168, 78, 0.3);
+  color: var(--color-secondary);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--transition), background var(--transition);
+}
+
+.minigame-toggle:hover {
+  opacity: 1;
+  background: rgba(200, 168, 78, 0.25);
+}
+
+.minigame-toggle[aria-pressed="true"] {
+  opacity: 1;
+  background: rgba(200, 168, 78, 0.35);
+  border-color: rgba(200, 168, 78, 0.6);
+}
+
+/* ========================================
+   MINIGAME NODE VISIBILITY
+   ======================================== */
+
+.map-minigame.minigame-hidden,
+.mobile-minigame.minigame-hidden {
+  display: none !important;
+}
+
+/* ========================================
    MAP MINIGAME NODES (between worlds)
    ======================================== */
 

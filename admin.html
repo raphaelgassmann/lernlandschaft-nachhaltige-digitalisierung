@@ -33,9 +33,13 @@
     <div class="admin-filter-bar">
       <div class="admin-filter-bar__group">
         <label for="group-filter" class="admin-filter-bar__label">Gruppe</label>
-        <select id="group-filter" class="admin-filter-bar__select">
-          <option value="">Alle Gruppen</option>
-        </select>
+        <div class="admin-filter-bar__group-row">
+          <select id="group-filter" class="admin-filter-bar__select">
+            <option value="">Alle Gruppen</option>
+          </select>
+          <button class="admin-group-btn admin-group-btn--edit" id="group-rename-btn" hidden title="Gruppe umbenennen">&#x270E;</button>
+          <button class="admin-group-btn admin-group-btn--delete" id="group-delete-btn" hidden title="Gruppe l&ouml;schen">&#x2715;</button>
+        </div>
       </div>
       <div class="admin-filter-bar__search">
         <label for="search-input" class="admin-filter-bar__label">Suche</label>
@@ -126,7 +130,33 @@
     </div>
   </div>
 
-  <script src="js/highscore.js"></script>
+  <!-- Group Rename Dialog -->
+  <div class="admin-dialog-overlay" id="group-rename-dialog" hidden>
+    <div class="admin-dialog">
+      <h3 class="admin-dialog__title" style="color: var(--color-secondary);">Gruppe umbenennen</h3>
+      <p class="admin-dialog__text" id="group-rename-dialog-text"></p>
+      <input type="text" id="group-rename-input" class="admin-dialog__input" placeholder="Neuer Gruppenname" maxlength="40" />
+      <p class="admin-dialog__error" id="group-rename-error" hidden></p>
+      <div class="admin-dialog__buttons">
+        <button class="admin-dialog__btn admin-dialog__btn--cancel" id="group-rename-cancel">Abbrechen</button>
+        <button class="admin-dialog__btn admin-dialog__btn--confirm" style="background: var(--color-primary);" id="group-rename-confirm">Speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Group Delete Dialog -->
+  <div class="admin-dialog-overlay" id="group-delete-dialog" hidden>
+    <div class="admin-dialog">
+      <h3 class="admin-dialog__title">Gruppe l&ouml;schen</h3>
+      <p class="admin-dialog__text" id="group-delete-dialog-text"></p>
+      <div class="admin-dialog__buttons">
+        <button class="admin-dialog__btn admin-dialog__btn--cancel" id="group-delete-cancel">Abbrechen</button>
+        <button class="admin-dialog__btn admin-dialog__btn--confirm" id="group-delete-confirm">L&ouml;schen</button>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="js/highscore.js"></script>
   <script>
   (function () {
     /* ========================================
@@ -725,6 +755,143 @@
     }
 
     /* ========================================
+       GROUP MANAGEMENT
+       ======================================== */
+
+    var _groupToEdit = '';
+
+    function _updateGroupBtnVisibility() {
+      var sel = document.getElementById('group-filter');
+      var hasGroup = sel.value !== '';
+      document.getElementById('group-rename-btn').hidden = !hasGroup;
+      document.getElementById('group-delete-btn').hidden = !hasGroup;
+    }
+
+    function _renameGroup(oldName, newName) {
+      var body = JSON.stringify({ group_name: newName });
+      var encodedOld = encodeURIComponent(oldName);
+      return Promise.all([
+        supabaseFetch('/highscores?group_name=eq.' + encodedOld, { method: 'PATCH', body: body }),
+        supabaseFetch('/players?group_name=eq.' + encodedOld, { method: 'PATCH', body: body })
+      ]);
+    }
+
+    function _deleteGroup(groupName) {
+      var body = JSON.stringify({ group_name: '' });
+      var encoded = encodeURIComponent(groupName);
+      return Promise.all([
+        supabaseFetch('/highscores?group_name=eq.' + encoded, { method: 'PATCH', body: body }),
+        supabaseFetch('/players?group_name=eq.' + encoded, { method: 'PATCH', body: body })
+      ]);
+    }
+
+    function _initGroupRenameDialog() {
+      var dialog = document.getElementById('group-rename-dialog');
+      var cancelBtn = document.getElementById('group-rename-cancel');
+      var confirmBtn = document.getElementById('group-rename-confirm');
+      var input = document.getElementById('group-rename-input');
+      var errorEl = document.getElementById('group-rename-error');
+
+      function _close() { dialog.hidden = true; _groupToEdit = ''; }
+      cancelBtn.addEventListener('click', _close);
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) _close(); });
+
+      document.getElementById('group-rename-btn').addEventListener('click', function () {
+        _groupToEdit = document.getElementById('group-filter').value;
+        if (!_groupToEdit) return;
+        document.getElementById('group-rename-dialog-text').textContent =
+          'Gruppe \u00ab' + _groupToEdit + '\u00bb umbenennen:';
+        input.value = _groupToEdit;
+        errorEl.hidden = true;
+        dialog.hidden = false;
+        input.focus();
+        input.select();
+      });
+
+      confirmBtn.addEventListener('click', function () {
+        var newName = input.value.trim();
+        if (!newName) {
+          errorEl.textContent = 'Name darf nicht leer sein.';
+          errorEl.hidden = false;
+          return;
+        }
+        if (newName === _groupToEdit) {
+          _close();
+          return;
+        }
+
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'Speichern...';
+
+        _renameGroup(_groupToEdit, newName).then(function () {
+          _allPlayers.forEach(function (p) {
+            if (p.group_name === _groupToEdit) p.group_name = newName;
+          });
+          // Update dropdown
+          var sel = document.getElementById('group-filter');
+          var opt = sel.querySelector('option[value="' + CSS.escape(_groupToEdit) + '"]');
+          if (opt) { opt.value = newName; opt.textContent = newName; }
+          sel.value = newName;
+          _close();
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Speichern';
+          _render();
+        }).catch(function () {
+          errorEl.textContent = 'Fehler beim Speichern.';
+          errorEl.hidden = false;
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Speichern';
+        });
+      });
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') confirmBtn.click();
+      });
+    }
+
+    function _initGroupDeleteDialog() {
+      var dialog = document.getElementById('group-delete-dialog');
+      var cancelBtn = document.getElementById('group-delete-cancel');
+      var confirmBtn = document.getElementById('group-delete-confirm');
+
+      function _close() { dialog.hidden = true; _groupToEdit = ''; }
+      cancelBtn.addEventListener('click', _close);
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) _close(); });
+
+      document.getElementById('group-delete-btn').addEventListener('click', function () {
+        _groupToEdit = document.getElementById('group-filter').value;
+        if (!_groupToEdit) return;
+        document.getElementById('group-delete-dialog-text').textContent =
+          'Gruppe \u00ab' + _groupToEdit + '\u00bb wirklich l\u00f6schen? Die Lernenden bleiben erhalten, verlieren aber ihre Gruppenzugeh\u00f6rigkeit.';
+        dialog.hidden = false;
+      });
+
+      confirmBtn.addEventListener('click', function () {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'L\u00f6schen...';
+
+        _deleteGroup(_groupToEdit).then(function () {
+          _allPlayers.forEach(function (p) {
+            if (p.group_name === _groupToEdit) p.group_name = '';
+          });
+          // Remove option from dropdown and reset filter
+          var sel = document.getElementById('group-filter');
+          var opt = sel.querySelector('option[value="' + CSS.escape(_groupToEdit) + '"]');
+          if (opt) opt.remove();
+          sel.value = '';
+          _updateGroupBtnVisibility();
+          _close();
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'L\u00f6schen';
+          _render();
+        }).catch(function () {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'L\u00f6schen';
+        });
+      });
+    }
+
+    /* ========================================
        DELETE PLAYER
        ======================================== */
 
@@ -873,6 +1040,8 @@
           _initSort();
           _initDeleteDialog();
           _initRenameDialog();
+          _initGroupRenameDialog();
+          _initGroupDeleteDialog();
           _loadData();
         });
       }
@@ -888,6 +1057,7 @@
 
       document.getElementById('group-filter').addEventListener('change', function () {
         _expandedId = null;
+        _updateGroupBtnVisibility();
         _render();
       });
 
