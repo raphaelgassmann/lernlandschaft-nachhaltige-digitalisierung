@@ -42,7 +42,8 @@ function _loadExplorerCount() {
       if (range) {
         var total = range.split('/')[1];
         if (total && parseInt(total) > 0) {
-          el.innerHTML = '<svg class="landing-hero__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ' + total + ' Entdecker:innen haben die Welt bereits erkundet';
+          var label = typeof I18N !== 'undefined' ? I18N.t('landing.explorer_count', '{count} Entdecker:innen haben die Welt bereits erkundet') : '{count} Entdecker:innen haben die Welt bereits erkundet';
+          el.innerHTML = '<svg class="landing-hero__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ' + label.replace('{count}', total);
         }
       }
     })

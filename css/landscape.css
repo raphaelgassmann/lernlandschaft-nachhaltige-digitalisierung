@@ -181,6 +181,11 @@
   z-index: 1;
 }
 
+.avatar-select > .lang-switcher--landing {
+  position: absolute;
+  z-index: 2;
+}
+
 /* Landing Hero */
 .landing-hero {
   display: flex;
@@ -1979,6 +1984,11 @@
 
 .lang-switcher:hover {
   background: rgba(200, 168, 78, 0.5);
+}
+
+.lang-switcher--landing {
+  top: var(--space-md, 16px);
+  right: var(--space-md, 16px);
 }
 
 /* ========================================

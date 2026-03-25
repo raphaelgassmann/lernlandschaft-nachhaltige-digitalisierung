@@ -1,6 +1,6 @@
 {
   "site.title": "Learning Landscape – Sustainable Digitalization",
-  "site.footer": "Learning Landscape Sustainable Digitalization",
+  "site.footer": "Learning Landscape Sustainable Digitalization · <a href=\"admin.html\" class=\"site-footer__admin-link\">Admin Dashboard</a>",
 
   "ui.back_to_map": "&larr; Back to Map",
   "ui.complete_station": "Complete Station &#x2714;",
@@ -31,8 +31,14 @@
   "ui.reflection": "Reflection",
   "ui.challenge": "Challenge",
   "ui.instructions": "Instructions",
+  "ui.cookie_text": "This site uses cookies and localStorage to save your game progress and analyze usage.",
+  "ui.cookie_ok": "OK",
   "ui.station_locked": "This station is still locked.",
   "ui.finale_locked": "Complete all 4 worlds first to unlock the finale celebration.",
+
+  "landing.title": "Learning Landscape<br>Sustainable Digitalization",
+  "landing.tagline": "Travel through four worlds and discover how you can work more sustainably as an IT professional.",
+  "landing.explorer_count": "{count} explorers have already discovered the world",
 
   "avatar.title": "Create your Character",
   "avatar.subtitle": "Enter your name and choose your companion for the expedition.",
@@ -41,6 +47,9 @@
   "avatar.explorer": "Explorer",
   "avatar.scientist": "Scientist",
   "avatar.hacker": "Hacker",
+  "avatar.group_label": "Group / Class <span class=\"avatar-select__optional\">(optional)</span>",
+  "avatar.group_optional": "(optional)",
+  "avatar.group_placeholder": "e.g. ICT23a",
   "avatar.confirm": "Prepare Expedition",
 
   "start.ready": "Ready, <span id=\"start-player-name\"></span>?",

@@ -9,7 +9,11 @@ var I18N = {
   translations: {},
 
   init: function () {
-    this.currentLang = localStorage.getItem('ll-lang') || 'de';
+    var stored = localStorage.getItem('ll-lang');
+    if (!stored && navigator.language && navigator.language.slice(0, 2) === 'en') {
+      stored = 'en';
+    }
+    this.currentLang = stored || 'de';
     document.documentElement.lang = this.currentLang;
     if (this.currentLang !== 'de') {
       this.loadTranslations(this.currentLang);
@@ -60,12 +64,14 @@ var I18N = {
   },
 
   initSwitcher: function () {
-    var btn = document.getElementById('lang-switcher');
-    if (!btn) return;
-    btn.textContent = this.currentLang === 'de' ? 'EN' : 'DE';
     var self = this;
-    btn.addEventListener('click', function () {
-      self.setLang(self.currentLang === 'de' ? 'en' : 'de');
+    var label = this.currentLang === 'de' ? 'EN' : 'DE';
+    var btns = document.querySelectorAll('#lang-switcher, #lang-switcher-landing');
+    btns.forEach(function (btn) {
+      btn.textContent = label;
+      btn.addEventListener('click', function () {
+        self.setLang(self.currentLang === 'de' ? 'en' : 'de');
+      });
     });
   }
 };
