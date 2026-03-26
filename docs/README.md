@@ -1,11 +1,11 @@
-# Dokumentation
+# Documentation
 
-Übersicht der Dateien in diesem Ordner.
+Overview of files in this folder.
 
-| Datei | Beschreibung |
-|-------|-------------|
-| `architecture.md` | Architektur-Referenz: Endzustand des Projekts (Welten, Gamification, Supabase-Schema, Design-System, Dateistruktur) |
-| `reproduction-prompts.md` | Prompts zur Reproduktion des Projekts via Vibe-Coding (3 Tage, max. 5 Prompts/Tag) |
-| `supabase-setup.sql` | SQL-Schema und Seed-Daten für die Supabase-Datenbank (highscores, players, station_times) |
-| `midjourney-prompts.md` | Bild-Prompts für die ursprünglichen Dschungel-Illustrationen (Midjourney) |
-| `image-prompts-new-worlds.md` | Bild-Prompts für Ozean, Kosmos und Metropole (DALL-E) |
+| File | Description |
+|------|-------------|
+| `architecture.md` | Architecture reference: final state of the project (worlds, gamification, Supabase schema, design system, file structure) |
+| `reproduction-prompts.md` | Prompts for reproducing the project via vibe-coding (3 days, max. 5 prompts/day) |
+| `supabase-setup.sql` | SQL schema and seed data for the Supabase database (highscores, players, station_times) |
+| `midjourney-prompts.md` | Image prompts for the original jungle illustrations (Midjourney) |
+| `image-prompts-new-worlds.md` | Image prompts for Ocean, Cosmos, and Metropolis (DALL-E) |

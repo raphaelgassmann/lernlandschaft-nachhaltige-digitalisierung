@@ -1,299 +1,299 @@
-# Reproduktions-Prompts
+# Reproduction Prompts
 
-Diese Prompts reproduzieren die Lernlandschaft via Vibe-Coding mit Claude Code (oder vergleichbarem AI-Coding-Tool). Max. 5 Prompts pro Tag, chronologisch aufgebaut.
+These prompts reproduce the learning landscape via vibe-coding with Claude Code (or a comparable AI coding tool). Max. 5 prompts per day, in chronological order.
 
-**Voraussetzungen:**
-- Lies zuerst `docs/architecture.md` für den Gesamtüberblick
-- Bildgenerierung benötigt DALL-E / gpt-image-1 (MCP oder manuell)
-- Die generierten Bilder werden nie identisch sein – Positionen auf der Karte müssen an die Bilder angepasst werden
-- Supabase-Projekt muss manuell erstellt werden, Schema in `docs/supabase-setup.sql`
+**Prerequisites:**
+- Read `docs/architecture.md` first for the overall overview
+- Image generation requires DALL-E / gpt-image-1 (MCP or manual)
+- Generated images will never be identical – positions on the map must be adjusted to match the images
+- Supabase project must be created manually, schema in `docs/supabase-setup.sql`
 
 ---
 
-## Tag 1 – Grundgerüst & Prototyp
+## Day 1 – Foundation & Prototype
 
-### Prompt 1: Projekt-Setup
-
-```
-Erstelle ein statisches Webprojekt für eine interaktive Lernlandschaft zum Thema "nachhaltige Digitalisierung". Zielgruppe: Informatik-Lernende EFZ. Thema: "Daten-Dschungel" – Lernende reisen als Entdecker:innen durch einen digitalen Dschungel.
-
-Erstelle folgende Dateien:
-- index.html (Startseite)
-- css/main.css (Design-System mit Dschungel-Farbpalette: Dunkelgrün #1a2e1a, Creme #e8e4d8, Primär #4a9e6e, Gold #c8a84e, Akzent #e07b4c)
-- css/landscape.css (Karten-Layout)
-- css/station.css (Stationsseiten)
-- js/progress.js (localStorage-basierter Fortschritt)
-- js/landscape.js (Startseiten-Interaktivität)
-- js/station.js (Stations-Interaktivität)
-
-Techstack: Vanilla HTML/CSS/JS, kein Framework, kein Build-Tool, mobile-first.
-Sprache UI: Deutsch (du-Form, praxisnah). Code: Englisch.
-```
-
-### Prompt 2: Stationen erstellen
+### Prompt 1: Project Setup
 
 ```
-Erstelle 12 Lernstationen als HTML-Dateien im Ordner stations/. Die Stationen sind auf 4 Welten verteilt:
+Create a static web project for an interactive learning landscape on the topic of "sustainable digitalization". Target audience: IT apprentices. Theme: "Data Jungle" – learners travel as explorers through a digital jungle.
 
-1. Daten-Dschungel: geraete-lichtung (Geräte-Lebenszyklus), cloud-quelle (Cloud & Daten), code-camp (IDE-Ressourcen)
-2. Daten-Ozean: server-riff (Rechenzentren & PUE), streaming-strom (Streaming & Datenübertragung), backup-bucht (Datenspeicherung & Backups)
-3. Code-Kosmos: ide-asteroid (IDE-Konfiguration), deploy-stern (Build & Deploy Pipelines), workflow-nebel (Digitale Arbeitsweisen)
-4. Zukunfts-Metropole: ki-kraftwerk (KI & Energieverbrauch), open-source-platz (Open Source), digital-ethics-turm (Digitale Ethik)
+Create the following files:
+- index.html (landing page)
+- css/main.css (design system with jungle color palette: dark green #1a2e1a, cream #e8e4d8, primary #4a9e6e, gold #c8a84e, accent #e07b4c)
+- css/landscape.css (map layout)
+- css/station.css (station pages)
+- js/progress.js (localStorage-based progress)
+- js/landscape.js (landing page interactivity)
+- js/station.js (station interactivity)
 
-Jede Station hat exakt diese Sektionen:
-1. Header mit Stationsbild, Titel, Dauer (5-10 Min.), Kurzbeschreibung
-2. Microlearning – Einleitungstext, Key Facts, Praxisbeispiele (Platzhalter für Comic-Illustration)
-3. Tat/Einstellung – Konkrete Handlungsanweisung mit Notiz-Textarea (Auto-Save in localStorage)
-4. Reflexion – Frage mit ausklappbarem Hinweis (Reveal-Button), Reflexions-Textarea (Auto-Save)
-5. Challenge – Aufgabe mit Pflicht-Textarea (min. 10 Wörter, Word Counter), Submit-Button
-6. Quiz – 4 Multiple-Choice-Fragen pro Station (4 Optionen, 1 richtig), definiert in QUIZ_DATA in station.js
-7. Abschluss-Button – gesperrt bis Quiz bestanden
-
-Inhalt: Verständlich, praxisnah, auf Informatik-Alltag bezogen (IDEs, Git, Browser, Cloud, CI/CD etc.)
+Tech stack: Vanilla HTML/CSS/JS, no framework, no build tool, mobile-first.
+UI language: German (informal "du" form, practical). Code: English.
 ```
 
-### Prompt 3: Fortschrittssystem & Karte
+### Prompt 2: Create Stations
 
 ```
-Implementiere das Fortschrittssystem in progress.js:
+Create 12 learning stations as HTML files in the stations/ folder. The stations are distributed across 4 worlds:
 
-Fork-Modell: Pro Welt 1 Pflichtstation + 2 Wahlstationen. Eine Welt ist "passable" wenn Pflichtstation + mindestens 1 Wahlstation abgeschlossen. Welten schalten sequentiell frei (Jungle → Ocean → Cosmos → Metro).
+1. Data Jungle: geraete-lichtung (device lifecycle), cloud-quelle (cloud & data), code-camp (IDE resources)
+2. Data Ocean: server-riff (data centers & PUE), streaming-strom (streaming & data transfer), backup-bucht (data storage & backups)
+3. Code Cosmos: ide-asteroid (IDE configuration), deploy-stern (build & deploy pipelines), workflow-nebel (digital workflows)
+4. Future Metropolis: ki-kraftwerk (AI & energy consumption), open-source-platz (open source), digital-ethics-turm (digital ethics)
 
-XP-System: 10 XP pro Station, 5 XP pro Challenge, -3 XP bei falscher Quiz-Antwort (min. 0). Max. 180 XP.
+Each station has exactly these sections:
+1. Header with station image, title, duration (5-10 min.), short description
+2. Microlearning – introductory text, key facts, practical examples (placeholder for comic illustration)
+3. Action/Setting – concrete action instruction with note textarea (auto-save in localStorage)
+4. Reflection – question with expandable hint (reveal button), reflection textarea (auto-save)
+5. Challenge – task with required textarea (min. 10 words, word counter), submit button
+6. Quiz – 4 multiple-choice questions per station (4 options, 1 correct), defined in QUIZ_DATA in station.js
+7. Complete button – locked until quiz passed
 
-8 Level: Sofa-Surfer (0), Neugierige:r (15), Dschungel-Kenner:in (30), Daten-Taucher:in (50), Code-Pilot:in (75), Zukunfts-Architekt:in (100), Nachhaltigkeits-Held:in (130), Digitale:r Pionier:in (180).
-
-7 Badges: 4 Welt-Badges (🌿🐙🚀🏗️), Challenge-Champion (🏆), Nachhaltigkeits-Held (🌍), Speedrunner (⚡).
-
-Toast-System: Queued notifications (success/error/achievement/level-up/world-complete), auto-dismiss 3s.
-
-Für die Startseite (index.html):
-- Durchgehend scrollbare Karte mit 5 Hintergrund-Panels (Platzhalter-Farben pro Welt)
-- Stationen absolut positioniert via CSS Custom Properties (--pos-top, --pos-left)
-- SVG-Overlay für Pfade zwischen Stationen (S-Kurven, 3 Zustände: completed/active/locked)
-- Pfadfarben: Jungle=#5bba7a, Ocean=#4ecdc4, Cosmos=#7c6cff, Metro=#39ff14
-- Sticky Game-Header mit: Avatar, Level-Badge, Spielername, XP-Bar (0-180), Stations-Counter, Badge-Leiste
+Content: Understandable, practical, related to everyday IT work (IDEs, Git, browser, cloud, CI/CD, etc.)
 ```
 
-### Prompt 4: Avatar-System & Quiz-Mechanik
+### Prompt 3: Progress System & Map
 
 ```
-Avatar-System:
-- 3 Avatare: Explorer (Entdecker:in), Scientist (Forscher:in), Hacker (Hacker:in)
-- Avatar-Auswahl-Screen vor Expedition: Spielername-Input + 3 Avatar-Karten + Confirm-Button (disabled bis beides ausgefüllt)
-- Spielername in Header und auf Karte anzeigen
-- Avatar-Bild als Sprite auf der Karte mit Walking-Animation (CSS steps(4) für 4-Frame Sprite Sheet)
-- Avatar bewegt sich per CSS transition (1.2s ease-in-out) zur nächsten Station mit Richtungserkennung
-- Idle-Animation (sanfter Bob) im Ruhezustand
+Implement the progress system in progress.js:
 
-Quiz-Mechanik in station.js erweitern:
-- Falsche Antwort: -3 XP, korrekte Antwort wird grün markiert, SVG-Kreis-Countdown-Timer
-- Erster Timer: 35 Sekunden, weitere: 20 Sekunden
-- Frage bleibt während Timer sichtbar, Timer wird per appendChild darunter gehängt
-- Nach Timer: dieselbe Frage nochmals stellen (nicht eine neue)
-- Timer-Zustand in sessionStorage persistieren (überlebt Page-Reload)
+Fork model: Per world, 1 mandatory station + 2 fork stations. A world is "passable" when mandatory station + at least 1 fork station completed. Worlds unlock sequentially (Jungle → Ocean → Cosmos → Metro).
 
-Station-Abschluss: Confetti-Animation (20 Partikel), +10 XP Toast, automatischer Redirect zur Karte nach 1.8s mit animierter Progressbar (XP und Welt-Bars animieren von alt nach neu).
+XP system: 10 XP per station, 5 XP per challenge, -3 XP on wrong quiz answer (min. 0). Max. 180 XP.
+
+8 levels: Couch Surfer (0), Curious One (15), Jungle Expert (30), Data Diver (50), Code Pilot (75), Future Architect (100), Sustainability Hero (130), Digital Pioneer (180).
+
+7 badges: 4 world badges (🌿🐙🚀🏗️), Challenge Champion (🏆), Sustainability Hero (🌍), Speedrunner (⚡).
+
+Toast system: Queued notifications (success/error/achievement/level-up/world-complete), auto-dismiss 3s.
+
+For the landing page (index.html):
+- Continuously scrollable map with 5 background panels (placeholder colors per world)
+- Stations absolutely positioned via CSS custom properties (--pos-top, --pos-left)
+- SVG overlay for paths between stations (S-curves, 3 states: completed/active/locked)
+- Path colors: Jungle=#5bba7a, Ocean=#4ecdc4, Cosmos=#7c6cff, Metro=#39ff14
+- Sticky game header with: avatar, level badge, player name, XP bar (0-180), station counter, badge row
 ```
 
-### Prompt 5: Partikel, Animationen & Mobile
+### Prompt 4: Avatar System & Quiz Mechanics
 
 ```
-Animationen:
-- Floating-Partikel pro Welt-Region: Jungle=Glühwürmchen (grün/gold, 18 Stück), Ocean=Blasen (blau, 16, nach unten), Cosmos=Sterne (klein, 20), Metro=Daten-Partikel (neon, 15). CSS-only, keine JS-Animation-Loops.
-- Marching-Ants-Animation auf aktiven SVG-Pfaden (stroke-dashoffset)
-- Stationsmarker: translateY bob-Animation (6px, 3s, gestaffelt)
-- XP Count-Up: requestAnimationFrame mit ease-out (~800ms)
-- Level-Up: Weisser Flash-Overlay + Badge-Burst (scale 1→1.4→1) + Toast
-- prefers-reduced-motion: Alle Endlos-Animationen deaktivieren
+Avatar system:
+- 3 avatars: Explorer, Scientist, Hacker
+- Avatar selection screen before expedition: player name input + 3 avatar cards + confirm button (disabled until both filled)
+- Show player name in header and on map
+- Avatar image as sprite on the map with walking animation (CSS steps(4) for 4-frame sprite sheet)
+- Avatar moves via CSS transition (1.2s ease-in-out) to next station with direction detection
+- Idle animation (gentle bob) at rest
+
+Extend quiz mechanics in station.js:
+- Wrong answer: -3 XP, correct answer highlighted green, SVG circle countdown timer
+- First timer: 35 seconds, subsequent: 20 seconds
+- Question stays visible during timer, timer appended below via appendChild
+- After timer: same question again (not a new one)
+- Timer state persisted in sessionStorage (survives page reload)
+
+Station completion: Confetti animation (20 particles), +10 XP toast, automatic redirect to map after 1.8s with animated progress bar (XP and world bars animate from old to new values).
+```
+
+### Prompt 5: Particles, Animations & Mobile
+
+```
+Animations:
+- Floating particles per world region: Jungle=fireflies (green/gold, 18), Ocean=bubbles (blue, 16, downward), Cosmos=stars (small, 20), Metro=data particles (neon, 15). CSS-only, no JS animation loops.
+- Marching ants animation on active SVG paths (stroke-dashoffset)
+- Station markers: translateY bob animation (6px, 3s, staggered)
+- XP count-up: requestAnimationFrame with ease-out (~800ms)
+- Level-up: White flash overlay + badge burst (scale 1→1.4→1) + toast
+- prefers-reduced-motion: Disable all looping animations
 
 Mobile:
-- Gleiche Karte wie Desktop zeigen (nicht Card-Layout)
-- Skaliert: Stationsbilder 72px, Avatar 40px, kleinere Labels, dünnere Pfade
-- Panels mit aspect-ratio: 1/1 statt 1536/1024
-- Partikel: 1/3 der Desktop-Menge
-- Breakpoint 400px für extra-kleine Screens
+- Show same map as desktop (not card layout)
+- Scaled: station images 72px, avatar 40px, smaller labels, thinner paths
+- Panels with aspect-ratio: 1/1 instead of 1536/1024
+- Particles: 1/3 of desktop count
+- Breakpoint 400px for extra-small screens
 ```
 
 ---
 
-## Tag 2 – Bilder generieren
+## Day 2 – Generate Images
 
-### Prompt 1: Karten-Panels
-
-```
-Generiere 5 nahtlose Karten-Panels (1536x1024) als zusammenhängende Landschaft. Stil: painterly digital illustration, dark atmospheric mood, digital-organic hybrid, circular vignette. Die Panels sollen nahtlos ineinander übergehen:
-
-Panel 0: Tropischer Dschungel mit Sofa/Komfortzone am Anfang, Y-Gabelung (Fork) im Weg, Lichtungen
-Panel 1: Dschungel geht über in Strand und dann Unterwasser-Ozean mit Korallenriffen
-Panel 2: Tiefsee-Ozean geht über in Weltraum/Kosmos mit Asteroiden und Nebeln
-Panel 3: Kosmos geht über in Neon-beleuchtete Cyberpunk-Metropole
-Panel 4: Metropole mit finaler Feier-Zone, goldener Tempel/Podium am Ende
-
-Speichere als assets/map-panel-0.png bis map-panel-4.png. Integriere sie als background-image auf den .map-panel Divs mit CSS mask-image für fliessende Übergänge (erste Welt kein Top-Fade, letzte kein Bottom-Fade).
-```
-
-### Prompt 2: Stationsbilder & Comics
+### Prompt 1: Map Panels
 
 ```
-Generiere für jede der 12 Stationen:
+Generate 5 seamless map panels (1536x1024) as a continuous landscape. Style: painterly digital illustration, dark atmospheric mood, digital-organic hybrid, circular vignette. Panels should transition seamlessly into each other:
 
-1. Stationsbild (1024x1024) – Runde Marker für die Karte, gleicher Stil wie Karten-Panels (painterly, dark mood, digital-organic)
-2. Comic-Illustration (1024x1024) – European comic (ligne claire), flat color, clean linework, third-person perspective, no text/speech bubbles. Zeigt eine Person die das Stationsthema entdeckt.
+Panel 0: Tropical jungle with couch/comfort zone at the start, Y-fork in the path, clearings
+Panel 1: Jungle transitions into beach then underwater ocean with coral reefs
+Panel 2: Deep sea ocean transitions into outer space/cosmos with asteroids and nebulas
+Panel 3: Cosmos transitions into neon-lit cyberpunk metropolis
+Panel 4: Metropolis with final celebration zone, golden temple/podium at the end
 
-Stationen und Motive:
-- geraete-lichtung: Explorer entdeckt Laptop auf Baumstumpf
-- cloud-quelle: Coder an leuchtender Quelle mit Datenwolken
-- code-camp: Developer am Lagerfeuer mit Code-Checkmarks
-- server-riff: Taucher an Server-Korallenriff
-- streaming-strom: Explorer im U-Boot in Datenströmung
-- backup-bucht: Segler versenkt Datentruhen in Bucht
-- ide-asteroid: Astronaut auf Asteroid mit IDE-Fenstern
-- deploy-stern: Ingenieur startet Rakete mit Pipeline-Schweif
-- workflow-nebel: Explorer im Nebel mit Workflow-Icons
-- ki-kraftwerk: Techworker vor KI-Kraftwerk
-- open-source-platz: Developer auf Platz mit offenen Türen
-- digital-ethics-turm: Denkerin vor Turm mit Waage
-
-Speichere als assets/station-{id}.png und assets/comic-{id}.png. Integriere die Comics als Flex-Layout neben dem Microlearning-Intro (Desktop: 200px rechts, Mobile: unter Text, 280px zentriert).
+Save as assets/map-panel-0.png through map-panel-4.png. Integrate as background-image on .map-panel divs with CSS mask-image for smooth transitions (first world no top fade, last no bottom fade).
 ```
 
-### Prompt 3: Avatare & Sprites
+### Prompt 2: Station Images & Comics
 
 ```
-Generiere für die 3 Avatare:
+Generate for each of the 12 stations:
 
-1. Profilbilder (1024x1024, gleicher Stil): Explorer (Entdecker:in mit Hut/Rucksack), Scientist (Forscher:in mit Laborkittel/Brille), Hacker (Hacker:in mit Hoodie/Laptop)
+1. Station image (1024x1024) – Round markers for the map, same style as map panels (painterly, dark mood, digital-organic)
+2. Comic illustration (1024x1024) – European comic (ligne claire), flat color, clean linework, third-person perspective, no text/speech bubbles. Shows a person discovering the station theme.
 
-2. Sprite Sheets (256x64, pixel art style): Jeweils 4 Frames nebeneinander für einen Walk-Cycle. Figur schaut nach rechts, pixelated, klare Silhouette auf transparentem Hintergrund.
+Stations and motifs:
+- geraete-lichtung: Explorer discovers laptop on tree stump
+- cloud-quelle: Coder at glowing spring with data clouds
+- code-camp: Developer at campfire with code checkmarks
+- server-riff: Diver at server coral reef
+- streaming-strom: Explorer in submarine in data stream
+- backup-bucht: Sailor sinking data treasure chests in bay
+- ide-asteroid: Astronaut on asteroid with IDE windows
+- deploy-stern: Engineer launching rocket with pipeline trail
+- workflow-nebel: Explorer in fog with workflow icons
+- ki-kraftwerk: Tech worker in front of AI power plant
+- open-source-platz: Developer on square with open doors
+- digital-ethics-turm: Thinker in front of tower with scales
 
-Speichere als:
+Save as assets/station-{id}.png and assets/comic-{id}.png. Integrate comics as flex layout next to microlearning intro (desktop: 200px right, mobile: below text, 280px centered).
+```
+
+### Prompt 3: Avatars & Sprites
+
+```
+Generate for the 3 avatars:
+
+1. Profile images (1024x1024, same style): Explorer (with hat/backpack), Scientist (with lab coat/glasses), Hacker (with hoodie/laptop)
+
+2. Sprite sheets (256x64, pixel art style): 4 frames side by side for a walk cycle. Character facing right, pixelated, clear silhouette on transparent background.
+
+Save as:
 - assets/avatar-explorer.png, assets/avatar-scientist.png, assets/avatar-hacker.png
 - assets/sprites/sprite-explorer.png, assets/sprites/sprite-scientist.png, assets/sprites/sprite-hacker.png
 
-Passe die Karte an: Stationspositionen (--pos-top, --pos-left in progress.js STATION_POSITIONS) müssen auf die generierten Panel-Bilder kalibriert werden. Teste visuell und korrigiere die Koordinaten.
+Adjust the map: Station positions (--pos-top, --pos-left in progress.js STATION_POSITIONS) must be calibrated to the generated panel images. Test visually and correct coordinates.
 ```
 
-### Prompt 4: Mobile-Optimierung
+### Prompt 4: Mobile Optimization
 
 ```
-Erstelle optimierte Bildversionen für Mobile:
+Create optimized image versions for mobile:
 
-1. Verkleinere alle Bilder für Mobile: Avatare 256px, Comics 400px, Stationsbilder 512px, Hintergründe 768px
-2. Konvertiere alle Mobile-Bilder zu WebP (Qualität 80)
-3. Speichere in assets/mobile/ mit gleichen Dateinamen aber .webp Endung
-4. Ersetze in allen 12 Stationen die <img> Tags durch <picture> Elemente mit WebP-Source für Mobile (<768px)
-5. Füge srcset/sizes auf Avatar-Bilder in index.html hinzu
-6. Erstelle getMobileAssetPath() Hilfsfunktion in progress.js für JS-gesteuerte Bildpfade
-7. Generiere 4 Welt-Banner (600px breit, landscape) als Mobile-Hintergründe für die Karte
+1. Downsize all images for mobile: Avatars 256px, comics 400px, station images 512px, backgrounds 768px
+2. Convert all mobile images to WebP (quality 80)
+3. Save in assets/mobile/ with same filenames but .webp extension
+4. Replace <img> tags in all 12 stations with <picture> elements with WebP source for mobile (<768px)
+5. Add srcset/sizes to avatar images in index.html
+6. Create getMobileAssetPath() helper function in progress.js for JS-controlled image paths
+7. Generate 4 world banners (600px wide, landscape) as mobile backgrounds for the map
 ```
 
 ---
 
-## Tag 3 – Features & Polish
+## Day 3 – Features & Polish
 
-### Prompt 1: Highscore, Profanity-Filter & Supabase
+### Prompt 1: Highscore, Profanity Filter & Supabase
 
 ```
-Implementiere ein Supabase-basiertes Leaderboard:
+Implement a Supabase-based leaderboard:
 
-Supabase-Tabellen (Schema siehe docs/supabase-setup.sql):
+Supabase tables (schema see docs/supabase-setup.sql):
 - highscores: name (PK), xp, avatar, stations, updated_at
 - players: name (PK), avatar, browser, os, screen_width, screen_height, language, last_seen_at
 - station_times: player_name + station_id (unique), duration_seconds, completed, challenge_done, quiz_passed
 
 In js/highscore.js:
-- supabaseFetch() Helper für REST API Calls mit Anon Key
-- loadHighscores(): Nur Spieler mit >= 10 XP laden, sortiert nach XP desc
+- supabaseFetch() helper for REST API calls with anon key
+- loadHighscores(): Only load players with >= 10 XP, sorted by XP desc
 - submitHighscore(): Upsert via merge-duplicates
-- syncCurrentPlayer(): Aufrufen bei Expeditionsstart, Station-Complete und Challenge-Complete
-- syncPlayerInfo(): Browser/OS aus User-Agent parsen, Screen-Size loggen
-- trackStationEnter/Leave(): Bearbeitungszeit in sessionStorage messen, bei Leave nach Supabase
-- openHighscoreModal(): Dynamisches Modal mit Spieler-Highlight und Rangliste
-- renderRankingInline(): Für Abschluss-Seite
+- syncCurrentPlayer(): Call on expedition start, station complete, and challenge complete
+- syncPlayerInfo(): Parse browser/OS from user agent, log screen size
+- trackStationEnter/Leave(): Measure time in sessionStorage, send to Supabase on leave
+- openHighscoreModal(): Dynamic modal with player highlight and ranking
+- renderRankingInline(): For finale page
 
-Profanity-Filter in js/profanity-filter.js:
-- ~100 Begriffe DE + ~100 EN
-- Leetspeak-Normalisierung (@→a, 4→a, 3→e, 1→i, 5→s, $→s, 7→t, +→t, 8→b)
-- Zeichenwiederholungen normalisieren, Trennzeichen entfernen, Umlaut-Varianten
-- containsProfanity(text) als einzige exportierte Funktion
-- Einbinden bei: Avatar-Namenswahl, Challenge-Submit, Reflexion/Notizen-Autosave
+Profanity filter in js/profanity-filter.js:
+- ~100 terms DE + ~100 EN
+- Leetspeak normalization (@→a, 4→a, 3→e, 1→i, 5→s, $→s, 7→t, +→t, 8→b)
+- Normalize character repetitions, remove separators, handle umlaut variants
+- containsProfanity(text) as the only exported function
+- Integrate at: avatar name selection, challenge submit, reflection/notes autosave
 ```
 
-### Prompt 2: i18n (Deutsch/Englisch)
+### Prompt 2: i18n (German/English)
 
 ```
-Implementiere Sprachumschaltung DE/EN:
+Implement language switching DE/EN:
 
 js/i18n.js:
-- Deutsch bleibt hardcoded im HTML (progressive enhancement, Fallback)
-- Englisch via i18n/en.json mit ~630 Keys
-- data-i18n Attribute auf allen Textelementen in allen 14 HTML-Dateien
-- I18N.t(key, fallback) Funktion für dynamische Texte in JS
-- Sprachwechsel-Button (EN/DE) im Header jeder Seite
-- Sprache in localStorage persistieren, bei Wechsel Seite neu laden
-- Quiz-Übersetzung: Dynamische Keys quiz.{station}.{idx}.q/o{n} mit Fallback auf QUIZ_DATA
+- German stays hardcoded in HTML (progressive enhancement, fallback)
+- English via i18n/en.json with ~700 keys
+- data-i18n attributes on all text elements in all 14 HTML files
+- I18N.t(key, fallback) function for dynamic texts in JS
+- Language switch button (EN/DE) in header of every page
+- Language persisted in localStorage, page reloads on switch
+- Quiz translation: Dynamic keys quiz.{station}.{idx}.q/o{n} with fallback to QUIZ_DATA
 
-Erstelle i18n/en.json mit allen Übersetzungen:
-- Alle UI-Texte (Buttons, Labels, Toasts, Modals)
-- Alle Stations-Inhalte (Microlearning, Aufgaben, Reflexionen, Challenges, Quiz-Fragen)
-- Level-Namen, Badge-Namen, Welt-Namen
+Create i18n/en.json with all translations:
+- All UI texts (buttons, labels, toasts, modals)
+- All station content (microlearning, tasks, reflections, challenges, quiz questions)
+- Level names, badge names, world names
 ```
 
-### Prompt 3: Abschluss-Station & Notizbuch
+### Prompt 3: Finale Station & Notebook
 
 ```
-Erstelle stations/abschluss-feier.html als Finale:
-- Wird freigeschaltet wenn alle 4 Welten passable sind
-- Goldener Trophy-Marker auf der Karte mit Glow-Animation
-- Zertifikat-Card mit: Name, Avatar, Level, XP, abgeschlossene Stationen, Badges, Datum
-- Alle Challenge-Abgaben werden aufgelistet
-- Aktionen: PDF-Druck (window.print mit @media print Stylesheet), E-Mail (mailto), ICS-Download (Blob)
-- Inline-Rangliste (renderRankingInline)
+Create stations/abschluss-feier.html as the finale:
+- Unlocks when all 4 worlds are passable
+- Golden trophy marker on the map with glow animation
+- Certificate card with: name, avatar, level, XP, completed stations, badges, date
+- All challenge submissions listed
+- Actions: PDF print (window.print with @media print stylesheet), email (mailto), ICS download (Blob)
+- Inline leaderboard (renderRankingInline)
 
-Notizbuch-Feature:
-- Button im Game-Header öffnet Modal
-- 3 Tabs: Challenges (🏆), Reflexionen (💭), Notizen (📝)
-- Zeigt alle gespeicherten Einträge gruppiert nach Station
-- Kontext-Text (was die Aufgabe war) als Überschrift pro Eintrag, nicht nur Stationsname
-- Farbige Border-left pro Typ (gold/lila/grün), Emoji-Icons
+Notebook feature:
+- Button in game header opens modal
+- 3 tabs: Challenges (🏆), Reflections (💭), Notes (📝)
+- Shows all saved entries grouped by station
+- Context text (what the task was) as heading per entry, not just station name
+- Colored border-left per type (gold/purple/green), emoji icons
 ```
 
-### Prompt 4: Consent-Banner & Feinschliff
+### Prompt 4: Consent Banner & Polish
 
 ```
-Implementiere:
+Implement:
 
-1. Cookie-/localStorage-Consent-Banner beim ersten Besuch
-2. Favicon: Lucide trees SVG Icon als Inline-SVG Favicon in allen HTML-Seiten
-3. Reset-Button im Footer: Löscht allen localStorage-Fortschritt mit Bestätigungs-Dialog
+1. Cookie/localStorage consent banner on first visit
+2. Favicon: Lucide trees SVG icon as inline SVG favicon in all HTML pages
+3. Reset button in footer: Deletes all localStorage progress with confirmation dialog
 
-Feinschliff:
-- Stationsseiten: Lade-Spinner der nach 500ms ausfadet
-- XP-Bar im Header zeigt Gesamtfortschritt 0-180 XP (nicht Level-Fortschritt)
-- Station-Complete → Redirect zur Karte: XP-Bar und Welt-Progressbars animieren von vorherigem Stand zum neuen
-- Avatar-Szenenbilder: Pro Station ein Header-Bild das zum gewählten Avatar passt (scenes/scene-{station}-{avatar}.png)
-- Reveal-Animation für Hinweise: CSS max-height Transition statt hidden-Attribut, rotierender Caret (▼)
+Polish:
+- Station pages: Loading spinner that fades out after 500ms
+- XP bar in header shows total progress 0-180 XP (not level progress)
+- Station complete → redirect to map: XP bar and world progress bars animate from previous to new values
+- Avatar scene images: Per station a header image matching the chosen avatar (scenes/scene-{station}-{avatar}.png)
+- Reveal animation for hints: CSS max-height transition instead of hidden attribute, rotating caret (▼)
 ```
 
 ---
 
-## Hinweise zur Reproduktion
+## Notes on Reproduction
 
-### Was nicht 1:1 reproduzierbar ist
+### What Cannot Be Reproduced 1:1
 
-1. **Bilder:** DALL-E generiert nie identische Bilder. Die Stationspositionen auf der Karte müssen an die tatsächlich generierten Panels angepasst werden.
-2. **Stationsinhalte:** Die Microlearning-Texte, Quiz-Fragen und Challenge-Aufgaben sind inhaltlich komplex. Claude wird ähnliche aber nicht identische Inhalte generieren.
-3. **CSS-Feintuning:** Pixel-genaue Positionierung, Animationstiming und responsive Breakpoints erfordern iteratives Anpassen.
-4. **i18n:** 633 Übersetzungs-Keys werden ähnlich aber nicht identisch generiert.
+1. **Images:** DALL-E never generates identical images. Station positions on the map must be adjusted to match the actually generated panels.
+2. **Station content:** The microlearning texts, quiz questions, and challenge tasks are complex. Claude will generate similar but not identical content.
+3. **CSS fine-tuning:** Pixel-perfect positioning, animation timing, and responsive breakpoints require iterative adjustment.
+4. **i18n:** ~700 translation keys will be generated similarly but not identically.
 
-### Was identisch reproduzierbar ist
+### What Is Identically Reproducible
 
-1. **Architektur:** Fork-Modell, Welten, Stationsstruktur, Progressionssystem
-2. **Gamification-Regeln:** XP, Level, Badges, Quiz-Mechanik
-3. **Tech-Entscheidungen:** localStorage, Supabase-Schema, Vanilla JS
-4. **Design-System:** Farbpalette, Typografie, Layout-Prinzipien
+1. **Architecture:** Fork model, worlds, station structure, progression system
+2. **Gamification rules:** XP, levels, badges, quiz mechanics
+3. **Tech decisions:** localStorage, Supabase schema, Vanilla JS
+4. **Design system:** Color palette, typography, layout principles
 
-### Empfehlung
+### Recommendation
 
-Nutze `docs/architecture.md` als ständige Referenz bei jedem Prompt. Die Prompts oben setzen voraus, dass das Architektur-Dokument als Kontext mitgegeben wird (z.B. via CLAUDE.md oder als Datei im Projekt).
+Use `docs/architecture.md` as a constant reference with every prompt. The prompts above assume the architecture document is provided as context (e.g. via CLAUDE.md or as a file in the project).

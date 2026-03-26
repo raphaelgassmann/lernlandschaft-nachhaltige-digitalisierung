@@ -1,206 +1,206 @@
-# Architektur – Lernlandschaft Nachhaltige Digitalisierung
+# Architecture – Learning Landscape Sustainable Digitalization
 
-Dieses Dokument beschreibt den Endzustand des Projekts und dient als Referenz für die Reproduktion.
+This document describes the final state of the project and serves as a reference for reproduction.
 
-## Konzept
+## Concept
 
-Interaktive Lernlandschaft als statische Webseite. Lernende reisen als Avatar durch einen digitalen Dschungel mit 4 Welten und 13 Lernstationen zum Thema nachhaltige Digitalisierung. Zielgruppe: Informatik-Lernende EFZ an der TBZ Zürich.
+Interactive learning landscape as a static website. Learners travel as an avatar through a digital jungle with 4 worlds and 13 learning stations on the topic of sustainable digitalization. Target audience: IT apprentices (Informatiker:innen EFZ) at TBZ Zurich.
 
-## Techstack
+## Tech Stack
 
-- **Frontend:** HTML5, CSS3, Vanilla JavaScript (kein Framework, kein Build-Prozess)
-- **Persistenz lokal:** localStorage / sessionStorage
-- **Backend:** Supabase (PostgreSQL) für Leaderboard und Analytics
-- **Deployment:** Vercel (statische Dateien)
+- **Frontend:** HTML5, CSS3, Vanilla JavaScript (no framework, no build process)
+- **Local persistence:** localStorage / sessionStorage
+- **Backend:** Supabase (PostgreSQL) for leaderboard and analytics
+- **Deployment:** Vercel (static files)
 
-## Welten & Stationen (Fork-Modell)
+## Worlds & Stations (Fork Model)
 
-4 Welten mit je 1 Pflichtstation + 2 Wahlstationen (1 davon muss absolviert werden):
+4 worlds with 1 mandatory station + 2 fork stations each (1 must be completed):
 
-| Welt | ID | Pflichtstation | Wahlstation A | Wahlstation B |
-|------|----|---------------|---------------|---------------|
-| Daten-Dschungel | `jungle` | `geraete-lichtung` | `cloud-quelle` | `code-camp` |
-| Daten-Ozean | `ocean` | `server-riff` | `streaming-strom` | `backup-bucht` |
-| Code-Kosmos | `cosmos` | `ide-asteroid` | `deploy-stern` | `workflow-nebel` |
-| Zukunfts-Metropole | `metro` | `ki-kraftwerk` | `open-source-platz` | `digital-ethics-turm` |
+| World | ID | Mandatory Station | Fork Station A | Fork Station B |
+|-------|----|------------------|----------------|----------------|
+| Data Jungle | `jungle` | `geraete-lichtung` | `cloud-quelle` | `code-camp` |
+| Data Ocean | `ocean` | `server-riff` | `streaming-strom` | `backup-bucht` |
+| Code Cosmos | `cosmos` | `ide-asteroid` | `deploy-stern` | `workflow-nebel` |
+| Future Metropolis | `metro` | `ki-kraftwerk` | `open-source-platz` | `digital-ethics-turm` |
 
-Plus: `abschluss-feier` (Finale, keine reguläre Station)
+Plus: `abschluss-feier` (finale, not a regular station)
 
 ### Progression
 
-- Welten schalten sich sequentiell frei (Jungle → Ocean → Cosmos → Metro)
-- Eine Welt gilt als "passable" wenn: Pflichtstation + mindestens 1 Wahlstation abgeschlossen
-- Fork-Stationen werden freigeschaltet sobald die Pflichtstation der Welt abgeschlossen ist
-- Finale wird freigeschaltet wenn alle 4 Welten passable sind
-- Innerhalb einer Welt sind die Stationen frei wählbar
+- Worlds unlock sequentially (Jungle → Ocean → Cosmos → Metro)
+- A world counts as "passable" when: mandatory station + at least 1 fork station completed
+- Fork stations unlock once the mandatory station of that world is completed
+- Finale unlocks when all 4 worlds are passable
+- Within a world, stations can be chosen freely
 
 ## Gamification
 
-### XP & Level
+### XP & Levels
 
-- 10 XP pro Station, 5 XP pro Challenge = max. 180 XP
-- -3 XP bei falscher Quiz-Antwort (Minimum 0)
+- 10 XP per station, 5 XP per challenge = max. 180 XP
+- -3 XP on wrong quiz answer (minimum 0)
 
 | Level | Name | Min. XP |
 |-------|------|---------|
-| 1 | Sofa-Surfer | 0 |
-| 2 | Neugierige:r | 15 |
-| 3 | Dschungel-Kenner:in | 30 |
-| 4 | Daten-Taucher:in | 50 |
-| 5 | Code-Pilot:in | 75 |
-| 6 | Zukunfts-Architekt:in | 100 |
-| 7 | Nachhaltigkeits-Held:in | 130 |
-| 8 | Digitale:r Pionier:in | 180 |
+| 1 | Couch Surfer | 0 |
+| 2 | Curious One | 15 |
+| 3 | Jungle Expert | 30 |
+| 4 | Data Diver | 50 |
+| 5 | Code Pilot | 75 |
+| 6 | Future Architect | 100 |
+| 7 | Sustainability Hero | 130 |
+| 8 | Digital Pioneer | 180 |
 
-### Badges (7 Stück)
+### Badges (7 total)
 
-- 4 Welt-Badges (je 1 pro abgeschlossene Welt): 🌿 🐙 🚀 🏗️
-- 🏆 Challenge-Champion (alle Challenges)
-- 🌍 Nachhaltigkeits-Held (alle Stationen)
-- ⚡ Speedrunner (Bedingung: schnelles Abschliessen)
+- 4 world badges (1 per completed world): 🌿 🐙 🚀 🏗️
+- 🏆 Challenge Champion (all challenges)
+- 🌍 Sustainability Hero (all stations)
+- ⚡ Speedrunner (fast completion)
 
-### Avatar-System
+### Avatar System
 
-3 Avatare zur Auswahl: Explorer, Forscher:in, Hacker:in. Jeder Avatar hat:
-- Rundes Profilbild (für Header)
-- Sprite Sheet (4-Frame Walk-Cycle, 256x64px) für Map-Animation
-- Avatar-spezifische Szenenbilder in den Stationen
+3 avatars to choose from: Explorer, Scientist, Hacker. Each avatar has:
+- Round profile image (for header)
+- Sprite sheet (4-frame walk cycle, 256x64px) for map animation
+- Avatar-specific scene images in stations
 
-### Rangliste
+### Leaderboard
 
-- Supabase-basiert, global sichtbar
-- Spieler erscheinen ab 10 XP
-- Wird bei Expeditionsstart, Station-Abschluss und Challenge-Abschluss synchronisiert
-- Spielernamen werden mit Profanity-Filter geprüft (DE+EN, Leetspeak-Erkennung)
+- Supabase-based, globally visible
+- Players appear from 10 XP onwards
+- Synced on expedition start, station complete, and challenge complete
+- Player names checked with profanity filter (DE+EN, leetspeak detection)
 
-## Aufbau pro Station
+## Station Structure
 
-Jede Station enthält in dieser Reihenfolge:
+Each station contains in this order:
 
-1. **Header** – Stationsbild (avatar-abhängig), Titel, Dauer, Kurzbeschreibung
-2. **Microlearning** – Einleitungstext mit Comic-Illustration (ligne claire Stil), Key Facts, Praxisbeispiele
-3. **Tat / Einstellung** – Konkrete Handlungsanweisung, Notiz-Textarea (Auto-Save)
-4. **Reflexion** – Frage mit ausklappbarem Hinweis, Reflexions-Textarea (Auto-Save)
-5. **Challenge** – Aufgabe mit Pflicht-Textarea (min. 10 Wörter, Word Counter), Profanity-Check
-6. **Quiz** – 4 Multiple-Choice-Fragen (4 Optionen, 1 richtig)
-7. **Abschluss-Button** – Gesperrt bis Quiz bestanden, dann +10 XP, Confetti, Redirect zur Karte
+1. **Header** – Station image (avatar-dependent), title, duration, short description
+2. **Microlearning** – Introductory text with comic illustration (ligne claire style), key facts, practical examples
+3. **Action / Setting** – Concrete action instruction, note textarea (auto-save)
+4. **Reflection** – Question with expandable hint, reflection textarea (auto-save)
+5. **Challenge** – Task with required textarea (min. 10 words, word counter), profanity check
+6. **Quiz** – 4 multiple-choice questions (4 options, 1 correct)
+7. **Complete button** – Locked until quiz passed, then +10 XP, confetti, redirect to map
 
-### Quiz-Mechanik
+### Quiz Mechanics
 
-- Falsche Antwort: -3 XP, korrekte Antwort wird grün markiert
-- Straftimer: 35s (erste falsche Antwort), 20s (weitere)
-- SVG-Kreis-Countdown, Frage bleibt sichtbar
-- Nach Timer: dieselbe Frage nochmals
-- Timer-Zustand wird in sessionStorage persistiert (überlebt Page-Reload)
+- Wrong answer: -3 XP, correct answer highlighted green
+- Penalty timer: 35s (first wrong answer), 20s (subsequent)
+- SVG circle countdown, question stays visible
+- After timer: same question again
+- Timer state persisted in sessionStorage (survives page reload)
 
-## Karten-Layout (Desktop)
+## Map Layout (Desktop)
 
-- 5 nahtlose Hintergrund-Panels (DALL-E generiert, 1536x1024px) als `background-image` auf `.map-panel` Divs
-- Stationen absolut positioniert via CSS Custom Properties (`--pos-top`, `--pos-left`)
-- SVG-Overlay für Pfade zwischen Stationen (S-Kurven, `viewBox 0 0 100 100`, `non-scaling-stroke`)
-- 3 Pfad-Zustände: completed (glühend), active (marching ants), locked (schwach)
-- Pfadfarben pro Welt: Jungle=#5bba7a, Ocean=#4ecdc4, Cosmos=#7c6cff, Metro=#39ff14
+- 5 seamless background panels (DALL-E generated, 1536x1024px) as `background-image` on `.map-panel` divs
+- Stations absolutely positioned via CSS custom properties (`--pos-top`, `--pos-left`)
+- SVG overlay for paths between stations (S-curves, `viewBox 0 0 100 100`, `non-scaling-stroke`)
+- 3 path states: completed (glowing), active (marching ants), locked (dim)
+- Path colors per world: Jungle=#5bba7a, Ocean=#4ecdc4, Cosmos=#7c6cff, Metro=#39ff14
 
-### Avatar auf der Karte
+### Avatar on the Map
 
-- Sprite Sheet mit `steps(4)` CSS-Animation
-- Smooth Walking-Animation (1.2s ease-in-out) mit Richtungserkennung (face-left)
-- Idle-Animation (sanfter Bob) im Ruhezustand
-- Bodenschatten via `::after`
+- Sprite sheet with `steps(4)` CSS animation
+- Smooth walking animation (1.2s ease-in-out) with direction detection (face-left)
+- Idle animation (gentle bob) at rest
+- Ground shadow via `::after`
 
-### Partikel pro Welt
+### Particles per World
 
-- Jungle: Glühwürmchen (grün/gold, 18 Stück)
-- Ocean: Blasen (blau, 16 Stück, nach unten)
-- Cosmos: Sterne (klein, 20 Stück)
-- Metro: Daten-Partikel (neon, 15 Stück)
-- Mobile: 1/3 der Menge
+- Jungle: Fireflies (green/gold, 18)
+- Ocean: Bubbles (blue, 16, downward)
+- Cosmos: Stars (small, 20)
+- Metro: Data particles (neon, 15)
+- Mobile: 1/3 of the count
 
-## Karten-Layout (Mobile)
+## Map Layout (Mobile)
 
-- Gleiche Karte wie Desktop (kein separates Card-Layout)
-- Skalierte Elemente: Stationsbilder 72px, Avatar 40px, kleinere Labels
-- Panels mit `aspect-ratio: 1/1` statt 1536/1024
-- Leichte Welt-Banner-WebPs als Hintergründe statt schwere Desktop-PNGs
+- Same map as desktop (no separate card layout)
+- Scaled elements: station images 72px, avatar 40px, smaller labels
+- Panels with `aspect-ratio: 1/1` instead of 1536/1024
+- Lightweight world banner WebPs as backgrounds instead of heavy desktop PNGs
 
-## Animationen & Effekte
+## Animations & Effects
 
-- **Confetti:** 20 CSS-Partikel bei Station-Abschluss
-- **Level-Up:** Weisser Flash + Badge-Burst + Toast
-- **XP Count-Up:** requestAnimationFrame mit ease-out (~800ms)
-- **Toast-System:** Queued, auto-dismiss 3s, Typen: success/error/achievement/level-up/world-complete
-- **prefers-reduced-motion:** Alle Endlos-Animationen deaktiviert
+- **Confetti:** 20 CSS particles on station completion
+- **Level-up:** White flash + badge burst + toast
+- **XP count-up:** requestAnimationFrame with ease-out (~800ms)
+- **Toast system:** Queued, auto-dismiss 3s, types: success/error/achievement/level-up/world-complete
+- **prefers-reduced-motion:** All looping animations disabled
 
-## Weitere Features
+## Additional Features
 
-### i18n (Deutsch/Englisch)
+### i18n (German/English)
 
-- Deutsch hardcoded im HTML (Fallback)
-- Englisch via `i18n/en.json` (633 Keys)
-- `data-i18n`-Attribute auf allen Textelementen
-- Sprachwechsel via Button, persistiert in localStorage, Seite lädt neu
+- German hardcoded in HTML (fallback)
+- English via `i18n/en.json` (~700 keys)
+- `data-i18n` attributes on all text elements
+- Language switch via button, persisted in localStorage, page reloads
 
-### Notizbuch
+### Notebook
 
-- Modal mit 3 Tabs: Challenges (🏆), Reflexionen (💭), Notizen (📝)
-- Zeigt alle gespeicherten Einträge gruppiert nach Station
-- Kontext-Text pro Station als Überschrift
+- Modal with 3 tabs: Challenges (🏆), Reflections (💭), Notes (📝)
+- Shows all saved entries grouped by station
+- Context text per station as heading
 
-### Abschluss-Feier
+### Finale Celebration
 
-- Zertifikat mit Name, Avatar, Level, XP, Stationen, Badges, Datum
-- Challenge-Abgaben werden aufgelistet
-- Aktionen: PDF-Druck (window.print), E-Mail (mailto), ICS-Download (Blob)
-- Inline-Rangliste
+- Certificate with name, avatar, level, XP, stations, badges, date
+- Challenge submissions listed
+- Actions: PDF print (window.print), email (mailto), ICS download (Blob)
+- Inline leaderboard
 
-### Cookie-/Consent-Banner
+### Cookie/Consent Banner
 
-- Zeigt sich beim ersten Besuch
-- Consent für localStorage-Nutzung
+- Shows on first visit
+- Consent for localStorage usage
 
-## Supabase-Schema
+## Supabase Schema
 
-3 Tabellen:
+3 tables:
 
 ```sql
--- Rangliste
+-- Leaderboard
 highscores (name TEXT PK, xp INT, avatar TEXT, stations INT, updated_at DATE)
 
--- Spieler-Analytics
+-- Player analytics
 players (name TEXT PK, avatar TEXT, browser TEXT, os TEXT, screen_width INT, screen_height INT, language TEXT, created_at TIMESTAMPTZ, last_seen_at TIMESTAMPTZ)
 
--- Bearbeitungszeiten
+-- Station durations
 station_times (id SERIAL PK, player_name TEXT, station_id TEXT, duration_seconds INT, completed BOOL, challenge_done BOOL, quiz_passed BOOL, visited_at TIMESTAMPTZ)
 -- UNIQUE(player_name, station_id)
 ```
 
-Alle Tabellen: RLS enabled, öffentlich lesbar/schreibbar (Anon Key).
+All tables: RLS enabled, publicly readable/writable (anon key).
 
-## Design-System (CSS Custom Properties)
+## Design System (CSS Custom Properties)
 
 ```
-Hintergrund:    #1a2e1a (dunkelgrün)
-Text:           #e8e4d8 (helles Creme)
-Primär:         #4a9e6e (Dschungelgrün)
-Sekundär:       #c8a84e (Gold)
-Akzent:         #e07b4c (Orange)
+Background:     #1a2e1a (dark green)
+Text:           #e8e4d8 (light cream)
+Primary:        #4a9e6e (jungle green)
+Secondary:      #c8a84e (gold)
+Accent:         #e07b4c (orange)
 
-Welt-Farben:
+World colors:
   Jungle:  #5bba7a / #c8a84e / #e07b4c
   Ocean:   #00b4d8 / #48cae4 / #0096c7
   Cosmos:  #c77dff / #e0aaff / #ff6b9d
   Metro:   #39ff14 / #00e5ff / #7c4dff
 
-Schriften:
+Fonts:
   Body:    'Segoe UI', system-ui, sans-serif
   Heading: Georgia, 'Times New Roman', serif
 ```
 
-## Dateistruktur
+## File Structure
 
 ```
-├── index.html                     # Startseite (Avatar-Wahl, Karte, Header, Notizbuch)
-├── stations/                      # 13 Stationen + Finale
+├── index.html                     # Landing page (avatar selection, map, header, notebook)
+├── stations/                      # 13 stations + finale
 │   ├── geraete-lichtung.html
 │   ├── cloud-quelle.html
 │   ├── code-camp.html
@@ -215,27 +215,27 @@ Schriften:
 │   ├── digital-ethics-turm.html
 │   └── abschluss-feier.html
 ├── css/
-│   ├── main.css                   # Design-System, Toast-Styles
-│   ├── landscape.css              # Karte, Avatar, Partikel, Header, Mobile
-│   └── station.css                # Stationsseiten, Quiz, Confetti, Zertifikat
+│   ├── main.css                   # Design system, toast styles
+│   ├── landscape.css              # Map, avatar, particles, header, mobile
+│   └── station.css                # Station pages, quiz, confetti, certificate
 ├── js/
-│   ├── progress.js                # Fortschritt, Level, Badges, Toast, localStorage
-│   ├── highscore.js               # Supabase API, Leaderboard, Tracking
-│   ├── landscape.js               # Karte, Avatar-Auswahl, Notizbuch, Partikel
-│   ├── station.js                 # Quiz, Challenge, Confetti, Szenenbilder
-│   ├── i18n.js                    # Übersetzungen, Sprachwechsel
-│   └── profanity-filter.js        # Wortfilter (DE+EN, Leetspeak)
+│   ├── progress.js                # Progress, levels, badges, toasts, localStorage
+│   ├── highscore.js               # Supabase API, leaderboard, tracking
+│   ├── landscape.js               # Map, avatar selection, notebook, particles
+│   ├── station.js                 # Quiz, challenge, confetti, scene images
+│   ├── i18n.js                    # Translations, language switching
+│   └── profanity-filter.js        # Word filter (DE+EN, leetspeak)
 ├── assets/
-│   ├── avatar-*.png               # 3 Avatar-Bilder
-│   ├── sprites/sprite-*.png       # 3 Sprite Sheets (4-Frame, 256x64)
-│   ├── map-panel-0..4.png         # 5 Karten-Panels (1536x1024)
-│   ├── station-*.png              # 12 Stationsbilder (1024x1024)
-│   ├── comic-*.png                # 12 Comic-Illustrationen (1024x1024)
-│   ├── scenes/scene-*-*.png       # Avatar-spezifische Szenenbilder
-│   ├── icons/                     # Section-Icons
-│   └── mobile/                    # Verkleinerte WebP-Versionen aller Bilder
-├── i18n/en.json                   # Englische Übersetzungen (633 Keys)
+│   ├── avatar-*.png               # 3 avatar images
+│   ├── sprites/sprite-*.png       # 3 sprite sheets (4-frame, 256x64)
+│   ├── map-panel-0..4.png         # 5 map panels (1536x1024)
+│   ├── station-*.png              # 12 station images (1024x1024)
+│   ├── comic-*.png                # 12 comic illustrations (1024x1024)
+│   ├── scenes/scene-*-*.png       # Avatar-specific scene images
+│   ├── icons/                     # Section icons
+│   └── mobile/                    # Downsized WebP versions of all images
+├── i18n/en.json                   # English translations (~700 keys)
 └── docs/
-    ├── supabase-setup.sql         # DB-Schema + Seed Data
-    └── architecture.md            # Dieses Dokument
+    ├── supabase-setup.sql         # DB schema + seed data
+    └── architecture.md            # This document
 ```

@@ -1,123 +1,123 @@
-# Lernlandschaft Nachhaltige Digitalisierung
+# Learning Landscape – Sustainable Digitalization
 
-Eine **interaktive Lernlandschaft als Webseite** für Lernende Informatiker:innen EFZ an der TBZ. Die Lernenden reisen als Entdecker:innen durch einen digitalen Dschungel und entdecken selbstgesteuert Stationen rund um nachhaltige Digitalisierung.
+An **interactive learning landscape as a web app** for IT apprentices (Informatiker:innen EFZ) at TBZ Zurich. Learners travel as explorers through a digital jungle and discover stations about sustainable digitalization.
 
-## Live-Demo
+## Live Demo
 
-Deployed via **Vercel** als statische Webseite.
+Deployed via **Vercel** as a static website: [eco-digital.dev](https://eco-digital.dev)
 
-## Übersicht
+## Overview
 
-Die Lernlandschaft umfasst **4 Welten mit 13 Lernstationen**. Pro Welt gibt es eine Pflichtstation und zwei Wahlstationen (Fork), von denen eine absolviert werden muss. Am Ende wartet die **Abschluss-Feier**.
+The learning landscape consists of **4 worlds with 13 learning stations**. Each world has one mandatory station and two fork stations (choose 1 of 2). After completing all worlds, the **Finale Celebration** awaits.
 
-### Welten & Stationen
+### Worlds & Stations
 
-| Welt | Pflichtstation | Wahlstationen (1 von 2) |
-|------|---------------|------------------------|
-| **Daten-Dschungel** | Geräte-Lichtung | Cloud-Quelle, Code-Camp |
-| **Daten-Ozean** | Server-Riff | Streaming-Strom, Backup-Bucht |
-| **Code-Kosmos** | IDE-Asteroid | Deploy-Stern, Workflow-Nebel |
-| **Zukunfts-Metropole** | KI-Kraftwerk | Open-Source-Platz, Digital-Ethics-Turm |
+| World | Mandatory Station | Fork Stations (1 of 2) |
+|-------|------------------|----------------------|
+| **Data Jungle** | Device Clearing | Cloud Spring, Code Camp |
+| **Data Ocean** | Server Reef | Streaming Current, Backup Bay |
+| **Code Cosmos** | IDE Asteroid | Deploy Star, Workflow Nebula |
+| **Future Metropolis** | AI Power Plant | Open Source Square, Digital Ethics Tower |
 
-### Aufbau pro Station
+### Station Structure
 
-Jede Station enthält:
+Each station contains:
 
-- **Microlearning** (5–10 Min.) mit Input und Praxisbeispielen
-- **Handlungsorientierte Aufgabe** – eine konkrete Tat oder Einstellung (z. B. in IDE, OS, Browser)
-- **Quiz** – 4 Fragen zum Gelernten
-- **Reflexionsfrage** – kurz und zielgerichtet
-- **Challenge** (optional) – spielerisches Element mit Bonuspunkten
+- **Microlearning** (5–10 min.) with input and practical examples
+- **Action / Setting** – a concrete task or configuration (e.g. in IDE, OS, browser)
+- **Quiz** – 4 questions about the content
+- **Reflection question** – short and focused
+- **Challenge** (optional) – playful element with bonus points
 
 ## Features
 
-### Gamification & Fortschritt
+### Gamification & Progress
 
-- **XP-System**: 10 XP pro Station, 5 XP pro Challenge (max. 180 XP)
-- **8 Level**: Sofa-Surfer → Digitale:r Pionier:in
-- **Badges**: 7 Abzeichen (Welt-Abschluss, Speedrunner, Sustainability Hero etc.)
-- **Rangliste**: Globales Leaderboard via Supabase, filterbar nach Gruppe/Klasse
+- **XP System**: 10 XP per station, 5 XP per challenge (max. 180 XP)
+- **8 Levels**: Couch Surfer → Digital Pioneer
+- **Badges**: 7 achievements (world completion, speedrunner, sustainability hero, etc.)
+- **Leaderboard**: Global ranking via Supabase, filterable by group/class
 
-### Personalisierung
+### Personalization
 
-- **Spielername**, **Gruppe/Klasse** und **Avatar-Wahl** (Explorer, Scientist, Hacker)
-- Avatar-abhängige Szenenbilder in den Stationen
-- **Notizbuch**: Reflexionen, Notizen und Challenge-Abgaben pro Station
-- **Lernjournal-Export**: Alle Einträge als kopierbarer Text oder druckbar
+- **Player name**, **group/class**, and **avatar choice** (Explorer, Scientist, Hacker)
+- Avatar-dependent scene images in stations
+- **Notebook**: Reflections, notes, and challenge submissions per station
+- **Learning journal export**: All entries as copyable text or printable
 
 ### Navigation
 
-- **Scrollbare Landschaftskarte** mit 4 Welten und SVG-Pfaden
-- **Fork-basierte Progression**: Welten schalten sich nacheinander frei
-- **Avatar-Bewegung** auf der Karte bei Fortschritt
-- **Mobile-optimiert**: Kartenansicht als Cards auf kleinen Bildschirmen
+- **Scrollable landscape map** with 4 worlds and SVG paths
+- **Fork-based progression**: Worlds unlock sequentially
+- **Avatar movement** on the map as you progress
+- **Mobile-optimized**: Same map scales for small screens
 
-### Weitere Features
+### Additional Features
 
-- **Zweisprachig**: Deutsch (Standard) und Englisch via Sprachumschalter
-- **Cookie-/localStorage-Consent-Banner**
-- **Profanity-Filter** für Spielernamen
+- **Bilingual**: German (default) and English via language switcher
+- **Cookie/localStorage consent banner**
+- **Profanity filter** for player names
 
-## Techstack
+## Tech Stack
 
-| Komponente | Technologie |
-|-----------|-------------|
+| Component | Technology |
+|-----------|-----------|
 | Frontend | HTML5, CSS3, Vanilla JavaScript |
-| Persistenz (lokal) | localStorage / sessionStorage |
+| Local persistence | localStorage / sessionStorage |
 | Backend | Supabase (PostgreSQL) |
-| Deployment | Vercel (statische Seite) |
-| Build-Prozess | Keiner – pure statische Dateien |
+| Deployment | Vercel (static site) |
+| Build process | None – pure static files |
 
-## Projektstruktur
+## Project Structure
 
 ```
-├── index.html              # Startseite mit Avatar-Wahl und Landschaftskarte
-├── stations/               # 13 Lernstationen + Abschluss-Feier
+├── index.html              # Landing page with avatar selection and landscape map
+├── stations/               # 13 learning stations + finale celebration
 ├── css/
-│   ├── main.css            # Globale Styles und Theme
-│   ├── landscape.css       # Karte, Avatar, Welten-Layout
-│   └── station.css         # Stationsseiten, Quiz, Formulare
+│   ├── main.css            # Global styles and theme
+│   ├── landscape.css       # Map, avatar, world layout
+│   └── station.css         # Station pages, quiz, forms
 ├── js/
-│   ├── progress.js         # Fortschritt, Level, Badges, localStorage
-│   ├── highscore.js        # Supabase-API, Leaderboard, Tracking
-│   ├── landscape.js        # Karten-Initialisierung, Avatar-Auswahl
-│   ├── station.js          # Quiz, Station-Tracking, Szenenbilder
-│   ├── i18n.js             # Übersetzungen, Sprachwechsel
-│   └── profanity-filter.js # Inhaltsfilter für Spielernamen
-├── assets/                 # Bilder, Icons (PNG, WebP, SVG)
-├── i18n/                   # Übersetzungsdateien (en.json)
-└── docs/                   # Dokumentation, SQL-Schema
+│   ├── progress.js         # Progress, levels, badges, localStorage
+│   ├── highscore.js        # Supabase API, leaderboard, tracking
+│   ├── landscape.js        # Map initialization, avatar selection
+│   ├── station.js          # Quiz, station tracking, scene images
+│   ├── i18n.js             # Translations, language switching
+│   └── profanity-filter.js # Content filter for player names
+├── assets/                 # Images, icons (PNG, WebP, SVG)
+├── i18n/                   # Translation files (en.json)
+└── docs/                   # Documentation, SQL schema
 ```
 
-## Supabase-Datenbank
+## Supabase Database
 
-Drei Tabellen mit `player_id` (UUID) als Primary Key:
+Three tables with `player_id` (UUID) as primary key:
 
-- **highscores** – Name, XP, Avatar, Stationen, Gruppe, Zertifikats-UUID
-- **players** – Name, Browser, OS, Bildschirmgrösse, Sprache, letzter Besuch
-- **station_times** – Station, Bearbeitungszeit, Abschluss-/Quiz-/Challenge-Status
+- **highscores** – Name, XP, avatar, stations, group, certificate UUID
+- **players** – Name, browser, OS, screen size, language, last seen
+- **station_times** – Station, duration, completion/quiz/challenge status
 
-Setup-SQL: `docs/supabase-setup.sql`
+Setup SQL: `docs/supabase-setup.sql`
 
-## Zielgruppe
+## Target Audience
 
-**Lernende Informatiker:innen EFZ** (Applikations-/Plattformentwicklung) mit Grundkenntnissen in IDEs, Git, Browsern und OS-Einstellungen.
+**IT apprentices (Informatiker:innen EFZ)** in application/platform development with basic knowledge of IDEs, Git, browsers, and OS settings.
 
-## Thematische Säulen
+## Thematic Pillars
 
-| Säule | Beispiele |
-|-------|-----------|
-| **Geräte & Lebenszyklus** | Nutzung verlängern, ressourcenschonend konfigurieren |
-| **Daten & Infrastruktur** | Datenmengen, Cloud, Meetings, Storage, Build/Deploy |
-| **Nutzungsverhalten & Software-Praxis** | Effiziente Workflows, Einstellungen, Tool-Entscheidungen |
+| Pillar | Examples |
+|--------|---------|
+| **Devices & Lifecycle** | Extend usage, configure resource-efficiently |
+| **Data & Infrastructure** | Data volumes, cloud, meetings, storage, build/deploy |
+| **Usage Behavior & Software Practice** | Efficient workflows, settings, tool decisions |
 
-## Didaktischer Hintergrund
+## Didactic Background
 
-- **Constructive Alignment (Biggs)** – Lernziele, Aktivitäten und Überprüfung aufeinander abgestimmt
-- **Selbstbestimmungstheorie (Deci & Ryan)** – Autonomie, Kompetenzerleben, soziale Einbindung
-- **Microlearning** – Kleine, fokussierte Einheiten zur Reduktion kognitiver Belastung
-- **Gamification** – Spielerische Elemente für Motivation, Aktivierung und Rückmeldung
+- **Constructive Alignment (Biggs)** – Learning objectives, activities, and assessment aligned
+- **Self-Determination Theory (Deci & Ryan)** – Autonomy, competence, social relatedness
+- **Microlearning** – Small, focused units to reduce cognitive load
+- **Gamification** – Game elements for motivation, activation, and feedback
 
-## Autor
+## Author
 
-**Raphael Gassmann** – Lehrperson an der TBZ (Technische Berufsschule Zürich)
+**Raphael Gassmann** – Teacher at TBZ (Technische Berufsschule Zürich)
