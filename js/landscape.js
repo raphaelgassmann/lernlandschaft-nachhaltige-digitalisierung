@@ -44,7 +44,7 @@ function _loadExplorerCount() {
         var total = range.split('/')[1];
         if (total && parseInt(total) > 0) {
           var label = typeof I18N !== 'undefined' ? I18N.t('landing.explorer_count', '{count} Entdecker:innen haben die Welt bereits erkundet') : '{count} Entdecker:innen haben die Welt bereits erkundet';
-          el.innerHTML = '<svg class="landing-hero__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ' + label.replace('{count}', total);
+          el.innerHTML = '<div class="landing-hero__icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="landing-hero__text">' + label.replace('{count}', total) + '</div>';
         }
       }
     })
@@ -701,7 +701,7 @@ function _showMiniGameReady(transition) {
     startScreen.style.display = 'none';
     endScreen.style.display = '';
     if (resultEl) {
-      resultEl.textContent = '+' + collected + ' Bonus-XP!';
+      resultEl.textContent = I18N.t('minigame.bonus_xp', '+{count} Bonus-XP!').replace('{count}', collected);
     }
     markMiniGameComplete(transition.id, collected);
   });
@@ -1272,9 +1272,9 @@ function renderNotebookContent(tabName) {
   var keys = Object.keys(entries).filter(function (k) { return entries[k] && entries[k].trim(); });
 
   if (keys.length === 0) {
-    var emptyMsg = tabName === 'challenges' ? 'Noch keine Challenge-Abgaben vorhanden.'
-                 : tabName === 'reflections' ? 'Noch keine Reflexionen geschrieben.'
-                 : 'Noch keine Notizen vorhanden.';
+    var emptyMsg = tabName === 'challenges' ? I18N.t('ui.notebook_empty_challenges', 'Noch keine Challenge-Abgaben vorhanden.')
+                 : tabName === 'reflections' ? I18N.t('ui.notebook_empty_reflections', 'Noch keine Reflexionen geschrieben.')
+                 : I18N.t('ui.notebook_empty_notes', 'Noch keine Notizen vorhanden.');
     container.innerHTML = '<p class="notebook-empty">' + emptyMsg + '</p>';
     return;
   }
@@ -1383,8 +1383,8 @@ function openNotebookExport() {
   // Header
   var header = document.createElement('div');
   header.className = 'notebook-export-card__header';
-  header.innerHTML = '<h2 class="notebook-export-card__title">\uD83D\uDCCB Lernjournal-Export</h2>' +
-    '<p class="notebook-export-card__subtitle">Kopiere den Text und f\u00fcge ihn in dein Lernjournal ein.</p>';
+  header.innerHTML = '<h2 class="notebook-export-card__title">\uD83D\uDCCB ' + I18N.t('ui.export_title', 'Lernjournal-Export') + '</h2>' +
+    '<p class="notebook-export-card__subtitle">' + I18N.t('ui.export_instructions', 'Kopiere den Text und f\u00fcge ihn in dein Lernjournal ein.') + '</p>';
   card.appendChild(header);
 
   // Content
@@ -1392,7 +1392,7 @@ function openNotebookExport() {
   content.className = 'notebook-export-card__content';
 
   if (!text) {
-    content.innerHTML = '<p class="notebook-empty">Noch keine Eintr\u00e4ge vorhanden. Bearbeite zuerst einige Stationen!</p>';
+    content.innerHTML = '<p class="notebook-empty">' + I18N.t('ui.notebook_no_entries', 'Noch keine Eintr\u00e4ge vorhanden. Bearbeite zuerst einige Stationen!') + '</p>';
   } else {
     var pre = document.createElement('pre');
     pre.className = 'notebook-export-card__text';
@@ -1408,18 +1408,18 @@ function openNotebookExport() {
   if (text) {
     var copyBtn = document.createElement('button');
     copyBtn.className = 'notebook-export-card__btn notebook-export-card__btn--copy';
-    copyBtn.textContent = 'Alles kopieren';
+    copyBtn.textContent = I18N.t('ui.copy_all', 'Alles kopieren');
     copyBtn.addEventListener('click', function () {
       navigator.clipboard.writeText(text).then(function () {
-        copyBtn.textContent = 'Kopiert \u2713';
-        setTimeout(function () { copyBtn.textContent = 'Alles kopieren'; }, 2000);
+        copyBtn.textContent = I18N.t('ui.copied', 'Kopiert \u2713');
+        setTimeout(function () { copyBtn.textContent = I18N.t('ui.copy_all', 'Alles kopieren'); }, 2000);
       });
     });
     actions.appendChild(copyBtn);
 
     var printBtn = document.createElement('button');
     printBtn.className = 'notebook-export-card__btn notebook-export-card__btn--print';
-    printBtn.textContent = 'Drucken';
+    printBtn.textContent = I18N.t('ui.print', 'Drucken');
     printBtn.addEventListener('click', function () {
       document.body.classList.add('is-printing-export');
       window.print();

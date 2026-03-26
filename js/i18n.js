@@ -50,6 +50,18 @@ var I18N = {
         el.innerHTML = val;
       }
     });
+    // Translate data-tooltip attributes
+    document.querySelectorAll('[data-i18n-tooltip]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-tooltip');
+      var val = self.translations[key];
+      if (val) el.setAttribute('data-tooltip', val);
+    });
+    // Translate title attributes
+    document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-title');
+      var val = self.translations[key];
+      if (val) el.setAttribute('title', val);
+    });
     document.documentElement.lang = this.currentLang;
     // Update page title if translation exists
     var titleKey = document.querySelector('title') && document.querySelector('title').getAttribute('data-i18n');

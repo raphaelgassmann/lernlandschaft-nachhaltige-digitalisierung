@@ -13,14 +13,15 @@
   <!-- Login Overlay -->
   <div class="admin-login-overlay" id="admin-login">
     <div class="admin-dialog">
-      <h3 class="admin-dialog__title" style="color: var(--color-secondary);">Lehrpersonen-Dashboard</h3>
-      <p class="admin-dialog__text">Bitte Admin-Passwort eingeben.</p>
-      <input type="password" id="login-password" class="admin-dialog__input" placeholder="Passwort" autofocus />
-      <p class="admin-dialog__error" id="login-error" hidden>Falsches Passwort.</p>
+      <h3 class="admin-dialog__title" style="color: var(--color-secondary);" data-i18n="admin.login_title">Lehrpersonen-Dashboard</h3>
+      <p class="admin-dialog__text" data-i18n="admin.login_text">Bitte Admin-Passwort eingeben.</p>
+      <input type="password" id="login-password" class="admin-dialog__input" placeholder="Passwort" autofocus data-i18n="admin.login_placeholder" />
+      <p class="admin-dialog__error" id="login-error" hidden data-i18n="admin.login_error">Falsches Passwort.</p>
       <div class="admin-dialog__buttons">
-        <button class="admin-dialog__btn admin-dialog__btn--confirm" id="login-submit">Anmelden</button>
+        <button class="admin-dialog__btn admin-dialog__btn--confirm" id="login-submit" data-i18n="admin.login_submit">Anmelden</button>
       </div>
-      <p class="admin-dialog__hint">Passwort nicht bekannt? <a href="mailto:raphael_gassmann@stud.phzh.ch">Raphael Gassmann kontaktieren</a></p>
+      <p class="admin-dialog__hint" data-i18n="admin.login_hint">Passwort nicht bekannt? <a href="mailto:raphael_gassmann@stud.phzh.ch">Raphael Gassmann kontaktieren</a></p>
+      <button class="lang-switcher" id="lang-switcher" aria-label="Switch language" style="margin-top:12px;">EN</button>
     </div>
   </div>
 
@@ -160,6 +161,7 @@
     </div>
   </div>
 
+  <script defer src="js/i18n.js"></script>
   <script defer src="js/highscore.js"></script>
   <script>
   (function () {
@@ -1107,6 +1109,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+      if (typeof I18N !== 'undefined') I18N.init();
       _initLogin();
 
       document.getElementById('group-filter').addEventListener('change', function () {

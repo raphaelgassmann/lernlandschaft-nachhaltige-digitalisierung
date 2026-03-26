@@ -18,7 +18,7 @@
            sizes="(max-width: 600px) 32px, 42px"
            alt="Dein Avatar" />
     </div>
-    <span class="ability-indicator" id="ability-indicator" title="Spezialfähigkeit"></span>
+    <span class="ability-indicator" id="ability-indicator" title="Spezialfähigkeit" data-i18n-title="ui.tooltip_ability"></span>
     <div class="game-header__info">
       <div class="game-header__level">
         <span class="level-badge" id="level-badge">Lv. 1</span>
@@ -34,12 +34,12 @@
       </div>
     </div>
     <div class="game-header__stats">
-      <span class="stat" id="stat-stations" data-tooltip="Stationen">0/12</span>
-      <button class="minigame-toggle" id="minigame-toggle" data-tooltip="Minispiele" aria-label="Minispiele ein-/ausblenden" aria-pressed="true">&#x1F3AE;</button>
-      <button class="notebook-btn" id="notebook-btn" data-tooltip="Notizbuch" aria-label="Notizbuch öffnen">&#x1F4D3;</button>
-      <button class="highscore-btn" id="highscore-btn" data-tooltip="Rangliste" aria-label="Rangliste öffnen">&#x1F3C6;</button>
+      <span class="stat" id="stat-stations" data-tooltip="Stationen" data-i18n-tooltip="ui.tooltip_stations">0/12</span>
+      <button class="minigame-toggle" id="minigame-toggle" data-tooltip="Minispiele" data-i18n-tooltip="ui.tooltip_minigames" aria-label="Minispiele ein-/ausblenden" aria-pressed="true">&#x1F3AE;</button>
+      <button class="notebook-btn" id="notebook-btn" data-tooltip="Notizbuch" data-i18n-tooltip="ui.tooltip_notebook" aria-label="Notizbuch öffnen">&#x1F4D3;</button>
+      <button class="highscore-btn" id="highscore-btn" data-tooltip="Rangliste" data-i18n-tooltip="ui.tooltip_leaderboard" aria-label="Rangliste öffnen">&#x1F3C6;</button>
       <button class="lang-switcher" id="lang-switcher" aria-label="Switch language">EN</button>
-      <button class="reset-btn reset-btn--header" id="reset-btn" data-tooltip="Fortschritt zurücksetzen">&#x21BB;</button>
+      <button class="reset-btn reset-btn--header" id="reset-btn" data-tooltip="Fortschritt zurücksetzen" data-i18n-tooltip="ui.tooltip_reset">&#x21BB;</button>
     </div>
   </header>
 
@@ -495,8 +495,8 @@
   </main>
 
   <footer class="site-footer">
-    <p data-i18n="site.footer">Lernlandschaft Nachhaltige Digitalisierung · <a href="admin.html" class="site-footer__admin-link">Admin Dashboard</a></p>
-    <p class="site-footer__credit">designed by <a href="mailto:raphael_gassmann@stud.phzh.ch">Raphael</a> · <a href="https://github.com/raphaelgassmann/lernlandschaft-nachhaltige-digitalisierung" class="site-footer__admin-link" target="_blank" rel="noopener">Fork on GitHub</a></p>
+    <p data-i18n="site.footer_name">Lernlandschaft Nachhaltige Digitalisierung</p>
+    <p class="site-footer__credit"><a href="admin.html" class="site-footer__admin-link" data-i18n="site.footer_admin">Admin Dashboard</a> · designed by <a href="mailto:raphael_gassmann@stud.phzh.ch">Raphael</a> · <a href="https://github.com/raphaelgassmann/lernlandschaft-nachhaltige-digitalisierung" class="site-footer__admin-link" target="_blank" rel="noopener">Fork on GitHub</a></p>
   </footer>
 
   <!-- Notebook Modal -->
@@ -504,18 +504,18 @@
     <div class="notebook-card">
       <div class="notebook-card__header">
         <span class="notebook-card__icon">&#x1F4D3;</span>
-        <h2 class="notebook-card__title">Dein Notizbuch</h2>
-        <p class="notebook-card__subtitle">Alle deine Notizen, Reflexionen und Challenge-Abgaben</p>
+        <h2 class="notebook-card__title" data-i18n="ui.notebook_title">Dein Notizbuch</h2>
+        <p class="notebook-card__subtitle" data-i18n="ui.notebook_subtitle">Alle deine Notizen, Reflexionen und Challenge-Abgaben</p>
       </div>
       <div class="notebook-card__tabs">
-        <button class="notebook-tab is-active" data-tab="challenges">🏆 Challenges</button>
-        <button class="notebook-tab" data-tab="reflections">💭 Reflexionen</button>
-        <button class="notebook-tab" data-tab="notes">📝 Notizen</button>
+        <button class="notebook-tab is-active" data-tab="challenges" data-i18n="ui.tab_challenges">🏆 Challenges</button>
+        <button class="notebook-tab" data-tab="reflections" data-i18n="ui.tab_reflections">💭 Reflexionen</button>
+        <button class="notebook-tab" data-tab="notes" data-i18n="ui.tab_notes">📝 Notizen</button>
       </div>
       <div class="notebook-card__content" id="notebook-content"></div>
       <div class="notebook-card__actions">
-        <button class="notebook-card__export" id="notebook-export">&#x1F4CB; Ins Lernjournal exportieren</button>
-        <button class="notebook-card__close" id="notebook-close">Schliessen</button>
+        <button class="notebook-card__export" id="notebook-export" data-i18n="ui.export_notebook">&#x1F4CB; Ins Lernjournal exportieren</button>
+        <button class="notebook-card__close" id="notebook-close" data-i18n="ui.close">Schliessen</button>
       </div>
     </div>
   </div>

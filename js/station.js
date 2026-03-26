@@ -272,7 +272,7 @@ function createWordCounter(textarea) {
 
 function updateWordCounter(counter, wordCount) {
   var met = wordCount >= MIN_CHALLENGE_WORDS;
-  counter.textContent = wordCount + ' / ' + MIN_CHALLENGE_WORDS + ' Wörter';
+  counter.textContent = I18N.t('ui.word_count', '{current} / {min} Wörter').replace('{current}', wordCount).replace('{min}', MIN_CHALLENGE_WORDS);
   counter.classList.toggle('is-met', met);
   return met;
 }
@@ -551,7 +551,7 @@ function renderQuestion(container, stationId, questions, usedIndexes, quizState,
           var progress = getProgress();
           progress.points += 2;
           saveProgress(progress);
-          showToast('\u2B50 +2 Bonus-XP!', 'success');
+          showToast(I18N.t('ui.bonus_xp_toast', '\u2B50 +2 Bonus-XP!'), 'success');
         }
 
         if (quizState.needsBonus && !quizState.bonusShown) {
