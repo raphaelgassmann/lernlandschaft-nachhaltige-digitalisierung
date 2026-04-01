@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://eco-digital.dev/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://eco-digital.dev/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/geraete-lichtung.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/geraete-lichtung.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/geraete-lichtung.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/cloud-quelle.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/cloud-quelle.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/cloud-quelle.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/code-camp.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/code-camp.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/code-camp.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/server-riff.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/server-riff.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/server-riff.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/streaming-strom.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/streaming-strom.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/streaming-strom.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/backup-bucht.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/backup-bucht.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/backup-bucht.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/ide-asteroid.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/ide-asteroid.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/ide-asteroid.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/deploy-stern.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/deploy-stern.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/deploy-stern.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/workflow-nebel.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/workflow-nebel.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/workflow-nebel.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/ki-kraftwerk.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/ki-kraftwerk.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/ki-kraftwerk.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/open-source-platz.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/open-source-platz.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/open-source-platz.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/digital-ethics-turm.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/digital-ethics-turm.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/digital-ethics-turm.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://eco-digital.dev/stations/abschluss-feier.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://eco-digital.dev/stations/abschluss-feier.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://eco-digital.dev/stations/abschluss-feier.html?lang=en"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>
